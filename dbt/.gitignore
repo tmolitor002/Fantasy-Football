@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 # you shouldn't commit these into source control
 # these are the default directory names, adjust/add to fit your needs
 target/
 dbt_packages/
 logs/
+=======
+
+>>>>>>> c8446fb2ed903c5313111d332310d1ccf1d6ce4b
