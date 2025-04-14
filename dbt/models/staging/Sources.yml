@@ -1,0 +1,103 @@
+# File:           Fantasy Football Sources
+# Author:         Tom Molitor
+# Created:        4/13/2025
+# Last Modified:  4/13/2025
+#
+# Description: Project file defining source data for models
+#
+# +---------------------------------------------------------------------------------------------------------------------------+
+# | Change History                                                                                                            |
+# +-----------+---------------+-----------------------------------------------------------------------------------------------+
+# | Date      | Author        | Description                                                                                   |
+# +-----------+---------------+-----------------------------------------------------------------------------------------------+
+# | 4/13/2025 | Tom Molitor   | Initialized file and added initial data sources                                               |
+# +-----------+---------------+-----------------------------------------------------------------------------------------------+
+#
+# TODO:
+
+
+version: 2
+
+sources:
+  - name: football
+    database: fantasyfootball
+    schema: raw
+    tables:
+      - name: players
+        description: One record per player. Includes Active and retired players
+        columns:
+          - name: gsis_id
+            description: Primary Key
+            tests:
+              - unique
+              - not_null
+          - name: college_conference
+            description: The conference in which the player last played at, determined by the college they played for
+          - name: current_team_id
+            description: Foreign Key indicating which team the player currently plays for
+          - name: display_name
+            descrption: The full name of the player as it is commonly displayed
+          - name: draft_club
+            description: The two or three letter abbreviation for the team which originally drafted the player
+          - name: draft_number
+            description: The overall draft pick which was used to draft the player, if the player was drafted
+          - name: draftround
+            description: The round in which the player was drafted, if the player was drafted
+          - name: entry_year
+            description: The year in which the player entered the NFL
+          - name: esb_id
+            description: A ID field not used in this project
+          - name: first_name
+            description: The player's formal first name. May be different that what the commonly used display name
+          - name: football_name
+            description: The player's first name used in football.
+          - name: gsis_it_id
+            description: A foreign key not used in this project
+          - name: jersey_number
+            description: The player's current jersey number
+          - name: last_name
+            description: The player's last name
+          - name: position
+            description: The primary position the player plays.
+          - name: position_group
+            description: The position group of the player. Typically determined by the position
+          - name: rookie_year
+            description: The player's rookie year
+          - name: short_name
+            description: The player's first initial and last name
+          - name: status
+            description: The player's current status
+          - name: status_description_abbr
+            description: A more detailed code for the player's current status if not retired
+          - name: status_short_description
+            description: An even more detailed description of the player's current status if not retired
+          - name: team_abbr
+            description: The two or three letter abbreviation for the team the player currently plays for
+          - name: uniform_number
+            description: The number on the players uniform
+          - name: height
+            description: The height in inches of the player
+          - name: weight
+            description: The weight in pounds of the player
+          - name: headshot
+            description: A url linking to the current headshot of the player
+          - name: smart_id
+            description: An ID field not used in this project
+          - name: college_name
+            description: The college at which the player played at
+          - name: years_of_experience
+            description: The number of years in which the player has been in the NFL
+          - name: birth_date
+            description: The date on which the player was born
+          - name: team_seq
+            description: Unknown at this time, potentially how many teams the player has been on
+          - name: suffix
+            description: The suffix of the player
+          - name: _etl_loaded_at
+            description: When the data was last retrieved from NFL Verse
+        loaded_at_field: _etl_loaded_at
+        freshness: 
+          warn_after:
+            count: 365
+            period: day
+
