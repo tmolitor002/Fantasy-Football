@@ -1,0 +1,113 @@
+models:
+  - name: int_games_consolidated
+    description: One record per NFL game played
+    columns:
+      - name: game_id
+        description: Primary Key. Key representing unqiue games. Formated as YYYY_<two digit game week>_<away team abbr>_<home team abr>
+        tests:
+          - unique
+          - not_null
+      - name: season
+        description: The NFL season in which the game was played. Some playoff games and the Super Bowl are played in the following calendar year.
+        tests:
+          - not_null
+      - name: week
+        description: The game week in which the game was played. A new game week typically begins with Thursday Night Football and ends with Monday Night Football. Closely related are season weeks, which typically begin on Tuesdays.
+        tests:
+          - not_null
+      - name: game_date
+        description: The date on which the game was played
+        tests:
+          - not_null
+      - name: home_team
+        description: The abbreviation for the designated home team of the game
+        tests:
+          - not_null
+      - name: away_team
+        description: THe abbreviation for the designated away team of the game
+        tests:
+          - not_null
+      - name: season_type
+        description: The type of game being played. "REG" indicates a regular season game while "POST" indicates a post-season playoff game
+        tests:
+          - accepted_values:
+              values: ['REG','POST']
+      - name: start_time
+        description: The time the game started at, formatted as "M/D/YY, 24HH:MM:SS"
+        tests:
+          - not_null
+      - name: div_game
+        description: Flag indicating if that the game was game played by two teams within the same division
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+      - name: home_coach
+        description: The coach of the home team
+        tests:
+          - not_null
+      - name: away_coach
+        description: The coach of the away team
+        tests:
+          - not_null
+      - name: stadium_id
+        description: The stadium id for the venue where the game was played
+        tests:
+          - not_null
+      - name: game_stadium
+        description: The name of the venue where the game was played
+        tests:
+          - not_null
+      - name: weather
+        description: Free text describing the weather at the start of the game
+      - name: temp
+        description: The temperature at the venue at the start of the game. Measured in degrees farenheit
+      - name: wind
+        description: The wind speed at the venue at the start of the game. Measured in miles per hour
+      - name: roof
+        description: Description of the venue type
+      - name: surface
+        description: The playing surface of venue
+      - name: away_score
+        description: The number of points the away team scored
+        tests:
+          - not_null
+      - name: home_score
+        description: The number of points the home team scored
+        tests:
+          - not_null
+      - name: result
+        description: The difference in score between the two teams. A negative number indicates the away team scored more points and won
+        tests:
+          - not_null
+      - name: total
+        description: The total number of points scored by both teams
+        tests:
+          - not_null
+      - name: spread_line
+        description: The expected score difference leading into the game. Presumably a positive number means favors the home team
+        tests:
+          - not_null
+      - name: total_line
+        description: The expected total number of points scored by both teams leading into the game
+        tests:
+          - not_null
+      - name: nfl_api_id
+        description: NFL's API key which links to the game ??
+        tests:
+          - not_null
+      - name: _etl_loaded_at
+        description: The time the data was loaded into raw from NFL Verse
+        tests:
+          - not_null
+
+
+
+
+
+
+
+  - name: int_play_by_play_consolidated
+
+          
+
