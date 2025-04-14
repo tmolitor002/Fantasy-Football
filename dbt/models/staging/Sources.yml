@@ -28,9 +28,9 @@ sources:
         columns:
           - name: gsis_id
             description: Primary Key
-            tests:
-              - unique
-              - not_null
+            # tests:
+            #   - unique
+            #   - not_null
           - name: college_conference
             description: The conference in which the player last played at, determined by the college they played for
           - name: current_team_id

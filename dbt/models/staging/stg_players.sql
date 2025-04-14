@@ -73,6 +73,7 @@ WITH src AS (
         -- metadata
         , esb_id
         , smart_id
+        , gsis_it_id
         , _etl_loaded_at
     FROM src
 )
@@ -80,6 +81,9 @@ WITH src AS (
 , final AS (
     SELECT *
     FROM clean
+    WHERE
+        gsis_id != ''
+        AND gsis_id IS NOT NULL
 )
 
 SELECT *
