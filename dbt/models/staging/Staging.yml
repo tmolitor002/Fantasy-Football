@@ -1,0 +1,74 @@
+models:
+  - name: stg_players
+    # Consider adding a dedup model ahead of this to track player history
+    description: One record per player. Includes both active and retired players
+    columns:
+      - name: gsis_id
+        description: Primary key
+        tests:
+          - not_null
+          - unique
+      - name: current_team_id
+        description: The four digit foreign for which the player plays for. May be missing leading 0's
+      - name: display_name
+        descrption: The full name of the player as it is commonly displayed
+      - name: first_name
+        description: The player's formal first name. May be different that what the commonly used display name          
+      - name: last_name
+        description: The player's last name
+      - name: football_name
+        description: The player's first name used in football.
+      - name: short_name
+        description: The player's first initial and last name          
+      - name: suffix
+        description: The suffix of the player
+      - name: jersey_number
+        description: The player's current jersey number
+      - name: team_abbr
+        description: The two or three letter abbreviation for the team the player currently plays for
+      - name: headshot
+        description: A url linking to the current headshot of the player
+      - name: position
+        description: The primary position the player plays.
+      - name: position_group
+        description: The position group of the player. Typically determined by the position
+      - name: rookie_year
+        description: The player's rookie year
+      - name: uniform_number
+        description: The number on the players uniform
+      - name: height_inches
+        description: The height in inches of the player
+      - name: weight_weight
+        description: The weight in pounds of the player
+      - name: birth_date
+        description: The date on which the player was born
+      - name: team_seq
+        description: Unknown at this time, potentially how many teams the player has been on
+      - name: status
+        description: The player's current status
+      - name: status_description_abbr
+        description: A more detailed code for the player's current status if not retired
+      - name: status_short_description
+        description: An even more detailed description of the player's current status if not retired
+      - name: draft_club
+        description: The two or three letter abbreviation for the team which originally drafted the player
+      - name: draft_number
+        description: The overall draft pick which was used to draft the player, if the player was drafted
+      - name: draft_round
+        description: The round in which the player was drafted, if the player was drafted
+      - name: entry_year
+        description: The year in which the player entered the NFL
+      - name: years_of_experience
+        description: The number of years in which the player has been in the NFL
+      - name: college_name
+        description: The college at which the player played at
+      - name: college_conference
+        description: The conference in which the player last played at, determined by the college they played for
+      - name: esb_id
+        description: A ID field not used in this project
+      - name: smart_id
+        description: An ID field not used in this project
+      - name: gsis_it_id
+        description: A foreign key not used in this project
+      - name: _etl_loaded_at
+        description: When the data was last retrieved from NFL Verse
