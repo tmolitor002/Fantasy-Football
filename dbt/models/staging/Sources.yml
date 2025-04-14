@@ -101,3 +101,9 @@ sources:
             count: 365
             period: day
 
+      - name: pbp_participation_2022
+      - name: pbp_participation_2023
+      - name: play_by_play_2022
+      - name: play_by_play_2023
+      - name: play_by_play_2024
+
