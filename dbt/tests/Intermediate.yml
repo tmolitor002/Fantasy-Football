@@ -56,6 +56,10 @@ models:
           - not_null
       - name: game_stadium
         description: The name of the venue where the game was played
+        # tests:
+        #   - not_null
+      - name: stadium
+        description: The name of the venue where the game was played
         tests:
           - not_null
       - name: weather
@@ -101,13 +105,4 @@ models:
         tests:
           - not_null
 
-
-
-
-
-
-
   - name: int_play_by_play_consolidated
-
-          
-
