@@ -18,6 +18,9 @@ Within the `fantasyfootball` database, there are several schemas being utilized:
 - `dbt_<username>`: Dedicated developer schema for the dbt developer. Builds off the `qa` branch
 - `dbt_pr_<pr_id>`: Temporary schemas used for pull request CI/CD jobs
 
+### Testing & Documentation
+dbt enables built in testing and documentation of dbt models, and is available to members of the dbt project via the explore section of dbt.
+
 ### Branching Strategy
 This project uses a multi-trunk branching stratgy. The `main` pranch is the production branch. The `qa` branch is sourced from `main` and acts as the baseline branch for all development work. Individual development branches are merged back into `qa`, and testing is executed on the `qa` branch before pushing to production, ensuring individually developed features are tested together.
 
