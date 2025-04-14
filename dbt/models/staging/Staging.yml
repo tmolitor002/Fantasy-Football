@@ -11,7 +11,7 @@ models:
       - name: current_team_id
         description: The four digit foreign for which the player plays for. May be missing leading 0's
       - name: display_name
-        descrption: The full name of the player as it is commonly displayed
+        description: The full name of the player as it is commonly displayed
       - name: first_name
         description: The player's formal first name. May be different that what the commonly used display name          
       - name: last_name
