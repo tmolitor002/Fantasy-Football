@@ -8,11 +8,27 @@ WITH unioned AS (
     ) }}
 )
 
-, final AS (
+, pos_and_def_coach AS (
     SELECT
         {{ dbt_utils.generate_surrogate_key(['game_id', 'play_id']) }} AS _play_id
         , *
+        , CASE
+            WHEN posteam_type = 'away' THEN away_coach
+            WHEN posteam_type = 'home' THEN home_coach
+            ELSE NULL
+            END AS pos_coach
+        , CASE
+            WHEN posteam_type = 'away' THEN home_coach
+            WHEN posteam_type = 'home' THEN away_coach
+            ELSE NULL
+            END AS def_coach
     FROM unioned
+)
+
+, final AS (
+    SELECT
+        *        
+    FROM pos_and_def_coach
 )
 
 SELECT *

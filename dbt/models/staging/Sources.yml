@@ -155,6 +155,11 @@ sources:
               - not_null
           - name: posteam
             description: The team that began the play with possesion of the ball using the three letter team abbreviation
+          - name: posteam_type
+            description: Indicates if the home team or away team has possesion of the football at the beginning of the play
+            tests:
+              - accepted_values:
+                  values: ['away', 'home']
           - name: defteam
             description: The team that began the play without possesion of the ball, indicated by the three letter team abbreviation
           - name: side_of_field
@@ -442,7 +447,9 @@ sources:
           - name: total_home_raw_yac_wpa
             tests:
               - not_null
-          - name: total_away_raw_yac_spa
+          - name: total_away_raw_yac_wpa
+            tests:
+              - not_null
           - name: punt_blocked
             description: Flag indicating if the punt attempt was blocked
             tests:
@@ -739,7 +746,7 @@ sources:
             #       field: display_name
           - name: rushing_yards
             description: The number of yards gained (or lost) on the rushing attempt
-          - name: lateral_reeiver_player_id
+          - name: lateral_receiver_player_id
             description: The gsis_id of the player who received (or was targeted on) the lateral attempt
             # test in staging if nulls won't fuck it up
             # tests:
@@ -1459,7 +1466,7 @@ sources:
             tests:
               - not_null
           - name: play_clock
-          - name: play_delted
+          - name: play_deleted
             description: Flag indicating that play was deleted
           - name: play_type_nfl
             description: Play type categorization
@@ -1496,7 +1503,6 @@ sources:
           - name: end_clock_time
             description: Timestamp indicating when the play ended. Formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
           - name: end_yard_line
-          - name: end_yard_line
             description: Appears to be null, but should be where the yardline where the play ended
           - name: fixed_drive
             description: The nth drive in which the play was conducted. Every time a team has possesion of the ball, they begin a Drive which lasts until they score or turn the ball over
@@ -1526,7 +1532,6 @@ sources:
             description: The amount of playclock time the drive lasted. Formatted as "M:SS"
           - name: drive_first_downs
             description: The number of first downs during the drive
-
           - name: drive_inside20
             description: Flag indicating the drive reached the "RedZone" (within the opponents 20 yard line)
             tests:
@@ -1535,7 +1540,6 @@ sources:
           - name: drive_ended_with_score
             description: Flag indicating the drive resulted in a score by the offense
             tests:
-
               - accepted_values:
                   values: ['0', '1']
           - name: drive_quarter_start
@@ -1776,7 +1780,7 @@ sources:
               - not_null
               - accepted_values:
                   values: ['0', '1']
-          - name: home_pening_kickoff
+          - name: home_opening_kickoff
             description: Flag indicating the home team opened with a kickoff on the play?
           - name: qb_epa
           - name: xyac_epa
@@ -2116,7 +2120,9 @@ sources:
           - name: total_home_raw_yac_wpa
             tests:
               - not_null
-          - name: total_away_raw_yac_spa
+          - name: total_away_raw_yac_wpa
+            tests:
+              - not_null
           - name: punt_blocked
             description: Flag indicating if the punt attempt was blocked
             tests:
@@ -2413,7 +2419,7 @@ sources:
             #       field: display_name
           - name: rushing_yards
             description: The number of yards gained (or lost) on the rushing attempt
-          - name: lateral_reeiver_player_id
+          - name: lateral_receiver_player_id
             description: The gsis_id of the player who received (or was targeted on) the lateral attempt
             # test in staging if nulls won't fuck it up
             # tests:
@@ -3133,7 +3139,7 @@ sources:
             tests:
               - not_null
           - name: play_clock
-          - name: play_delted
+          - name: play_deleted
             description: Flag indicating that play was deleted
           - name: play_type_nfl
             description: Play type categorization
@@ -3171,7 +3177,6 @@ sources:
           - name: end_clock_time
             description: Timestamp indicating when the play ended. Formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
           - name: end_yard_line
-          - name: end_yard_line
             description: Appears to be null, but should be where the yardline where the play ended
           - name: fixed_drive
             description: The nth drive in which the play was conducted. Every time a team has possesion of the ball, they begin a Drive which lasts until they score or turn the ball over
@@ -3201,7 +3206,6 @@ sources:
             description: The amount of playclock time the drive lasted. Formatted as "M:SS"
           - name: drive_first_downs
             description: The number of first downs during the drive
-
           - name: drive_inside20
             description: Flag indicating the drive reached the "RedZone" (within the opponents 20 yard line)
             tests:
@@ -3210,7 +3214,6 @@ sources:
           - name: drive_ended_with_score
             description: Flag indicating the drive resulted in a score by the offense
             tests:
-
               - accepted_values:
                   values: ['0', '1']
           - name: drive_quarter_start
@@ -3451,7 +3454,7 @@ sources:
               - not_null
               - accepted_values:
                   values: ['0', '1']
-          - name: home_pening_kickoff
+          - name: home_opening_kickoff
             description: Flag indicating the home team opened with a kickoff on the play?
           - name: qb_epa
           - name: xyac_epa
@@ -3791,7 +3794,9 @@ sources:
           - name: total_home_raw_yac_wpa
             tests:
               - not_null
-          - name: total_away_raw_yac_spa
+          - name: total_away_raw_yac_wpa
+            tests:
+              - not_null
           - name: punt_blocked
             description: Flag indicating if the punt attempt was blocked
             tests:
@@ -4088,7 +4093,7 @@ sources:
             #       field: display_name
           - name: rushing_yards
             description: The number of yards gained (or lost) on the rushing attempt
-          - name: lateral_reeiver_player_id
+          - name: lateral_receiver_player_id
             description: The gsis_id of the player who received (or was targeted on) the lateral attempt
             # test in staging if nulls won't fuck it up
             # tests:
@@ -4809,7 +4814,7 @@ sources:
             tests:
               - not_null
           - name: play_clock
-          - name: play_delted
+          - name: play_deleted
             description: Flag indicating that play was deleted
           - name: play_type_nfl
             description: Play type categorization
@@ -4847,7 +4852,6 @@ sources:
           - name: end_clock_time
             description: Timestamp indicating when the play ended. Formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
           - name: end_yard_line
-          - name: end_yard_line
             description: Appears to be null, but should be where the yardline where the play ended
           - name: fixed_drive
             description: The nth drive in which the play was conducted. Every time a team has possesion of the ball, they begin a Drive which lasts until they score or turn the ball over
@@ -4877,7 +4881,6 @@ sources:
             description: The amount of playclock time the drive lasted. Formatted as "M:SS"
           - name: drive_first_downs
             description: The number of first downs during the drive
-
           - name: drive_inside20
             description: Flag indicating the drive reached the "RedZone" (within the opponents 20 yard line)
             tests:
@@ -4886,7 +4889,6 @@ sources:
           - name: drive_ended_with_score
             description: Flag indicating the drive resulted in a score by the offense
             tests:
-
               - accepted_values:
                   values: ['0', '1']
           - name: drive_quarter_start
@@ -5127,7 +5129,7 @@ sources:
               - not_null
               - accepted_values:
                   values: ['0', '1']
-          - name: home_pening_kickoff
+          - name: home_opening_kickoff
             description: Flag indicating the home team opened with a kickoff on the play?
           - name: qb_epa
           - name: xyac_epa
