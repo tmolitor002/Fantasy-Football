@@ -24,6 +24,9 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+vars:
+  play_by_play_min_year: 2022
+  play_by_play_max_year: 2024
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -37,6 +40,12 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   Fantasy_Football:
+    
+    staging:
+      +materialized: table
+    
+    intermediate:
+      +materialized: table
     # Applies to all files under models/example/
     # example:
     #   +materialized: table
