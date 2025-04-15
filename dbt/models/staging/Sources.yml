@@ -4690,6 +4690,7 @@ sources:
                     , 'Offensive Holding'
                     , 'Illegal Touch Pass'
                     , 'Player Out of Bounds on Kick'
+                    , 'Player OUt of Bounds on Kick'
                     , 'Defensive Pass Interference'
                     , 'Illegal Crackback'
                     , 'Intentional Grounding'
