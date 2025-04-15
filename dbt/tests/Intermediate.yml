@@ -1,0 +1,475 @@
+models:
+  - name: int_games_consolidated
+    description: One record per NFL game played
+    columns:
+      - name: game_id
+        description: Primary Key. Key representing unqiue games. Formated as YYYY_<two digit game week>_<away team abbr>_<home team abr>
+        tests:
+          - unique
+          - not_null
+      - name: season
+        description: The NFL season in which the game was played. Some playoff games and the Super Bowl are played in the following calendar year.
+        tests:
+          - not_null
+      - name: week
+        description: The game week in which the game was played. A new game week typically begins with Thursday Night Football and ends with Monday Night Football. Closely related are season weeks, which typically begin on Tuesdays.
+        tests:
+          - not_null
+      - name: game_date
+        description: The date on which the game was played
+        tests:
+          - not_null
+      - name: home_team
+        description: The abbreviation for the designated home team of the game
+        tests:
+          - not_null
+      - name: away_team
+        description: THe abbreviation for the designated away team of the game
+        tests:
+          - not_null
+      - name: season_type
+        description: The type of game being played. "REG" indicates a regular season game while "POST" indicates a post-season playoff game
+        tests:
+          - accepted_values:
+              values: ['REG','POST']
+      - name: start_time
+        description: The time the game started at, formatted as "M/D/YY, 24HH:MM:SS"
+        tests:
+          - not_null
+      - name: div_game
+        description: Flag indicating if that the game was game played by two teams within the same division
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+      - name: home_coach
+        description: The coach of the home team
+        tests:
+          - not_null
+      - name: away_coach
+        description: The coach of the away team
+        tests:
+          - not_null
+      - name: stadium_id
+        description: The stadium id for the venue where the game was played
+        tests:
+          - not_null
+      - name: game_stadium
+        description: The name of the venue where the game was played
+        # tests:
+        #   - not_null
+      - name: stadium
+        description: The name of the venue where the game was played
+        tests:
+          - not_null
+      - name: weather
+        description: Free text describing the weather at the start of the game
+      - name: temp
+        description: The temperature at the venue at the start of the game. Measured in degrees farenheit
+      - name: wind
+        description: The wind speed at the venue at the start of the game. Measured in miles per hour
+      - name: roof
+        description: Description of the venue type
+      - name: surface
+        description: The playing surface of venue
+      - name: away_score
+        description: The number of points the away team scored
+        tests:
+          - not_null
+      - name: home_score
+        description: The number of points the home team scored
+        tests:
+          - not_null
+      - name: result
+        description: The difference in score between the two teams. A negative number indicates the away team scored more points and won
+        tests:
+          - not_null
+      - name: total
+        description: The total number of points scored by both teams
+        tests:
+          - not_null
+      - name: spread_line
+        description: The expected score difference leading into the game. Presumably a positive number means favors the home team
+        tests:
+          - not_null
+      - name: total_line
+        description: The expected total number of points scored by both teams leading into the game
+        tests:
+          - not_null
+      - name: nfl_api_id
+        description: NFL's API key which links to the game ??
+        tests:
+          - not_null
+      - name: _etl_loaded_at
+        description: The time the data was loaded into raw from NFL Verse
+        tests:
+          - not_null
+
+  - name: int_play_by_play_consolidated
+  
+  - name: int_play_by_play_consolidated_passing
+    description: One record per pass play
+    columns:
+      - name: _play_id
+        description: Foreign Key from int_play_by_play_consolidated. Unique per record
+        tests:
+          - not_null
+          - unique
+          # test takes way too long
+          # - relationships:
+          #     field: _play_id
+          #     to: ref('int_play_by_play_consolidated')
+      - name: season
+        description: The NFL season
+        tests:
+          - not_null
+      - name: week
+        description: The week of the NFL season. NFL weeks typically begin on a Tuesday, beginning with Thursday Night Football and ending with Monday Night Football
+        tests:
+          - not_null
+      - name: game_date
+        description: The date the game was played
+        tests:
+          - not_null
+      - name: game_id
+        description: Foreign Key. Key representing unqiue games. Formated as YYYY_<two digit game week>_<away team abbr>_<home team abr>
+        tests:
+          - not_null
+          - relationships:
+              field: game_id
+              to: ref('int_games_consolidated')
+      - name: play_id
+        description: The play_id of the play within the game. May repeat across different games
+        tests:
+          - not_null
+      - name: spread_line
+        description: The spread of the game. A negative number indicates the away team is favored
+        tests:
+          - not_null
+      - name: total_line
+        description: The total number of points expected to be scored by both teams
+        tests:
+          - not_null
+      - name: div_game
+        description: Flag indicating the two teams playing are within the same division
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+      - name: roof
+        description: The type of roof at the stadium
+        tests:
+          - not_null
+      - name: surface
+        description: The playing surface where the game is being played
+        tests:
+          - not_null
+      # add pos coach, def coach fields. Consider looking at/adding coordinators
+      - name: home_coach
+        description: The coach of the home team
+        tests:
+          - not_null
+      - name: away_coach
+        description: The coach of the away team
+        tests:
+          - not_null
+      - name: stadium_id
+        description: The id for the stadium
+        tests:
+          - not_null
+      - name: away_score
+        description: The number of points the away team scored during the game
+        tests:
+          - not_null
+      - name: home_score
+        description: The number of points the home team scored during the game
+        tests:
+          - not_null
+      - name: result
+        description: The resulting point differential. A negative number indicates the away team won
+        tests:
+          - not_null
+      - name: total
+        description: The number of points scored by both teams
+        tests:
+          - not_null
+      - name: yardline_100
+        description: The yardline where the ball is located at the snap. Lower means futher from goal
+        tests:
+          - not_null
+          # - dbt_utils.expression_is_true:
+          #   expression: yardline_100 >= 0
+          # - dbt_utils.expression_is_true:
+          #   expression: yardline_100 <= 100
+      - name: drive
+        description: The drive in which the play occured. The nth drive represents the nth time the offense has possesed the ball
+        # tests:
+        #   - not_null
+      - name: down
+        description: The down of the snap
+        tests:
+          # - not_null # where is this null? on penalties?
+          - accepted_values:
+              values: [1, 2, 3, 4]
+              quote: false
+      - name: goal_to_go
+        description: Flag indicating the offense is in a goal-to-go situation, and must score a touchdown by the end of the four down series
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: yds_to_go
+        description: The amount of yards required before gaining a new set of downs
+        # tests:
+        #   - not_null
+      - name: posteam_timeouts_remaining
+        description: The number of timeouts the team with possesion has
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3]
+              quote: false
+      - name: posteam_score
+        description: The amount of points the team with possesion of the ball have scored
+        tests:
+          - not_null
+      - name: defteam_score
+        description: The amount of points the team on defense have scored
+        tests:
+          - not_null
+      - name: score_differential
+        description: The difference in score between the two team. A negative number indicates the team currently on defense is winning
+        tests:
+          - not_null
+      - name: series
+        description: The set of four downs currently being played. This number is shared between both teams
+        tests:
+          - not_null
+      - name: drive_game_clock_start
+        description: The amount of game clock left when the drive began
+        # tests:
+        #   - not_null
+      - name: passer_player_id
+        description: The passer who threw the ball. Typically a Quarterback
+        tests:
+          - not_null
+          - relationships:
+              field: gsis_id
+              to: ref('stg_players') # update to int model
+      - name: play_type
+        description: The type of play intended to be executed by the offense. Used in generation of this model to filter from all play types
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['pass']
+      - name: play_type_nfl
+        description: The type of play actually executed by the offense. Usually a PASS, but includes descriptors such as INTERCEPTION or FUMBLE as appropriate
+        # Add doc block. Unspecified passes seem to typically be trick plays from a punt or fg formation
+        tests:
+          - not_null
+          - accepted_values:
+              values: [
+                'FUMBLE_RECOVERED_BY_OPPONENT'
+                , 'INTERCEPTION'
+                , 'PASS'
+                , 'PAT2'
+                , 'SACK'
+                , 'UNSPECIFIED'
+              ]
+              config:
+                severity: warn
+      - name: shotgun
+        description: Flag indicating the play started in a shotgun formation, instead of the Quarterback taking position directly behind the center
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: no_huddle
+        description: Flag indicating the offense lined up in formation without huddling, typically when they are trying to move the ball quickly
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: qb_dropback
+        description: Flag indicating the quarterback droped back after receiving the snap from the center. This is usually done to give them extra time to find an open receiver
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: qb_kneel
+        description: Flag indicating the quarterback took a knee after receiving the snap form the center. This is usually done to drain the play clock
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: qb_spike
+        description: Flag indicating the quarerback immediately through the ball into the ground behind the center after taking the snap. This is usually done to preserve time on the game clock when the team in possesion is still attempting to score, but does not want to use a timeout or have none available.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: first_down_pass
+        description: Flag indicating a passing play occuring on first down
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: two_point_attempt
+        description: Flag indicating the play is a two point conversion attempt
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: quarter_seconds_remaining
+        description: The amount of time, in seconds, remaining on the play clock for the quarter
+        tests:
+          - not_null
+          # - dbt_utils.expression_is_true:
+          #   expression: quarter_seconds_remaining <= 900
+      - name: half_seconds_remaining
+        description: The amount of time, in seconds, remaining on the play clock for the half
+        tests:
+          - not_null
+          # - dbt_utils.expression_is_true:
+          #   expression: half_seconds_remaining <= 1800
+      - name: game_seconds_remaining
+        description: The amount of time, in seconds, remaining on the play clock for the game
+        tests:
+          - not_null
+          # - dbt_utils.expression_is_true:
+          #   expression: game_seconds_remaining <=3600
+      - name: receiver_player_id
+        description: The primary receiver target by the Quarterback in the pass play. Will be null if the Quarterback is sacked or intentionally grounds the ball. Does not indicate a complete pass
+        tests:
+          - relationships:
+              to: ref('stg_players') # change to int model
+              field: gsis_id
+      - name: qb_scramble
+        description: Indicates the quarterback scrambled out of the pocket on the play
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: pass_length
+        description: Indicates how far the quarterback attempted to pass the ball
+        tests:
+          - accepted_values:
+              values: ['deep', 'short']
+      - name: pass_location
+        description: Indicates where on the field the quarterback attempted to pass the ball
+        tests:
+          - accepted_values:
+              values: ['left', 'middle', 'right']
+      - name: air_yards
+        description: How far the football traveled through the air prior to the reception. A negative number typically indicates a pass behind the line of scrimage, such as a screen pass
+      - name: yards_after_catch
+        description: How far the receiver traveled with the ball after making the reception. A negative number indicates they traveled backwards after making the catch
+      - name: qb_hit
+        description: Flag indicating the Quarterback was hit in the backfield during the pass attempt
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: fumble
+        description: Flag indicating there was fubmle which occured during the play
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: description
+        description: A free-form text field describing the results of the play
+        tests:
+          - not_null
+      - name: yards_gained
+        description: The total number of yards gained on the play. This _should_ sum to the sum of air_yards and yards_after_catch for pass plays
+        tests:
+          - not_null
+          # - dbt_utils.expression_is_true:
+          #   expression: yards_gained = air_yards + yards_after_catch
+          #   config:
+          #     severity: warn
+      - name: incomplete_pass
+        description: Flag indicating the pass attempt was incomplete, and was not caught by a receiver
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: interception
+        description: Flag indicating the pass attempt was intercepted by a member of the defense
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: pass_attempt
+        description: Flag indicating the offense attempted a pass
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1]
+              quote: false
+              config:
+                severity: warn
+      - name: complete_pass
+        description: Flag indicating the Quarterback succesfully completed a pass to a receiver
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: sack
+        description: Flag indicating the Quarterback was sacked on the play by the defense
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: touchdown
+        description: Flag indicating the play resulted in a touchdown. In this model, should match the contents in the field pass_touchdown
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      - name: pass_touchdown
+        description: Flag indicating the pass resulted in a passing touchdown
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+      - name: passing_yards
+        description: The amount of passing yards from the completed pass. _Should_ sum to the total of air_yards and yards_after catch
+        # tests:
+        #   - dbt_utils.expression_is_true:
+        #     expression: passing_yards = air_yards + yards_after_catch
+        #     config:
+        #       severity: warn
+        #   - dbt_utils.expression_is_true:
+        #     expression: passing_yards = yards_gained
+        #     config:
+        #       severity: warn
+      - name: receiving_yards
+        description: The amount of receiving yards from the completed pass. _Should_ equal passing_yards
+        # tests:
+        #   - dbt_utils.expression_is_true:
+        #     expression: receiving_yards = passing_yards
+        #     config:
+        #       severity: warn
+      - name: interception_player_id
+        description: The gsis_id of the player on defense who intercepted the pass attempt
+        tests:
+          - relationships:
+              to: ref('stg_players') # change to int model
+              field: gsis_id

@@ -152,7 +152,7 @@ sources:
           - name: week
             description: The game week in which the game was played. A new game week typically begins with Thursday Night Football and ends with Monday Night Football. Closely related are season weeks, which typically begin on Tuesdays
             tests:
-              - not_null              
+              - not_null
           - name: posteam
             description: The team that began the play with possesion of the ball using the three letter team abbreviation
           - name: defteam
@@ -1340,7 +1340,7 @@ sources:
                     'Illegal Motion'
                     , 'Offensive Holding'
                     , 'Illegal Touch Pass'
-                    , 'Player OUt of Bounds on Kick'
+                    , 'Player Out of Bounds on Kick'
                     , 'Defensive Pass Interference'
                     , 'Illegal Crackback'
                     , 'Intentional Grounding'
@@ -1455,7 +1455,7 @@ sources:
           - name: weather
             description: Free text describing the weather at the start of the game
           - name: nfl_api_id
-            description: NFL's API key which links to the game
+            description: NFL's API key which links to the game ??
             tests:
               - not_null
           - name: play_clock
@@ -3014,7 +3014,7 @@ sources:
                     'Illegal Motion'
                     , 'Offensive Holding'
                     , 'Illegal Touch Pass'
-                    , 'Player OUt of Bounds on Kick'
+                    , 'Player Out of Bounds on Kick'
                     , 'Defensive Pass Interference'
                     , 'Illegal Crackback'
                     , 'Intentional Grounding'
@@ -4689,6 +4689,7 @@ sources:
                     'Illegal Motion'
                     , 'Offensive Holding'
                     , 'Illegal Touch Pass'
+                    , 'Player Out of Bounds on Kick'
                     , 'Player OUt of Bounds on Kick'
                     , 'Defensive Pass Interference'
                     , 'Illegal Crackback'
