@@ -55,7 +55,6 @@ WITH rushing_plays AS (
         , run_location
         , run_gap
         , rusher_player_id
-        , rusher_player_name -- not necessary?
         , lateral_rusher_player_id
         , lateral_rusher_player_name
         , fumble
