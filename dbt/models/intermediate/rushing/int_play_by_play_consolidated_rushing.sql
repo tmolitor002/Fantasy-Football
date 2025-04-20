@@ -16,6 +16,7 @@ WITH rushing_plays AS (
         , home_coach
         , away_coach
         , stadium_id
+        , season_type
             -- Post game information
         , away_score
         , home_score
