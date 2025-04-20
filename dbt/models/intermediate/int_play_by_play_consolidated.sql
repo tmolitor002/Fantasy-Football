@@ -1,7 +1,9 @@
 WITH unioned AS (
     {{ dbt_utils.union_relations(
         relations=[
-            ref('stg_play_by_play_2022')
+            ref('stg_play_by_play_2020')
+            , ref('stg_play_by_play_2021')
+            , ref('stg_play_by_play_2022')
             , ref('stg_play_by_play_2023')
             , ref('stg_play_by_play_2024')
         ]
