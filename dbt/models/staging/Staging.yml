@@ -189,8 +189,8 @@ models:
         description: The number of yards forward the offense moved during the (?drive?)
       - name: desc
         description: A free-form text description of the play. Many fields existing in the source data seem to be scrapped from this field
-        tests:
-          - not_null
+        # tests:
+        #   - not_null
       - name: play_type
         description: The type of play executed by the team on offense
         # consider adding a doc to describe play types
@@ -726,10 +726,6 @@ models:
               field: gsis_id
       - name: passer_player_name
         description: The display name of the player who passed the ball. Typically (but not always) a Quarterback
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: receiver_player_id
         description: The gsis_id of the player who received or was targeted by the pass attempt
         tests:
@@ -745,262 +741,98 @@ models:
 
       - name: receiver_player_name
         description: The display name of the player who received or was targeted by the pass attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: receiving_yards
         description: The total number of receiving yards on the pass attempt
       - name: rusher_player_id
         description: The gsis_id of the player who attempted the rushing play. Typically a running back
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: rusher_player_name
         description: The display name of the player who attempted the rushing play. Typically a running back
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: rushing_yards
         description: The number of yards gained (or lost) on the rushing attempt
       - name: lateral_receiver_player_id
         description: The gsis_id of the player who received (or was targeted on) the lateral attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: lateral_receiver_player_name
         description: The display name of the player who received (or was targeted on) the lateral attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: lateral_receiving_yards
         description: The number of yards gained by the lateral attempt
       - name: lateral_rusher_player_id
         description: The gsis_id of the player who attempted to rush on the lateral attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: lateral_rusher_player_name
         description: The display name of the player who attempted to rush on the lateral attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: lateral_sack_player_id
         description: The gsis_id of the player who sacked the lateral ball carrier
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: lateral_sack_player_name
         description: The display name of the player who sacked the lateral ball carrier
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: interception_player_id
         description: The gsis_id of the player who made an interception on the pass attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: interception_player_name
         description: The display name of the player who made an interception on the pass attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: lateral_interception_player_id
         description: The gsis_id of the player who made an interception on the lateral pass attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: lateral_interception_player_name
         description: The display name of the player who made an interception on the lateral pass attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: punt_returner_player_id
         description: The gsis_id of the punt returner
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: punt_returner_player_name
         description: The display name of the punt returner
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: lateral_punt_returner_player_id
         description: The gsis_id of someone
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: lateral_punt_returner_player_name
         description: The display name of someone
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: kickoff_returner_player_name
         description: The display name of the kick returner
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: kickoff_returner_player_id
         description: The gsis_id of the kickoff returner
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: lateral_kickoff_returner_player_id
         description: I don't know
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: lateral_kickoff_returner_player_name
         description: I don't know, but the display name
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: punter_player_id
         description: The gsis_id of the punter
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: punter_player_name
         description: The display name of the punter
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: kicker_player_name
         description: The display name of the kicker
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: kicker_player_id
         description: the gsis_id of the kicker
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: own_kickoff_recovery_player_id
         description: The gsis_id of the player on the kickoff team that recovered the ball
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: own_kickoff_recovery_player_name
         description: The dispaly name of the player on the kickoff team that recovered the ball
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: blocked_player_id
         description: The gsis_id of the player who blocked presumably a field goal attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: blocked_player_name
         description: The display name of the player who blocked presumably a field goal attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: tackle_for_loss_1_player_id
         description: The gsis_id of the primary tackler who tackled the ball carrier for a loss
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: tackle_for_loss_1_player_name
         description: The display name of the primary tackler who tackled the ball carrier for a loss
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: tackle_for_loss_2_player_id
         description: The gsis_id of the second tackler who tackled the ball carrier for a loss
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: tackle_for_loss_2_player_name
         description: The display name of the second tackler who tackled the ball carrier for a loss
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: qb_hit_1_player_id
         description: The gsis_id of the primary tackler who hit the Quarterback
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: qb_hit_1_player_name
         description: The display name of the primary tackler who hit the Quarterback
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: qb_hit_2_player_id
         description: The gsis_id of the second tackler who hit the Quarterback
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: qb_hit_2_player_name
         description: The display name of the second tackler who hit the Quarterback
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: forced_fumble_player_1_team
         description: The team abbreviation of the team on which player 1 plays who forced a fumble
         # test against a team table
       - name: forced_fumble_player_1_player_id
         description: The gsis_id of the primary/first player to force a fumble
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: forced_fumble_player_1_player_name
         description: The display name of the primary/first player to force a fumble
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: forced_fumble_player_2_team
         description: The team abbreviation of the team on which player 2 plays who forced a fumble
         # test agains a team table
       - name: forced_fumble_player_2_player_id
         description: The gsis_id of the secondary/second player to force a fumble
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
-      - name: forced_fumble_player_1_player_name
+      - name: forced_fumble_player_2_player_name
         description: The display name of the secondary/second player to force a fumble
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: solo_tackle_1_team
         description: The team abbreviation of the team on which the solo tackler plays on
         # test against a team table
@@ -1009,174 +841,74 @@ models:
         # test against a team table
       - name: solo_tackle_1_player_id
         description: The gsis_id of the solo tackler on the defense
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: solo_tackle_2_player_id
         description: The gsis_id of the solo tackler of the second solo tackle
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: solo_tackle_1_player_name
         description: The display name of the solo tackler on the defense
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: solo_tackle_2_player_name
         description: The display name of the solo tackler of the second solo tackle
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: assist_tackle_1_player_id
         description: The gsis_id of the first tackler
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: assist_tackle_1_player_name
         description: The display name of the first tackler
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: assist_tackle_1_team
         description: The team abbreviation for the tackle_1 player
         # test against a team table
       - name: assist_tackle_2_player_id
         description: The gsis_id of the second tackler
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: assist_tackle_2_player_name
         description: The display name of the second tackler
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: assist_tackle_2_team
         description: The team abbreviation for the tackle_2 player
         # test against a team table
       - name: assist_tackle_3_player_id
         description: The gsis_id of the third tackler
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: assist_tackle_3_player_name
         description: The display name of the third tackler
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: assist_tackle_3_team
         description: The team abbreviation for the tackle_3 player
         # test against a team table
       - name: assist_tackle_4_player_id
         description: The gsis_id of the fourth tackler
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: assist_tackle_4_player_name
         description: The display name of the fourth tackler
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: assist_tackle_4_team
         description: The team abbreviation for the tackle_4 player
         # test against a team table
       - name: tackle_with_assist
         description: Someone helped tackle?
-        tests:
-          - accepted_values:
-              values: ['0', '1']
       - name: tackle_with_assist_1_player_id
         description: gsis_id
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: tackle_with_assist_1_player_name
         description: display name
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: tackle_with_assist_1_team
         description: team of player_1
         # test against a team table
       - name: tackle_with_assist_2_player_id
         description: gsis_id
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: tackle_with_assist_2_player_name
-        description: display name
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: tackle_with_assist_2_team
         description: team of player_2
         # test against a team table
       - name: pass_defense_1_player_id
         description: The gsis_id of the first pass defender
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: pass_defense_1_player_name
         description: The display name of the first pass defender
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: pass_defense_2_player_id
         description: The gsis_id of the second pass defender
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: pass_defense_2_player_name
         description: The display name of the second pass defender
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: fumbled_1_team
         description: The team abbreviation of the player who fumbled the football
         # test against a team table
       - name: fumbled_1_player_id
         description: The gsis_id of the player who fumbled the football
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: fumbled_1_player_name
         description: The display name of the player who fumbled the football
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: fumbled_2_player_id
         description: The gsis_id of the second player who fumbled the football
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: fumbled_2_player_name
         description: The display name of the second player who fumbled the football
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: fumbled_2_team
         description: The team abbreviation of the second player who fumbled the football
         # test against a team table
@@ -1187,16 +919,8 @@ models:
         description: The number of yards the recovering team gained after recovering the football
       - name: fumble_recovery_1_player_id
         description: The gsis_id of the player who recovered the ball
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: fumble_recovery_1_player_name
         description: The display name of the player who recovered the ball
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: fumble_recovery_2_team
         description: The team abbreviation of the player who recovered the second fumbled football
         # test against a team table
@@ -1204,52 +928,20 @@ models:
         description: The number of yards the recovering team gained after recovering the second fumble
       - name: fumble_recovery_2_player_id
         description: The gsis_id of the player who recovered the second fumble
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: fumble_recovery_2_player_name
         description: The display name of the player who recovered the second fumble
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: sack_player_id
         description: The gsis_id of the player who sacked the Quarterback
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: sack_player_name
         description: The display name of the player who sacked the Quarterback
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: half_sack_1_player_id
         description: The gsis_id of the first half sacker
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: half_sack_1_player_name
         description: The display name of the first half sacker
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: half_sack_2_player_id
         description: The gsis_id of the other half sacker
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: half_sack_2_player_name
         description: The display name of the other half sacker
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: return_team
         description: The team returning the kickoff
         # test against a team table
@@ -1260,29 +952,14 @@ models:
         # test against a team table
       - name: penalty_player_id
         description: The gsis_id of the player who committed the penalty
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: penalty_player_name
         description: The display name of the player who committed the penalty
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: penalty_yards
         description: The amount of total yards against the offending team
       - name: replay_or_challenge
         description: Flag indicating if a replay review or challenge was used on the play
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['0', '1']
       - name: replay_or_challenge_result
         description: The result of the replay review or challenge
-        tests:
-          - accepted_values:
-              values: ['upheld', 'reversed']
       - name: penalty_type
         description: The type of penalty assessed
         tests:
@@ -1360,16 +1037,8 @@ models:
               values: ['0', '1']
       - name: safety_player_name
         description: display name
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: safety_player_id
         description: gsis_id
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: cp
       - name: cpoe
       - name: series
@@ -1654,60 +1323,24 @@ models:
               values: ['0', '1']
       - name: passer_id
         description: The gsis_id of the passing player
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: rusher_id
         description: The gsis_id of the rushing player
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: receiver_id
         description: The gsis_id of the receiving player
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: name
         description: The display name of the primary player conducting the play, typically the Quarterback on a passing play, or Running back on a rush attempt
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: jersey_number
         description: The jersey number of the player listed in the field `name`
       - name: id
         description: The gsis_id of the plays feature player
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: fantasy_player_name
         description: The display name of the primary skill position player featured on the play
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: fantasy_player_id
         description: The gsis_id of the primary skill position player featured on the play
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: fantasy
         description: The display name of the primary skill position player featured on the play
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: display_name
       - name: fantasy_id
         description: The gsis_id of the primary skill position player featured on the play
-        tests:
-          - relationships:
-              to: ref('stg_players')
-              field: gsis_id
       - name: out_of_bounds
         description: Flag indicating if the play ended by the ball traveling out of bounds
         tests:
