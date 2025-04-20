@@ -2728,13 +2728,6 @@ models:
           - accepted_values:
               values: [0, 1]
               quote: false
-      - name: qb_spike
-        description: Flag indicating the quarerback immediately through the ball into the ground behind the center after taking the snap. This is usually done to preserve time on the game clock when the team in possesion is still attempting to score, but does not want to use a timeout or have none available.
-        tests:
-          - not_null
-          - accepted_values:
-              values: [0, 1]
-              quote: false
       - name: first_down_rush
         description: Flag indicating a rushing play occuring on first down
         tests:

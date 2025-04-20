@@ -43,7 +43,6 @@ WITH rushing_plays AS (
         , no_huddle
         , qb_dropback
         , qb_kneel
-        , qb_spike
         , first_down_rush
         , two_point_attempt
         , lateral_rush
