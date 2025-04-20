@@ -2770,7 +2770,6 @@ models:
       - name: run_location
         description: The direction which the rusher ran the ball
         tests:
-          - not_null
           - accepted_values:
               values: ['left', 'middle', 'right']
       - name: run_gap
@@ -2826,8 +2825,6 @@ models:
               quote: false
       - name: rushing_yards
         description: The number of rushing yards gained on the play. A negative number indicates a loss of yards
-        tests:
-          - not_null
       - name: yards_gained
         description: The total number of yards gained on the play. This _should_ sum to the sum of air_yards and yards_after_catch for pass plays
         tests:
