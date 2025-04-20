@@ -22,7 +22,9 @@ WITH rushing_plays AS (
         , result
         , total
         -- Pre-huddle information
+        , posteam
         , pos_coach
+        , defteam
         , def_coach
         , yardline_100
         , drive

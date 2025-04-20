@@ -105,6 +105,97 @@ models:
         tests:
           - not_null
 
+  - name: int_game_consolidated_rushing
+    description: Summary of rushing stat line. One record per player per game
+    columns:
+      - name: game_id
+        description: Foreign Key. Key representing unqiue games. Formated as YYYY_<two digit game week>_<away team abbr>_<home team abr>
+        tests:
+          - not_null
+          - relationships:
+              field: game_id
+              to: ref('int_games_consolidated')
+      - name: posteam
+        description: The team for which the rusher plays for
+        tests:
+          - not_null
+      - name: pos_coach
+        description: The head coach of the team currently with possession of the football
+        tests:
+          - not_null
+      - name: defteam
+        description: The team playing defense against the rusher
+        tests:
+          - not_null
+      - name: def_coach
+        description: The head coach of the team currently on defense
+        tests:
+          - not_null
+      - name: total_goal_to_go_rushes
+        description: The total number of rushes in goal-to-go situations
+        tests:
+          - not_null
+      - name: total_shotgun_rushes
+        description: The total number of rushes from a shotgun formation
+        tests:
+          - not_null
+      - name: total_no_huddle_rushes
+        description: The total number of rushes from a no-huddle situation
+        tests:
+          - not_null
+      - name: total_qb_dropback_rushes
+        description: The total number of rush plays where the quarterback dropped back in the pocket first
+        tests:
+          - not_null
+      - name: total_qb_kneels
+        description: The total number of rush attempts that were qb_kneels. May make sense to remove?
+        tests:
+          - not_null
+      - name: total_first_down_rushes
+        description: The total number of rush attempts which occurred on first down
+        tests:
+          - not_null
+      - name: total_two_point_attempts
+        description: The total number of rush attempts which occured during a two-point conversion attempt
+        tests:
+          - not_null
+      - name: total_fumbles
+        description: The total number of fumbled footballs
+        tests:
+          - not_null
+      - name: total_tackled_for_loss
+        description: The total number of times the rusher was tackled behind the line of scrimmage
+        tests:
+          - not_null
+      - name: total_rush_attempts
+        description: The total number of rush attempts
+        tests:
+          - not_null
+      - name: total_rush_touchdowns
+        description: The total number of rushing touchdowns
+        tests:
+          - not_null
+      - name: total_touchdowns
+        description: The total number of touchdowns. Should be the same as total_rush_touchdowns
+        tests:
+          - not_null
+      - name: total_rushing_yards
+        description: The total number of rushing yards
+      - name: total_yards_gained
+        description: The total number of yards gained. Should be the same as total_rushing_yards
+        tests:
+          - not_null
+      - name: avg_down
+        description: The average down on which the the rusher attempted to rush the ball
+      - name: avg_ydstogo
+        description: The average number of yards to the line of gain (or goal line) for the players rush attempts
+        tests:
+          - not_null
+      - name: avg_rushing_yards
+        description: The average number of rushing yards gained per rush attempt
+      - name: avg_yards_gained
+        description: The average number of yards gained per play. Should be the same as avg_rushing_yards in this model
+
   - name: int_play_by_play_consolidated
     description: One record per play for all available seasons
     columns:
@@ -2609,8 +2700,16 @@ models:
         description: The number of points scored by both teams
         tests:
           - not_null
+      - name: posteam
+        description: The team for which the rusher plays for
+        tests:
+          - not_null
       - name: pos_coach
         description: The head coach of the team currently with possession of the football
+        tests:
+          - not_null
+      - name: defteam
+        description: The team on defense the rusher was playing against
         tests:
           - not_null
       - name: def_coach
@@ -2829,3 +2928,4 @@ models:
           - accepted_values:
               values: [0, 1]
               quote: false
+
