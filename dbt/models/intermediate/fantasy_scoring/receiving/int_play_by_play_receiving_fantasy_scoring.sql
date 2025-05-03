@@ -6,6 +6,8 @@ WITH src AS (
         , air_yards
         , yards_after_catch
         , yards_gained -- not necessary?
+        , CAST(fumble_lost AS DECIMAL)      AS fumble_lost
+        , CAST(fumble AS DECIMAL)           AS fumble
         , CAST(complete_pass AS DECIMAL)    AS complete_pass
         --, touchdown
         , CAST(pass_touchdown AS DECIMAL)   AS pass_touchdown
@@ -29,6 +31,8 @@ WITH src AS (
 , scoring AS (
     SELECT
         fractional_points
+        , CAST(fumble_lost AS DECIMAL)                      AS scoring_fumble_lost
+        , CAST(fumble AS DECIMAL)                           AS scoring_fumble
         , CAST(receiving_touchdown AS DECIMAL)              AS scoring_receiving_touchdown
         , CAST(receiving_reception AS DECIMAL)              AS scoring_receiving_reception
         , CAST(receiving_yards_pp AS DECIMAL)               AS scoring_receiving_yards_pp
@@ -50,6 +54,8 @@ WITH src AS (
 , category_scoring AS (
     SELECT
         _play_id
+        , (fumble_lost * scoring_fumble_lost)                                   AS receiving_fumble_lost
+        , (fumble * scoring_fumble)                                             AS receiving_fumble
         , (pass_touchdown * scoring_receiving_touchdown)                        AS receiving_touchdown
         , (complete_pass * scoring_receiving_reception)                         AS receiving_reception
         , (receiving_yards / scoring_receiving_yards_pp)                        AS receiving_yards -- non-fractional scoring really only matters at a game level
@@ -63,7 +69,9 @@ WITH src AS (
     SELECT
         _play_id
         , (
-            receiving_touchdown
+            receiving_fumble_lost
+            + receiving_fumble
+            + receiving_touchdown
             + receiving_reception
             + receiving_yards
             + receiving_first_down

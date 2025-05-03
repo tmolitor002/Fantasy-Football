@@ -60,6 +60,7 @@ WITH rushing_plays AS (
         , lateral_rusher_player_id
         , lateral_rusher_player_name
         , fumble
+        , fumble_lost
         , qb_scramble
         -- Play result information
         , "desc"                                    AS description

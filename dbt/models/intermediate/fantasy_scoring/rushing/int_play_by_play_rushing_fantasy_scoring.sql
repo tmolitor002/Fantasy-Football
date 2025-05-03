@@ -5,6 +5,7 @@ WITH src AS (
         , first_down_rush
         , two_point_attempt
         , fumble
+        , fumble_lost
         , rush_attempt
         , rushing_yards
         , yards_gained
@@ -60,7 +61,8 @@ WITH src AS (
         , CAST((forty_yd_plus_rush * scoring_40_yd_plus_rush) AS DECIMAL)                   AS explosive_rush
         , CAST((forty_yd_plus_rush_td * scoring_rushing_40_yd_plus_touchdown) AS DECIMAL)   AS explosive_rushing_touchdown
         , CAST((rushing_first_down * scoring_rushing_first_down) AS DECIMAL)                AS first_down
-        , CAST((fumble * scoring_fumble_lost) AS DECIMAL)                                   AS fumble -- a fumble is a fumble
+        , CAST((fumble_lost * scoring_fumble_lost) AS DECIMAL)                              AS fumble_lost
+        , CAST((fumble * scoring_fumble) AS DECIMAL)                                        AS fumble
     FROM join_scoring
 )
 
@@ -74,6 +76,7 @@ WITH src AS (
             + explosive_rush
             + explosive_rushing_touchdown
             + first_down
+            + fumble_lost
             + fumble
         ) AS fantasy_points
     FROM category_scoring
