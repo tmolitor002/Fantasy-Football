@@ -16,12 +16,17 @@ WITH src_pass_plays AS ( -- Select necessary fields for pass plays
         , home_coach
         , away_coach
         , stadium_id
+        , season_type
             -- Post game information
         , CAST(away_score AS INT)                   AS away_score
         , CAST(home_score AS INT)                   AS home_score
         , CAST(result AS INT)                       AS result
         , CAST(total AS INT)                        AS total
         -- Pre-huddle information
+        , posteam
+        , pos_coach
+        , defteam
+        , def_coach
         , CAST(yardline_100 AS INT)                 AS yardline_100
         , CAST(drive AS INT)                        AS drive
         , CAST(down AS INT)                         AS down
