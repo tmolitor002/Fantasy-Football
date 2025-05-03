@@ -27,6 +27,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 vars:
   play_by_play_min_year: 2022
   play_by_play_max_year: 2024
+  active_league: "Cliquesters Fantasy Football"
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

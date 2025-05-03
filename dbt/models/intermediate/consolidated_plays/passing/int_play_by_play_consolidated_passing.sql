@@ -63,6 +63,7 @@ WITH src_pass_plays AS ( -- Select necessary fields for pass plays
         , CAST(yards_after_catch AS INT)            AS yards_after_catch
         , CAST(qb_hit AS INT)                       AS qb_hit
         , CAST(fumble AS INT)                       AS fumble
+        , CAST(fumble_lost AS INT)                  AS fumble_lost
         -- Play result information
         , "desc"                                    AS description
         , CAST(yards_gained AS INT)                 AS yards_gained
