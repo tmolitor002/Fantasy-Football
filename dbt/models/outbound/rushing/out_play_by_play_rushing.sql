@@ -1,4 +1,18 @@
--- TODO: Select only pre-snap fields along with fantasy_points and _play_id for ML model
+/*
+Thoughts for additional parameters
+- The actual player
+- Player age on game day
+- Starting (or main) Quarterback (had the most pass attempts in that game)
+- defense team
+- Offensive line
+- home vs. away
+- formation/personnel?
+- depth chart? (percentage of usage by team, snaps played, target share)
+-- window functions
+- pos coach tendencies (rush vs. pass percentage over last x years)
+- fourth down likelihood (detroit goes for it often)
+
+*/
 
 WITH src AS (
     SELECT
