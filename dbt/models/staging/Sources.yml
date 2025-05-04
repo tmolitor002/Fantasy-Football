@@ -19,6 +19,12 @@
 version: 2
 
 sources:
+  - name: dataiku
+    database: fantasyfootball
+    schema: public
+    tables:
+      - name: FANTASYFOOTBALL_iku_play_by_play_rushing_scored_prepared
+        description: Prediction from ML model produced in Dataiku
   - name: football
     database: fantasyfootball
     schema: raw
