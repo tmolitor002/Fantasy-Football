@@ -25,5 +25,12 @@ SELECT
     , ydstogo
 FROM src
 WHERE play_type IS NOT NULL
-    AND play_type != 'no_play'
+    AND play_type IN ( -- only trying to predict certain palys. extra points, kickoffs, etc., come at pre-determined times
+        'run'
+        , 'qb_kneel'
+        , 'pass'
+        , 'punt'
+        , 'field_goal'
+        , 'qb_spike'
+    )
 ORDER BY season, week, game_date, play_id ASC

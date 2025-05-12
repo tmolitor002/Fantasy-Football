@@ -1,6 +1,6 @@
 WITH src AS (
     SELECT
-        {{ dbt_utils.star(from=source('dataiku','FANTASYFOOTBALL_iku_play_by_play_passing_scored_prepared'), except=[
+        {{ dbt_utils.star(from=source('dataiku','FANTASYFOOTBALL_iku_dbt_play_by_play_passing_scored_prepared'), except=[
             'smmd_predictionTime'
             , 'smmd_savedModelID'
             , 'smmd_modelVersion'
@@ -11,7 +11,7 @@ WITH src AS (
         , "smmd_modelVersion"                                               AS smmd_model_version
         , "smmd_fullModelId"                                                AS smmd_full_model_id
         , TIMEZONE('America/Chicago',"smmd_predictionTime"::TIMESTAMPTZ)    AS ssmd_prediction_time_chicago
-    FROM {{ source('dataiku', 'FANTASYFOOTBALL_iku_play_by_play_passing_scored_prepared') }}
+    FROM {{ source('dataiku', 'FANTASYFOOTBALL_iku_dbt_play_by_play_passing_scored_prepared') }}
 )
 
 , final AS (
