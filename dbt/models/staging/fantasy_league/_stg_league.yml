@@ -158,3 +158,41 @@ models:
         description: Points awarded to the defense for forcing a three-and-out
       - name: def_extra_point_returned
         description: Points awarded to the defense for returning an extra point attempt all the way back to the opponent's endzone
+
+  - name: stg_league_teams
+    description: The teams within the fantasy league. One record per fantasy team
+    columns:
+      - name: _league_id
+        description: The league ID of the league
+        tests:
+          - not_null
+      - name: _team_id
+        description: The ID of the team. Currently built as an MD5 hash of the fantasy team's manager's name. Same value as `_manager_id`. Consider finding an alternate method to generate this ID
+        tests:
+          - not_null
+          - unique
+      - name: _manager_id
+        description: The ID of the manager. Currently built as and MD5 hash of the fantasy team's manager's name. Same value as `_team_id`.
+        tests:
+          - not_null
+          - unique
+      - name: platform
+        description: The current fantasy football platform of on which the league takes place.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Yahoo', 'Yahoo!', 'ESPN']
+              config:
+                severity: warn
+      - name: league_name
+        description: The name of the league
+        tests:
+          - not_null
+      - name: team_name
+        description: The current name of the team
+        tests:
+          - not_null
+      - name: manager_name
+        description: The name of the manager/owner of the fantasy football team.
+        tests:
+          - not_null
