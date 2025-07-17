@@ -31,6 +31,57 @@ sources:
     database: fantasyfootball
     schema: raw
     tables:
+      - name: ff_draft_order
+        description: The draft order of the first round. Typically, draft order "snakes" backwards between rounds, so the team with the last pick in round 1 has the first pick in round 2
+        columns:
+          - name: league_id
+            description: Foreign key identifying which league the draft order applies to
+            tests:
+              - not_null
+          - name: year
+            description: The league year for which the draft order applies to.
+            tests:
+              - not_null
+          - name: pick
+            description: The order of the first round picks assigned to each team.
+            tests:
+              - not_null
+          - name: team
+            description: The name of the team with the pick
+            tests:
+              - not_null
+      - name: ff_keeper_picks
+        description: The final rosters of each team at the end of the pervious league year, and which round pick the player would consume if kept
+        columns:
+          - name: draft_year
+            description: The league year of the draft
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['2025'] # will expand as additional data is added
+          - name: team_name
+            description: The name of the team. This often changes from year-to-year
+            tests:
+              - not_null
+          - name: player
+            description: The name of the player on the roster. This *should* line up with a player from the NFL verse data, but may vary until after cleanup
+            tests:
+              - not_null
+          - name: py_draft_round
+            description: The round the player was drafted in the prior season's draft. If the value is anything that isn't a number between 1-16, the player was picked up off the waiver wires. Note that who were drafted, dropped, cleared waivers, and later picked up off the waiver wire by the original drafting team do not have a draft round. Additionally, players who were traded between teams that never saw the waiver wire maintain their draft round across teams
+          - name: cy_draft_round
+            description: The round the player will take if kept. Note that if a team selects multiple players within the same round, players must be moved up rounds. This is most common with the first round, the 16th round with waiver selections, or when a player has been traded.
+      - name: ff_league_teams
+        description: A list of current team names and owners
+        columns:
+          - name: team
+            description: The name of the team
+            tests:
+              - not_null
+          - name: manager
+            description: The owner of the team
+            tests:
+              - not_null
       - name: pbp_participation_2022
       - name: pbp_participation_2023
 
