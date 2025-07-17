@@ -196,3 +196,33 @@ models:
         description: The name of the manager/owner of the fantasy football team.
         tests:
           - not_null
+  - name: stg_league_keepers
+    description: A list of eligible keepers. A new column will be added to indicate if the player was selected for keeping
+    columns:
+      - name: draft_year
+        description: The league year of the upcoming draft for which the player could be kept. The player was on the final roster the for the league year before this year.
+        tests:
+          - not_null
+      - name: team_name
+        description: The name of the team for which the player was on the roster of
+        tests:
+          - not_null
+      - name: player
+        description: The player that might be kept
+        tests:
+          - not_null
+      - name: py_draft_round
+        description: The round in which the player was drafted in the previous year by the team. If blank, the player was either not drafted by that team in the previous year, or was dropped and made it through the waiver process before being picked back up, resetting their waiver period
+      - name: cy_draft_round
+        description: The draft round the player will occupy if kept by the manager of the team. This defaults to 16 for players picked up from the waiver wire. For players held on by the manager for the entirety of the previous league year, they will occupy one draft round earlier than the round they were selected in in the previous league year
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      - name: player_id
+        description: the gsis_id of the player
+        tests:
+          - not_null
+          # add a relationship test to confirm it is in stg_players
+      - name: league_id
+        description: The league id in which the player is being kept
