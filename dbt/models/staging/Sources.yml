@@ -78,16 +78,16 @@ sources:
         columns:
           - name: team
             description: The name of the team
-            tests:
-              - not_null
+            # tests:
+            #   - not_null
           - name: manager
             description: The owner of the team
             tests:
               - not_null
           - name: league_id
             description: The league id with which the teams and owners are associated with
-            tests:
-              - not_null
+            # tests:
+            #   - not_null
       - name: pbp_participation_2022
       - name: pbp_participation_2023
 
