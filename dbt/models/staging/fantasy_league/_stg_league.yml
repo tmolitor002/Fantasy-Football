@@ -1,0 +1,228 @@
+models:
+  - name: stg_league_scoring
+    description: One record as determined by the active_league variable. Consists of scoring values for the league
+    columns:
+      - name: league_id
+        description: Primary Key. Identifies which league is being used to score. MD5 hash of platform and league (league name)
+      - name: platform
+        description: The platform on which the league is played
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Yahoo', 'ESPN']
+              config:
+                severity: warn
+      - name: league
+        description: The name of the fantasy football league
+        tests:
+          - not_null
+      - name: fractional_points
+        description: Indicates if fractional points are enabled for the league. For example, if a running back rushes for 25 yards with a rushing_yards_pp values of 10, if fractional points are awarded, the running back would get 2.5 points. If not, they would only get 2 points, and would not get 3 points until they hit 30-39 yards rushing. If enabled, this is typically rounded to two decimal places
+        tests:
+          - not_null
+          - accepted_values:
+              values: [TRUE, FALSE]
+      - name: passing_touchdown
+        description: Points awarded to the passer for a passing touchdown
+      - name: passing_interception
+        description: Points taken away from the passer for an interception
+      - name: passing_attempts
+        description: Points awarded to the passer for attempting to pass the ball
+      - name: passing_completion
+        description: Points awarded to the passer for a successful pass
+      - name: passing_incomplete
+        description: Points awarded to (or taken away from) the passer for an incomplete pass
+      - name: passing_sack
+        description: Points awarded to (or taken away from) the passer for being sacked by the defense
+      - name: passing_yards_pp
+        description: Number of passing yards required for an additional point
+      - name: passing_pick_six
+        description: Points awarded to (or taken away from) the passer for throwing a pick-six (An interception by the defense that is returned for a touchdown)
+      - name: passing_40_yd_plus_completion
+        description: Points awarded to the passer for a pass of 40 or more yards
+      - name: passing_40_yd_plus_touchdown
+        description: Points awarded to the passer for a touchdown of 40 or more yards
+      - name: passing_first_down
+        description: Points awarded to the passer for throwing a touchdown pass
+      - name: rushing_touchdown
+        description: Points awarded to the rusher for a rushing touchdown
+      - name: rushing_attempt
+        description: Points awarded to the rusher for a rushing attempt, regardless of yards gained
+      - name: rushing_yards_pp
+        description: Number of rushing yards required to gain an additional full point
+      - name: rushing_40_yd_plus_rush
+        description: Number of points awarded for a rush of 40 or more yards
+      - name: rushing_40_yd_plus_touchdown
+        description: Number of points awarded for a touchdown rush of 40 or more yards
+      - name: rushing_first_down
+        description: Number of points awarded for a rush that resulted in a first down
+      - name: receiving_touchdown
+        description: Points awarded to the receiver for catching a touchdown pass
+      - name: receiving_reception
+        description: POints awarded to the receiver for a reception, regardless of yards gained (or lost)
+      - name: receiving_yards_pp
+        description: Number of receiving yards required to gain an additional full point
+      - name: receiving_40_yd_plus_reception
+        description: Points awarded for a reception of 40 or more yards
+      - name: receiving_40_yd_plus_touchdown
+        description: Points awarded for a touchdown reception of 40 or more yards
+      - name: receiving_first_down
+        description: Points awarded for a reception that resulted in a first down
+      - name: kick_punt_return_touchdown
+        description: Points awarded for a kickoff or punt return touchdown
+      - name: kick_punt_return_yards_pp
+        description: Number of yards required for a full additional point for kickoff and punt return yards
+      - name: two_point_conversion
+        description: Number of points awarded for succesfull two point conversion
+      - name: fumble
+        description: Number of points awarded (or more likely taken away) from a player who fumbled the football, regardless of which team recovers it
+      - name: fumble_lost
+        description: Number of points awarded (or more likely taken away) from a player who fumbled the football which was then recovered by the defense
+      - name: offensive_fumble_return_td
+        description: Not exactly sure, currently going to ignore
+      - name: fg_made_0_19
+        description: Points awarded to the kicker for making a field goal of 19 or less yards
+      - name: fg_made_20_29
+        description: Points awarded to the kicker for making a field goal of 20-29 yards
+      - name: fg_made_30_39
+        description: Points awarded to the kicker for making a field goal of 30-39 yards
+      - name: fg_made_40_49
+        description: Points awarded to the kicker for making a field goal of 40-49 yards
+      - name: fg_made_50_plus
+        description: Points awarded to the kicker for making a field goal of 50 or more yards
+      - name: fg_miss_0_19
+        description: Points awarded to (or taken away from) the kicker for missing a field goal of 19 or less yards
+      - name: fg_miss_20_29
+        description: Points awarded to (or taken away from) the kicker for missing a field goal of 20-29 yards
+      - name: fg_miss_30_39
+        description: Points awarded to (or taken away from) the kicker for missing a field goal of 30-39 yards
+      - name: fg_miss_40_49
+        description: Points awarded to (or taken away from) the kicker for missing a field goal of 40-49 yards
+      - name: fg_miss_50_plus
+        description: Points awarded to (or taken away from) the kicker for missing a field goal of 50 or more yards
+      - name: fg_yards_pp
+        description: Number of total yards covered on field goals for a full additional point
+      - name: pat_made
+        description: Points awarded for a succesful point-after-touchdown
+      - name: pat_miss
+        description: Points awarded (or more likely taken away from) the kicker for a missed point-after-touchdown
+      - name: def_points_allowed_0
+        description: Points awarded to (or taken away from) the defense for not allowing the opposing team to score
+      - name: def_points_allowed_1_6
+        description: Points awarded to (or taken away from) the defense for allowing 1-6 points
+      - name: def_points_allowed_7_13
+        description: Points awarded to (or taken away from) the defense for allowing 7-13 points
+      - name: def_points_allowed_14_20
+        description: Points awarded to (or taken away from) the defense for allowing 14-20 points
+      - name: def_points_allowed_21_27
+        description: Points awarded to (or taken away from) the defense for allowing 21-27 points
+      - name: def_points_allowed_28_34
+        description: Points awarded to (or taken away from) the defense for allowing 28-34 points
+      - name: def_points_allowed_35_plus
+        description: Points awarded to (or taken away from) the defense for allowing 35 or more points
+      - name: def_sack
+        description: Points awarded to the defense for sacking the quarterback
+      - name: def_interception
+        description: Points awarded to the defense for intercepting a pass by the opposing offense
+      - name: def_fumble_recovery
+        description: Points awarded to the defense for recovering a fumble
+      - name: def_touchdown
+        description: Points awarded to the defense for scoring a touchdown
+      - name: def_safety
+        description: Points awarded to the defense for tackling the offense within their own endzone
+      - name: def_block_kick
+        description: Points awarded to the defense for blocking a kick, typically a field goal attempt or punt
+      - name: def_return_yards_pp
+        description: Number of return yards required for a full additional point
+      - name: def_kickoff_punt_return_touchdown
+        description: Points awarded to the defense for returning a kickoff or punt for a touchdown. Perfected by Devin Hester
+      - name: def_fourth_down_stop
+        description: Points awarded to the defense for stoping the offense on fourth down and forcing a turnover
+      - name: def_tackle_for_loss
+        description: Points awarded to the defense for tackling a rusher or receiver behind the line of scrimmage
+      - name: def_yards_allowed_negative
+        description: Points awarded to the defense for utterly humiliating their opponent
+      - name: def_yards_allowed_0_99
+        description: Points awarded to (or taken away from) the defense for allowing 0-99 yards
+      - name: def_yards_allowed_100_199
+        description: Points awarded to (or taken away from) the defense for allowing 100-199 yards
+      - name: def_yards_allowed_200_299
+        description: Points awarded to (or taken away from) the defense for allowing 200-299 yards
+      - name: def_yards_allowed_300_399
+        description: Points awarded to (or taken away from) the defense for allowing 300-399 yards
+      - name: def_yards_allowed_400_499
+        description: Points awarded to (or taken away from) the defense for allowing 400-499 yards
+      - name: def_yards_allowed_500_plus
+        description: Points awarded to (or taken away from) the defense for allowing 500 or more yards, and absolutely embarassing themselves
+      - name: def_three_and_out_forced
+        description: Points awarded to the defense for forcing a three-and-out
+      - name: def_extra_point_returned
+        description: Points awarded to the defense for returning an extra point attempt all the way back to the opponent's endzone
+
+  - name: stg_league_teams
+    description: The teams within the fantasy league. One record per fantasy team
+    columns:
+      - name: _league_id
+        description: The league ID of the league
+        tests:
+          - not_null
+      - name: _team_id
+        description: The ID of the team. Currently built as an MD5 hash of the fantasy team's manager's name. Same value as `_manager_id`. Consider finding an alternate method to generate this ID
+        tests:
+          - not_null
+          - unique
+      - name: _manager_id
+        description: The ID of the manager. Currently built as and MD5 hash of the fantasy team's manager's name. Same value as `_team_id`.
+        tests:
+          - not_null
+          - unique
+      - name: platform
+        description: The current fantasy football platform of on which the league takes place.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Yahoo', 'Yahoo!', 'ESPN']
+              config:
+                severity: warn
+      - name: league_name
+        description: The name of the league
+        tests:
+          - not_null
+      - name: team_name
+        description: The current name of the team
+        tests:
+          - not_null
+      - name: manager_name
+        description: The name of the manager/owner of the fantasy football team.
+        tests:
+          - not_null
+  - name: stg_league_keepers
+    description: A list of eligible keepers. A new column will be added to indicate if the player was selected for keeping
+    columns:
+      - name: draft_year
+        description: The league year of the upcoming draft for which the player could be kept. The player was on the final roster the for the league year before this year.
+        tests:
+          - not_null
+      - name: team_name
+        description: The name of the team for which the player was on the roster of
+        tests:
+          - not_null
+      - name: player
+        description: The player that might be kept
+        tests:
+          - not_null
+      - name: py_draft_round
+        description: The round in which the player was drafted in the previous year by the team. If blank, the player was either not drafted by that team in the previous year, or was dropped and made it through the waiver process before being picked back up, resetting their waiver period
+      - name: cy_draft_round
+        description: The draft round the player will occupy if kept by the manager of the team. This defaults to 16 for players picked up from the waiver wire. For players held on by the manager for the entirety of the previous league year, they will occupy one draft round earlier than the round they were selected in in the previous league year
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      - name: player_id
+        description: the gsis_id of the player
+        tests:
+          - not_null
+          # add a relationship test to confirm it is in stg_players
+      - name: league_id
+        description: The league id in which the player is being kept
