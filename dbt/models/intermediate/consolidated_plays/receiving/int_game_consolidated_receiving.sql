@@ -100,9 +100,61 @@ WITH receiving AS (
         ON a.receiver_player_id = b.player_id
 )
 
+-- Add target share amongst receivers
+, target_share AS (
+    SELECT
+        game_id
+        , posteam -- identifies players on the same team
+        , receiver_player_id
+        , total_targets
+        , total_receptions
+    FROM join_receiver_name       
+)
+
+, target_share_denom AS (
+    SELECT
+        game_id
+        , posteam
+        , sum(total_targets)    AS total_targets_denom
+        , sum(total_receptions) AS total_receptions_denom
+    FROM target_share
+    GROUP BY
+        game_id
+        , posteam
+)
+
+, target_share_percentage AS (
+    SELECT
+        a.game_id
+        , a.posteam
+        , a.receiver_player_id
+        , a.total_targets / b.total_targets_denom       AS target_share
+        , a.total_receptions / b.total_receptions_denom AS reception_share
+        , b.total_targets_denom                         AS total_team_targets
+        , b.total_receptions_denom                      AS total_team_receptions
+    FROM target_share a
+    JOIN target_share_denom b
+        ON a.game_id = b.game_id
+        AND a.posteam = b.posteam
+)
+
+, join_target_share AS (
+    SELECT
+        a.*
+        , b.target_share
+        , b.reception_share
+        , b.total_team_targets
+        , b.total_team_receptions
+    FROM join_receiver_name a
+    JOIN target_share_percentage b
+        ON a.game_id = b.game_id
+        AND a.posteam = b.posteam
+        AND a.receiver_player_id = b.receiver_player_id
+)
+
 , final AS (
     SELECT *
-    FROM join_receiver_name
+    FROM join_target_share
 )
 
 SELECT *
