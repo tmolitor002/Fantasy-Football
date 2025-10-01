@@ -72,5 +72,25 @@ WITH receiving AS (
     FROM passing_rename
 )
 
+, final AS (
+    SELECT
+        -- Generate a stat id
+        {{ dbt_utils.generate_surrogate_key(['game_id', 'player_id', 'stat']) }} AS stat_id
+        , game_id
+        , player_id
+        , SPLIT_PART(stat, '_', 1) AS stat_category
+        , RIGHT(
+            stat
+            , LENGTH(
+                stat
+            ) - LENGTH(
+                SPLIT_PART(stat, '_', 1)
+            ) - 1
+        ) AS stat
+        , stat AS full_stat
+        , value
+    FROM union_all
+
+)
 SELECT *
-FROM union_all
+FROM final

@@ -1,0 +1,50 @@
+models:
+  - name: rep_dim_players
+    description: One record per player. Has descriptive information such as display name, current team, when they were drafted, and where they went to college. Includes both active and retired players.
+    columns:
+      - name: player_id
+        description: Primary key
+        tests:
+          - not_null
+          - unique
+      - name: headshot
+        description: A url to the current image of the player
+  - name: rep_fct_player_game_stats
+    description: A vertical table that has player game stats
+    columns:
+      - name: stat_id
+        description: Primary Key. MD5 Hash of game_id, player_id, and full_stat
+        tests:
+          - not_null
+          - unique
+      - name: game_id
+        description: Foreign Key. Identifies which game the stat applies to
+        tests:
+          - not_null
+      - name: player_id
+        description: Foreign Key. Identifies the player who achieved the stat
+        tests:
+          - not_null
+      - name: stat_category
+        description: Identifies what type of fantasy football stat the stat applies to
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - def_st # not yet added
+                - kicking # not yet added
+                - passing
+                - receiving
+                - rushing
+      - name: stat
+        description: Identifies the actual stat tied that the value measures
+        tests:
+          - not_null
+      - name: full_stat
+        description: The full stat - A combination of stat_category and stat
+        tests:
+          - not_null
+      - name: value
+        description: The value of the stat described.
+        tests:
+          - not_null
