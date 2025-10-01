@@ -37,7 +37,7 @@ models:
                 - receiving
                 - rushing
       - name: stat
-        description: Identifies the actual stat tied that the value measures
+        description: Identifies the actual stat tied to what the value measures
         tests:
           - not_null
       - name: full_stat
@@ -48,3 +48,41 @@ models:
         description: The value of the stat described.
         tests:
           - not_null
+  - name: rep_fct_fantasy_scoring
+    columns:
+      - name: league_id
+        description: Foreign Key. Identifys which league the scoring applies to
+        tests:
+          - not_null
+      - name: league
+        description: Name of the Fantasy Football league
+        tests:
+          - not_null
+      - name: stat_category
+        description: Identifies what type of fantasy football stat the stat applies to
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - def_st # not yet added
+                - kicking # not yet added
+                - passing
+                - receiving
+                - rushing
+      - name: stat
+        description: Identifies the actual stat tied to what the value measures
+        tests:
+          - not_null
+      - name: full_stat
+        description: The full stat - A combination of stat_category and stat
+        tests:
+          - not_null
+          - relationships:
+              to: ref('rep_fct_player_game_stats')
+              field: full_stat
+              config:
+                severity: warn
+      - name: value
+        description: The the points scored based on the value of the stat. Multiple by the value of the same stat in rep_fct_player_game_stats.
+        tests:
+          - not_null        

@@ -6,6 +6,7 @@ WITH scoring AS (
     SELECT
         {{ dbt_utils.star(from=ref('stg_league_scoring'), except=[            
             'passing_touchdown'
+            , 'passing_attempts'
             , 'passing_interception'
             , 'passing_total_pass_attempts'
             , 'passing_completion'
@@ -17,9 +18,11 @@ WITH scoring AS (
             , 'passing_40_yd_plus_touchdown'
             , 'passing_first_down'
             , 'receiving_touchdown'
+            , 'receiving_first_down'
             , 'receiving_reception'
             , 'receiving_yards_pp'
-            , 'receiving_40_yd_plus'
+            , 'receiving_40_yd_plus_reception'
+            , 'receiving_40_yd_plus_touchdown'
             , 'rushing_touchdown'
             , 'rushing_attempt'
             , 'rushing_yards_pp'
@@ -30,6 +33,7 @@ WITH scoring AS (
             , 'kick_punt_return_yards_pp'
             , 'two_point_conversion'
             , 'fumble'
+            , 'fumble_lost'
             , 'fg_made_0_19'
             , 'fg_made_20_29'
             , 'fg_made_30_39'
@@ -69,6 +73,7 @@ WITH scoring AS (
             , 'def_yards_allowed_500_plus'
             , 'def_three_and_out_forced'
             , 'def_extra_point_returned'
+            , 'offensive_fumble_return_td'
             ]) 
         }}
         -- Passing
@@ -93,7 +98,7 @@ WITH scoring AS (
         -- Need to calculate in int_game_consolidated_receiving
             -- , receiving_40_yd_plus_reception
             -- , receiving_40_yd_plus_touchdown
-            -- , receivintg_first_down
+            -- , receiving_first_down
         -- Rushing
         , rushing_touchdown         AS rushing_total_touchdowns
         , rushing_attempt           AS rushing_total_rush_attempts
@@ -103,6 +108,13 @@ WITH scoring AS (
             -- , rushing_40_yd_plus_rush
             -- , rushing_40_yd_plus_touchdown
             -- , rushing_first_down
+
+    FROM {{ ref('stg_league_scoring') }}
+)
+
+SELECT *
+FROM scoring
+
         /* Kicking/Defense
         , kick_punt_return_touchdown
         , kick_punt_return_yard
@@ -148,8 +160,3 @@ WITH scoring AS (
         , def_three_and_out_forced
         , def_extra_point_returned
         */
-    FROM {{ ref('stg_league_scoring') }}
-)
-
-SELECT *
-FROM scoring
