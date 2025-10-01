@@ -90,7 +90,7 @@ WITH receiving AS (
         , stat AS full_stat
         , value
     FROM union_all
-
+    WHERE value IS NOT NULL
 )
 SELECT *
 FROM final
