@@ -24,6 +24,7 @@ WITH passing AS (
         , SUM(pass_attempt)         AS total_pass_attempts
         , SUM(incomplete_pass)      AS total_incomplete_pass_attempts
         , SUM(complete_pass)        AS total_complete_pass_attempts
+        , SUM(interception)         AS total_interceptions
         , SUM(air_yards)            AS total_air_yards
         , SUM(yards_after_catch)    AS total_yards_after_catch
         , SUM(passing_yards)        AS total_passing_yards
@@ -40,6 +41,7 @@ WITH passing AS (
         , SUM(fumble)               AS total_fumbles
         , SUM(touchdown)            AS total_touchdowns
         , SUM(yards_gained)         AS total_yards_gained
+        , SUM(sack)                 AS total_sacks
         , AVG(down)                 AS avg_down
         , AVG(ydstogo)              AS avg_ydstogo
         , AVG(air_yards)            AS avg_air_yards
@@ -70,6 +72,7 @@ WITH passing AS (
         , COALESCE(a.total_pass_attempts, 0) AS total_pass_attempts
         , COALESCE(a.total_incomplete_pass_attempts, 0) AS total_incomplete_pass_attempts
         , COALESCE(a.total_complete_pass_attempts, 0) AS total_complete_pass_attempts
+        , COALESCE(a.total_interceptions, 0) AS total_interceptions
         , COALESCE(a.total_air_yards, 0) AS total_air_yards
         , COALESCE(a.total_yards_after_catch, 0) AS total_yards_after_catch
         , COALESCE(a.total_passing_yards, 0) AS total_passing_yards
@@ -86,6 +89,7 @@ WITH passing AS (
         , COALESCE(a.total_fumbles, 0) AS total_fumbles
         , COALESCE(a.total_touchdowns, 0) AS total_touchdowns
         , COALESCE(a.total_yards_gained, 0) AS total_yards_gained
+        , COALESCE(a.total_sacks, 0) AS total_sacks
         , COALESCE(a.avg_down, 0) AS avg_down
         , COALESCE(a.avg_ydstogo, 0) AS avg_ydstogo
         , COALESCE(a.avg_air_yards, 0) AS avg_air_yards
