@@ -1,0 +1,10 @@
+# Update the below parameters to access your Postgres SQL server and rename the file to config.yml
+
+default:
+  postgres:
+    driver: 'postgresql'
+    server: '<server_path>'
+    uid: '<user_name>'
+    pwd: '<password>'
+    port: 5432 # your port may differ
+    database: '<database name>'
