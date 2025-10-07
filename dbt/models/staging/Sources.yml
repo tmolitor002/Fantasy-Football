@@ -14,7 +14,7 @@
 # +-----------+---------------+-----------------------------------------------------------------------------------------------+
 # | 7/17/2025 | Tom Molitor   | Added sources for fantasy league information                                                  |
 # +-----------+---------------+-----------------------------------------------------------------------------------------------+
-# | 10/3/2025 | Tom Molitor   | Added R script to load entire pbp dataset to repo                                             |
+# | 10/7/2025 | Tom Molitor   | Added R script to load entire pbp dataset to repo                                             |
 # +-----------+---------------+-----------------------------------------------------------------------------------------------+
 #
 # TODO:
@@ -172,7 +172,7 @@ sources:
             period: day
 
       - name: play_by_play_full
-        description: One record per play
+        description: One record per play. Data begins with the 1999 NFL Season
         loaded_at_field: etl_loaded_at
         freshness:
           warn_after:
