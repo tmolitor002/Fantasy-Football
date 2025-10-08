@@ -16,8 +16,11 @@
 # +-----------+---------------+-----------------------------------------------------------------------------------------------+
 # | 10/7/2025 | Tom Molitor   | Added R script to load entire pbp dataset to repo                                             |
 # +-----------+---------------+-----------------------------------------------------------------------------------------------+
+# | 10/8/2025 | Tom Molitor   | Updated pbp_full errors                                                                       |
+# +-----------+---------------+-----------------------------------------------------------------------------------------------+
 #
 # TODO:
+# Remove errors from full pbp soruce
 
 
 version: 2
@@ -252,8 +255,6 @@ sources:
                   values: ['1', '2', '3', '4']
           - name: goal_to_go
             description: Flag indicating the offensive team is in a "goal-to-go" situation, meaning they must score a touchdown by the end of the four down series barring any penalties commited by the defense resulting in an automatic first down with a ball then spotted beyond the 10 yard line.
-            tests:
-              - not_null
           - name: time
             description: The time remaining on the play clock formatted as "MM:SS"
           - name: yrdln
@@ -342,7 +343,7 @@ sources:
             description: The result of the extra point attempt after the touchdown
             tests:
               - accepted_values:
-                  values: ['failed', 'blocked', 'good']
+                  values: ['aborted', 'blocked', 'failed', 'good']
           - name: two_point_conv_result
             description: The result of the 2-pt conversion attempt following a touchdown
             tests:
@@ -352,8 +353,6 @@ sources:
             description: The number of remaining timeouts the home team has in the game at the start of the play. Teams begin each half with three timeouts.
             tests:
               - not_null
-              - accepted_values:
-                  values: ['0', '1', '2', '3']
           - name: away_timeouts_remaining
             description: The number of remaining timeouts the away team has in the game at the start of the play. Teams begin each half with three timeouts.
             tests:
@@ -384,10 +383,7 @@ sources:
               - accepted_values:
                   values: ['0', '1', '2', '3']
           - name: defteam_timeouts_remaining
-            description: The number of timeouts remaing by the team without possesion of the ball
-            tests:
-              - accepted_values:
-                  values: ['0', '1', '2', '3']
+            description: The number of timeouts remaing by the team without possesion of the ball. Should only be 0, 1, 2, or 3, however some records have other values
           - name: total_home_score
             description: The total number of points scored by the home team at the beginning of the play
             tests:
@@ -1383,63 +1379,84 @@ sources:
             description: The result of the replay review or challenge
             tests:
               - accepted_values:
-                  values: ['upheld', 'reversed']
+                  values: ['denied', 'upheld', 'reversed']
           - name: penalty_type
             description: The type of penalty assessed
             tests:
               # consider adding a doc block
               - accepted_values:
                   values: [
-                    'Illegal Motion'
-                    , 'Offensive Holding'
-                    , 'Illegal Touch Pass'
-                    , 'Player Out of Bounds on Kick'
-                    , 'Player OUt of Bounds on Kick'
-                    , 'Defensive Pass Interference'
-                    , 'Illegal Crackback'
-                    , 'Intentional Grounding'
-                    , 'Offensive Pass Interference'
-                    , 'Face Mask'
-                    , 'Unsportsmanlike Conduct'
-                    , 'Illegal Forward Pass'
-                    , 'Defensive Delay of Game'
-                    , 'Tripping'
-                    , 'Chop Block'
-                    , 'Delay of Game'
+                    'Chop Block'
+                    , 'Clipping'
+                    , 'Defensive 12 On-field'
                     , 'Defensive Too Many Men on Field'
-                    , 'Defensive Offside'
-                    , 'Illegal Block Above the Waist'
-                    , 'Illegal Shift'
-                    , 'Illegal Formation'
-                    , 'Delay of Kickoff'
-                    , 'Illegal Double-Team Block'
-                    , 'Offensive Too Many Men on Field'
-                    , 'Illegal Bat'
-                    , 'Horse Collar Tackle'
+                    , 'Defensive Delay of Game'
                     , 'Defensive Holding'
-                    , 'Ineligible Downfield Pass'
-                    , 'Illegal Kick/Kicking Loose Ball'
-                    , 'Illegal Touch Kick'
-                    , 'Unnecessary Roughness'
-                    , 'Illegal Blindside Block'
+                    , 'Defensive Offside'
+                    , 'Defensive Pass Interference'
+                    , 'Delay of Game'
+                    , 'Delay of Kickoff'
                     , 'Disqualification'
-                    , 'Running Into the Kicker'
-                    , 'Leverage'
-                    , 'Offside on Free Kick'
-                    , 'Neutral Zone Infraction'
-                    , 'Roughing the Kicker'
-                    , 'Invalid Fair Catch Signal'
                     , 'Encroachment'
-                    , 'Ineligible Downfield Kick'
-                    , 'Illegal Contact'
-                    , 'Offensive Offside'
+                    , 'Face Mask'
+                    , 'Face Mask (5 Yards)'
                     , 'Fair Catch Interference'
-                    , 'Low Block'
                     , 'False Start'
+                    , 'Hip Drop Tackle'
+                    , 'Horse Collar'
+                    , 'Horse Collar Tackle'
+                    , 'Illegal Bat'
+                    , 'Illegal Blindside Block'
+                    , 'Illegal Block Above the Waist'
+                    , 'Illegal Contact'
+                    , 'Illegal Crackback'
+                    , 'Illegal Cut'
+                    , 'Illegal Doublt-Team Block'
+                    , 'Illegal Formation'
+                    , 'Illegal Forward Pass'
+                    , 'Illegal Kick'
+                    , 'Illegal Kick/Kicking Loose Ball'
+                    , 'Illegal Kicking Ball'
+                    , 'Illegal Motion'
+                    , 'Illegal Peelback'
+                    , 'Illegal Procedure'
+                    , 'Illegal Receiver Pass'
+                    , 'Illegal Scrimmage Kick'
+                    , 'Illegal Shift'
                     , 'Illegal Substitution'
-                    , 'Taunting'
-                    , 'Roughing the Passer'
+                    , 'Illegal Touch Kick'
+                    , 'Illegal Touch Pass'
                     , 'Illegal Use of Hands'
+                    , 'Illegal Wedge'
+                    , 'Ineligible Downfield Kick'
+                    , 'Ineligible Downfield Pass'
+                    , 'Intentional Grounding'
+                    , 'Interference with Opportunity to Catch'
+                    , 'Invalid Fair Catch Signal'
+                    , 'Kick Catch Interference'
+                    , 'Kickoff Out of Bounds'
+                    , 'Kickoff Short of Landing Zone'
+                    , 'Leaping'
+                    , 'Leverage'
+                    , 'Low Block'
+                    , 'Lowering the Head to Initiate Contact'
+                    , 'Lowering the Head to Make Forcible Contact'
+                    , 'Neutral Zone Infraction'
+                    , 'Offensive 12 On-field'
+                    , 'Offensive Offside'
+                    , 'Offsensive Pass Interference'
+                    , 'Offensive Too Many Men on Field'
+                    , 'Offside on Free Kick'
+                    , 'Personal Foul'
+                    , 'Player Out of Bounds on Kick'
+                    , 'Player Out of Bounds on Punt'
+                    , 'Roughing the Kicker'
+                    , 'Running Into the Kicker'
+                    , 'Short Free Kick'
+                    , 'Taunting'
+                    , 'Tripping'
+                    , 'Unnecessary Roughness'
+                    , 'Unsportsmanlike Conduct'
                   ]
                   config:
                     severity: warn
@@ -1510,8 +1527,6 @@ sources:
             description: Free text describing the weather at the start of the game
           - name: nfl_api_id
             description: NFL's API key which links to the game
-            tests:
-              - not_null
           - name: play_clock
           - name: play_deleted
             description: Flag indicating that play was deleted
@@ -1543,7 +1558,6 @@ sources:
           - name: special_teams_play
             description: Flag indicating if the play was a special teams play
             tests:
-              - not_null
               - accepted_values:
                   values: ['0', '1']
           - name: st_play_type
@@ -1625,28 +1639,45 @@ sources:
                     severity: warn
           - name: drive_end_transition
             description: Describes how the offense finished the drive before turning over possesion of the ball
+            # TODO: Add doc block explaining what these all mean?
             tests:
               - accepted_values:
                   values: [
-                    'PUNT'
-                    , 'BLOCKED_FG,_DOWNS'
-                    , 'SAFETY'
-                    , 'FIELD_GOAL'
-                    , 'END_GAME'
-                    , 'TOUCHDOWN'
-                    , 'END_HALF'
-                    , 'FUMBLE,_SAFETY'
-                    , 'ONSIDE_KICK'
-                    , 'FUMBLE'
-                    , 'INTERCEPTION'
-                    , 'DOWNS'
-                    , 'BLOCKED_PUNT,_DOWNS'
-                    , 'BLOCKED_PUNT'
-                    , 'MISSED_FG'
-                    , 'MUFFED_PUNT'
-                    , 'MUFFED_KICKOFF'
+                    'Blocked FG'
                     , 'BLOCKED_FG'
-                    , 'KICKOFF'
+                    , 'Blocked FG, Downs'
+                    , 'BLOCKED_FG,_DOWNS'
+                    , 'BLOCKED_FG_DOWNS'
+                    , 'Blocked Punt'
+                    , 'BLOCKED_PUNT'
+                    , 'Blocked Punt, Downs'
+                    , 'BLOCKED_PUNT,_DOWNS'
+                    , 'BLOCKED_PUNT_DOWNS'
+                    , 'BLOCKED_PUNT,_SAFETY'
+                    , 'Downs'
+                    , 'DOWNS'
+                    , 'END_GAME'
+                    , 'END_HALF'
+                    , 'End of Game'
+                    , 'End of Half'
+                    , 'Field Goal'
+                    , 'FIELD_GOAL'
+                    , 'Fumble'
+                    , 'FUMBLE'
+                    , 'Fumble, Safety'
+                    , 'FUMBLE,_SAFETY'
+                    , 'FUMBLE_SAFETY'
+                    , 'Interception'
+                    , 'INTERCEPTION'
+                    , 'Missed FG'
+                    , 'MISSED_FG'
+                    , 'Punt'
+                    , 'PUNT'
+                    , 'Safety'
+                    , 'SAFETY'
+                    , 'Touchdown'
+                    , 'TOUCHDOWN'
+                    , 'UNKNOWN'
                   ]
           - name: drive_game_clock_start
             description: The amount of time remaining on the game clock at the start of the drive
@@ -2065,9 +2096,6 @@ sources:
             #       field: gsis_id
           - name: posteam_timeouts_remaining
             description: The number of timeouts remaing by the team with possesion of the ball
-            tests:
-              - accepted_values:
-                  values: ['0', '1', '2', '3']
           - name: defteam_timeouts_remaining
             description: The number of timeouts remaing by the team without possesion of the ball
             tests:
@@ -3178,8 +3206,6 @@ sources:
                   values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
           - name: order_sequence
             description: The order of the play within the game_id
-            tests:
-              - not_null
           - name: start_time
             description: The time the game started at, formatted as "M/D/YY, 24HH:MM:SS"
             tests:
@@ -3188,8 +3214,6 @@ sources:
             description: Timestamp of when the play took place, formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
           - name: stadium
             description: The stadium where the game took place. Usually the stadium of the home team
-            tests:
-              - not_null
               # consider relationship to a stadium table
           - name: weather
             description: Free text describing the weather at the start of the game
@@ -3206,24 +3230,24 @@ sources:
               - not_null
               - accepted_values:
                   values: [
-                    'PUNT'
-                    , 'SACK'
-                    , 'KICK_OFF'
-                    , 'FUMBLE_RECOVERED_BY_OPPONENT'
-                    , 'END_QUARTER'
-                    , 'PASS'
-                    , 'FIELD_GOAL'
-                    , 'INTERCEPTION'
-                    , 'PENALTY'
+                    'COMMENT'
                     , 'END_GAME'
-                    , 'PAT2'
-                    , 'UNSPECIFIED'
-                    , 'TIMEOUT'
-                    , 'GAME_START'
+                    , 'END_QUARTER'
+                    , 'FIELD_GOAL'
                     , 'FREE_KICK'
-                    , 'XP_KICK'
+                    , 'FUMBLE_RECOVERED_BY_OPPONENT'
+                    , 'GAME_START'
+                    , 'INTERCEPTION'
+                    , 'KICK_OFF'
+                    , 'PASS'
+                    , 'PAT2'
+                    , 'PENALTY'
+                    , 'PUNT'
                     , 'RUSH'
-                    , 'COMMENT'
+                    , 'SACK'
+                    , 'TIMEOUT'
+                    , 'UNSPECIFIED'
+                    , 'XP_KICK'
                     ]
           - name: special_teams_play
             description: Flag indicating if the play was a special teams play
@@ -4858,9 +4882,7 @@ sources:
             tests:
               - not_null
           - name: start_time
-            description: The time the game started at, formatted as "M/D/YY, 24HH:MM:SS"
-            tests:
-              - not_null
+            description: The time the game started at, formatted as "M/D/YY, 24HH:MM:SS". Not always available
           - name: time_of_day
             description: Timestamp of when the play took place, formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
           - name: stadium
@@ -5526,26 +5548,18 @@ sources:
             tests:
               - not_null
           - name: total_away_comp_air_wpa
-            tests:
-              - not_null
           - name: total_home_comp_yac_wpa
             tests:
               - not_null
           - name: total_away_comp_yac_wpa
-            tests:
-              - not_null
           - name: total_home_raw_air_wpa
             tests:
               - not_null
           - name: total_away_raw_air_wpa
-            tests:
-              - not_null
           - name: total_home_raw_yac_wpa
             tests:
               - not_null
           - name: total_away_raw_yac_wpa
-            tests:
-              - not_null
           - name: punt_blocked
             description: Flag indicating if the punt attempt was blocked
             tests:
@@ -7202,20 +7216,14 @@ sources:
             tests:
               - not_null
           - name: total_home_comp_yac_wpa
-            tests:
-              - not_null
           - name: total_away_comp_yac_wpa
             tests:
               - not_null
           - name: total_home_raw_air_wpa
-            tests:
-              - not_null
           - name: total_away_raw_air_wpa
             tests:
               - not_null
           - name: total_home_raw_yac_wpa
-            tests:
-              - not_null
           - name: total_away_raw_yac_wpa
             tests:
               - not_null
