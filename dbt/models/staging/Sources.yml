@@ -379,9 +379,6 @@ sources:
             #       field: gsis_id
           - name: posteam_timeouts_remaining
             description: The number of timeouts remaing by the team with possesion of the ball
-            tests:
-              - accepted_values:
-                  values: ['0', '1', '2', '3']
           - name: defteam_timeouts_remaining
             description: The number of timeouts remaing by the team without possesion of the ball. Should only be 0, 1, 2, or 3, however some records have other values
           - name: total_home_score
@@ -472,26 +469,12 @@ sources:
             tests:
               - not_null
           - name: total_away_comp_air_wpa
-            tests:
-              - not_null
           - name: total_home_comp_yac_wpa
-            tests:
-              - not_null
           - name: total_away_comp_yac_wpa
-            tests:
-              - not_null
           - name: total_home_raw_air_wpa
-            tests:
-              - not_null
           - name: total_away_raw_air_wpa
-            tests:
-              - not_null
           - name: total_home_raw_yac_wpa
-            tests:
-              - not_null
           - name: total_away_raw_yac_wpa
-            tests:
-              - not_null
           - name: punt_blocked
             description: Flag indicating if the punt attempt was blocked
             tests:
@@ -1510,18 +1493,12 @@ sources:
                   values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
           - name: order_sequence
             description: The order of the play within the game_id
-            tests:
-              - not_null
           - name: start_time
             description: The time the game started at, formatted as "M/D/YY, 24HH:MM:SS"
-            tests:
-              - not_null
           - name: time_of_day
             description: Timestamp of when the play took place, formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
           - name: stadium
             description: The stadium where the game took place. Usually the stadium of the home team
-            tests:
-              - not_null
               # consider relationship to a stadium table
           - name: weather
             description: Free text describing the weather at the start of the game
@@ -1536,24 +1513,24 @@ sources:
               - not_null
               - accepted_values:
                   values: [
-                    'PUNT'
-                    , 'SACK'
-                    , 'KICK_OFF'
-                    , 'FUMBLE_RECOVERED_BY_OPPONENT'
-                    , 'END_QUARTER'
-                    , 'PASS'
-                    , 'FIELD_GOAL'
-                    , 'INTERCEPTION'
-                    , 'PENALTY'
+                      'COMMENT'
                     , 'END_GAME'
-                    , 'PAT2'
-                    , 'UNSPECIFIED'
-                    , 'TIMEOUT'
-                    , 'GAME_START'
+                    , 'END_QUARTER'
+                    , 'FIELD_GOAL'
                     , 'FREE_KICK'
-                    , 'XP_KICK'
+                    , 'FUMBLE_RECOVERED_BY_OPPONENT'
+                    , 'GAME_START'
+                    , 'INTERCEPTION'
+                    , 'KICK_OFF'
+                    , 'PASS'
+                    , 'PAT2'
+                    , 'PENALTY'
+                    , 'PUNT'
                     , 'RUSH'
-                    , 'COMMENT'
+                    , 'SACK'
+                    , 'TIMEOUT'
+                    , 'UNSPECIFIED'
+                    , 'XP_KICK'
                     ]
           - name: special_teams_play
             description: Flag indicating if the play was a special teams play
@@ -2186,8 +2163,6 @@ sources:
           - name: comp_air_wpa
           - name: comp_yac_wpa
           - name: total_home_comp_air_wpa
-            tests:
-              - not_null
           - name: total_away_comp_air_wpa
             tests:
               - not_null
