@@ -30,12 +30,13 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values:
-                - def_st # not yet added
-                - kicking # not yet added
-                - passing
-                - receiving
-                - rushing
+              arguments:
+                values:
+                  - def_st # not yet added
+                  - kicking # not yet added
+                  - passing
+                  - receiving
+                  - rushing
       - name: stat
         description: Identifies the actual stat tied to what the value measures
         tests:
@@ -63,12 +64,13 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values:
-                - def_st # not yet added
-                - kicking # not yet added
-                - passing
-                - receiving
-                - rushing
+              arguments:
+                values:
+                  - def_st # not yet added
+                  - kicking # not yet added
+                  - passing
+                  - receiving
+                  - rushing
       - name: stat
         description: Identifies the actual stat tied to what the value measures
         tests:
@@ -78,11 +80,12 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('rep_fct_player_game_stats')
-              field: full_stat
               config:
                 severity: warn
+              arguments:
+                to: ref('rep_fct_player_game_stats')
+                field: full_stat
       - name: value
         description: The the points scored based on the value of the stat. Multiple by the value of the same stat in rep_fct_player_game_stats.
         tests:
-          - not_null        
+          - not_null
