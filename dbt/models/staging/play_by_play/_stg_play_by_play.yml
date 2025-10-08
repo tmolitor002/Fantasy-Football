@@ -1,4 +1,6 @@
 models:
+  - name: stg_play_by_play_full
+    description: Once record per play. Starts with the 1999 NFL season
   - name: stg_play_by_play_2020
     description: One record per play for the 2020 season
     tests:

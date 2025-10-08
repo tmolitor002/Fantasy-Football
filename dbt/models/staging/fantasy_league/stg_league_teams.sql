@@ -1,14 +1,14 @@
 WITH teams AS (
     SELECT
-        team                AS team_name
-        , manager           AS manager_name
-        , league_id::INT    AS league_id_int
+        team           AS team_name
+        , manager      AS manager_name
+        , league_id    AS league_id
     FROM {{ source('football', 'ff_league_teams') }}
 )
 
 , leagues AS (
     SELECT
-        league_id::INT   AS league_id_int
+        league_id
         , platform
         , league AS league_name
     FROM {{ ref('seed_league_scoring') }}
@@ -25,7 +25,7 @@ WITH teams AS (
         , a.manager_name
     FROM teams a
     JOIN leagues b
-        ON a.league_id_int = b.league_id_int
+        ON a.league_id = b.league_id
 )
 
 SELECT *
