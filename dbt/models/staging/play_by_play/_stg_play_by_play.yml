@@ -5,16 +5,18 @@ models:
     description: One record per play for the 2020 season
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - game_id
-            - play_id
+          arguments:
+            combination_of_columns:
+              - game_id
+              - play_id
     columns:
       - name: season
         description: The NFL season in which the game was played
         tests:
           - not_null
           - accepted_values:
-              values: ['2020']
+              arguments:
+                values: ['2020']
       - name: week
         description: The game week in which the game was played. A new game week typically begins with Thursday Night Football and ends with Monday Night Football. Closely related are season weeks, which typically begin on Tuesdays
         tests:
@@ -45,14 +47,16 @@ models:
         description: The type of game being played. "REG" indicates a regular season game while "POST" indicates a post-season playoff game
         tests:
           - accepted_values:
-              values: ['REG','POST']
+              arguments:
+                values: ['REG', 'POST']
       - name: posteam
         description: The team that began the play with possesion of the ball using the three letter team abbreviation
       - name: posteam_type
         description: Indicates if the home team or away team has possesion of the football at the beginning of the play
         tests:
           - accepted_values:
-              values: ['away', 'home']
+              arguments:
+                values: ['away', 'home']
       - name: defteam
         description: The team that began the play without possesion of the ball, indicated by the three letter team abbreviation
     # missing defteam type? or implied as opposite of posteam_type?
@@ -70,12 +74,14 @@ models:
         description: The half of the game. Typically games have a 1st and 2nd half, but may go to overtime if the score is tied after two halves
         tests:
           - accepted_values:
-              values: ['Half1', 'Half2', 'Overtime']
+              arguments:
+                values: ['Half1', 'Half2', 'Overtime']
       - name: quarter_end
         description: Indicates the quarter ended
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive
         description: The nth time the team has possesed the ball
       - name: sp
@@ -87,13 +93,15 @@ models:
         description: The down for which the play started. The offense has four downs to gain 10 yards and reset back to first down and 10/goal to go.
         tests:
           - accepted_values:
-              values: ['1', '2', '3', '4']
+              arguments:
+                values: ['1', '2', '3', '4']
       - name: goal_to_go
         description: Flag indicating the offensive team is in a "goal-to-go" situation, meaning they must score a touchdown by the end of the four down series barring any penalties commited by the defense resulting in an automatic first down with a ball then spotted beyond the 10 yard line.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: time
         description: The time remaining on the play clock formatted as "MM:SS"
       - name: yrdln
@@ -111,7 +119,8 @@ models:
         # consider adding a doc to describe play types
         tests:
           - accepted_values:
-              values: ['run', 'no_play', 'qb_kneel', 'kickoff', 'pass', 'punt', 'field_goal', 'qb_spike', 'extra_point']
+              arguments:
+                values: ['run', 'no_play', 'qb_kneel', 'kickoff', 'pass', 'punt', 'field_goal', 'qb_spike', 'extra_point']
       - name: yards_gained
         description: The amount of yards gained (or lossed if negative) by the offense as a result of the play
       - name: shotgun
@@ -119,46 +128,54 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: no_huddle
         description: Flag indicating if the offense began the play without taking a moment to huddle
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_dropback
         description: Flag indicating if the Quarterback dropped back after taking the snap
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_kneel
         description: Flag indicating if the Quarterback kneeled after taking the snap. Typically done towards the end of a half or when the offense is wants to drain the play clock.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_spike
         description: Flag indicating that the Quarterback immediately threw the ball into the ground after taking the snap. Typically done when the offense is attempting to stop the play clock from draining towards the end of a half.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_scramble
         description: Flag indicating if the Quarterback scrambled out of the pocket during the play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_length
         description: Indicates if the Quarterback attempted a short or deep pass
         tests:
           - accepted_values:
-              values: ['deep', 'short']
+              arguments:
+                values: ['deep', 'short']
       - name: pass_location
         description: Indicates where on the field the Quarterback attempted to pass relative to the direction the offense is facing
         tests:
           - accepted_values:
-              values: ['left', 'right', 'middle']
+              arguments:
+                values: ['left', 'right', 'middle']
       - name: air_yards
         description: How far the football was thrown past the line of scrimage
       - name: yards_after_catch
@@ -167,46 +184,54 @@ models:
         description: Where the rushing attempt was directed, relative to the direction the offense is facing
         tests:
           - accepted_values:
-              values: ['left', 'right', 'middle']
+              arguments:
+                values: ['left', 'right', 'middle']
       - name: run_gap
         description: Where the rushing attempt was directed relative to the Center
         tests:
           - accepted_values:
-              values: ['guard', 'end', 'tackle']
+              arguments:
+                values: ['guard', 'end', 'tackle']
       - name: field_goal_result
         description: The result of a field goal attempted by the offense
         tests:
           - accepted_values:
-              values: ['made', 'missed', 'blocked']
+              arguments:
+                values: ['made', 'missed', 'blocked']
       - name: kick_distance
         description: The distance the ball travelled from the line of scrimmage during a kicking play. If a field goal attempt (`field_goal_result` is not null), this is the distance of the field goal. If a Punt or Kickoff, this is the distance the ball traveled from the line of scrimage, however it does not account for the distance "returned" by the returning team.
       - name: extra_point_result
         description: The result of the extra point attempt after the touchdown
         tests:
           - accepted_values:
-              values: ['failed', 'blocked', 'good']
+              arguments:
+                values: ['failed', 'blocked', 'good']
       - name: two_point_conv_result
         description: The result of the 2-pt conversion attempt following a touchdown
         tests:
           - accepted_values:
-              values: ['failure', 'success']
+              arguments:
+                values: ['failure', 'success']
       - name: home_timeouts_remaining
         description: The number of remaining timeouts the home team has in the game at the start of the play. Teams begin each half with three timeouts.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: away_timeouts_remaining
         description: The number of remaining timeouts the away team has in the game at the start of the play. Teams begin each half with three timeouts.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: timeout
         description: Flag indicating if a timeout was taken by one of the teams
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: timeout_team
         description: The team which took the timeout indicated by the field `timeout`
       - name: td_team
@@ -217,18 +242,21 @@ models:
         description: The gsis_player_id of the player who scored the touchdown
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: posteam_timeouts_remaining
         description: The number of timeouts remaing by the team with possesion of the ball
         tests:
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: defteam_timeouts_remaining
         description: The number of timeouts remaing by the team without possesion of the ball
         tests:
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: total_home_score
         description: The total number of points scored by the home team at the beginning of the play
         tests:
@@ -387,266 +415,318 @@ models:
         description: Flag indicating if the punt attempt was blocked
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_rush
         description: Flag indicating if the play was a first down rush attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_pass
         description: Flag indicating if the play was a first down pass attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_penalty
         description: Flag indicating if there was a penalty on first down (by either team??)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: third_down_converted
         description: Flag indicating if the play was a third down that was converted and results in a new set of downs or was a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: third_down_failed
         description: Flag indicating if the play was a third down that was not converted and results in fourth down (or change of possesion due to a fumble or interception)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fourth_down_converted
         description: Flag indicating if the play was a fourth down that was converted and results in a new set of downs or was a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fourth_down_failed
         description: Flag indicating if the play was a fourth down that was not converted and results in a turnover on downs
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: incomplete_pass
         description: Flag indicating if the play resulted in an incomplete pass
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: touchback
         description: Flag indicating if the play ended with kick returner kneeling for a touchback instead of attempting to return the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: interception
         description: Flag indicating if the result of the pass play was an interception by the defense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_inside_twenty
         description: Flag indicating if the result of the punting play (?? landed/finished) inside the returning teams 20 yard line
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_in_endzone
         description: Flag indicating if the result of the punting play (?? landed/finished) inside the returning teams end zone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_out_of_bounds
         description: Flag indicating if the punted ball went out of bounds before the returning team was able to field the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_downed
         description: ??? Flag indicating that the punting team covered the punt and downed the ball without a return attempt or contact made by the returning team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_fair_catch
         description: Flag indicating that the returning team signaled for (?? and did not fumble) a fair catch
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_inside_twenty
         description: Flag indicating that the kickoff landed within the receiving teams 20 yardline
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_in_endzone
         description: Flag indicating that the kickoff landed within (or beyond) the reciving teams endzone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_out_of_bounds
         description: Flag indicating that the kickoff travelled out of bounds before the receiving team made an attempt to return the ball and before the ball crossed the goal line of the receiving team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_downed
         description: ?? Flag indicating that the kickoff team downed the ball before the returning team made an attempt to return the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_fair_catch
         description: Flag indicating that the returning team called for (?? and succesfully completed) a fair catch
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_forced
         description: Flag indicating that a fumble was forced by a member of the opposing team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_not_forced
         description: Flag indicating that the player who fumbled the ball did so all on their own. I totally would have held on to that, and probably would have taken it to the house
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_out_of_bounds
         description: Flag indicating that the fumbled ball travelled out of bounds before recovered by either team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: solo_tackle
         description: Flag indicating that the tackle made by the defense was made by one player
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: safety
         description: Flag indicating that the defense tackled/sacked the offense within the offenses own endzone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: penalty
         description: Flag indicating a penalty occured on the play
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: tackled_for_loss
         description: Flag indicating a tackle for loss by the defense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_lost
         description: Flag indicating the team which fumbled the ball were unable to recover it
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: own_kickoff_recovery
         description: Flag indicating the kicking team recovered their own kickoff, typically on an onsides kick
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: own_kickoff_recovery_td
         description: Flag indicating that the kicking team not only recovered their own kickoff, but then also scored a touchdown, likely because the returner muffed that easy catch, that I would have caught, and taken to the house
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_hit
         description: Flag indicating that the Quarterback was hit, although not necessarily sacked
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush_attempt
         description: Flag indicating that the play was a rushing attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_attempt
         description: Flag indicating that the play was a passing attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: sack
         description: Flag indicating that the Quarterback was sacked in the backfield. Likely it was a Chicago Bear before being traded out of town so the team could ruin another prospect. Sorry Mitch, Justin, and probably Caleb.
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: touchdown
         description: Flag indicating the play resulted in a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_touchdown
         description: Flag indicating the play was a passing touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush_touchdown
         description: Flag indicating the play was rushing touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: return_touchdown
         description: Flag indicating the play was touchdown scored on a kick or punt return
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: extra_point_attempt
         description: Flag indicating the play was an extra point attempt after scoring a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: two_point_attempt
         description: Flag indicating the play was a 2-pt conversion attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: field_goal_attempt
         description: Flag indicating the play was a 3-pt field goal attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_attempt
         description: Flag indicating the play was a kickoff
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_attempt
         description: Flag indicating that the play was a punt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble
         description: Flag indicating that the offense (or returning team) fumbled the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: complete_pass
         description: Flag indicating that the offense completed a pass attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: assist_tackle
         description: Flag indicating an assist in the tackle bringing down the offensive player. Good team work
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_reception
         description: Flag indicating a lateral was successfully caught by a member of the offense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_rush
         description: Flag indicating a lateral rushing attempt play. Not sure what that means
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_recovery
         description: Presumably the defense recovered/intercepted a lateral
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: passer_player_id
         description: The gsis_id of the player who passed the ball. Typically (but not always) a Quarterback
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: passer_player_name
         description: The display name of the player who passed the ball. Typically (but not always) a Quarterback
       - name: receiver_player_id
         description: The gsis_id of the player who received or was targeted by the pass attempt
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: receiver_player_name
         description: The display name of the player who received or was targeted by the pass attempt
       - name: receiving_yards
@@ -873,76 +953,31 @@ models:
         tests:
           # consider adding a doc block
           - accepted_values:
-              values: [
-                'Illegal Motion'
-                , 'Offensive Holding'
-                , 'Illegal Touch Pass'
-                , 'Player Out of Bounds on Kick'
-                , 'Defensive Pass Interference'
-                , 'Illegal Crackback'
-                , 'Intentional Grounding'
-                , 'Offensive Pass Interference'
-                , 'Face Mask'
-                , 'Unsportsmanlike Conduct'
-                , 'Illegal Forward Pass'
-                , 'Defensive Delay of Game'
-                , 'Tripping'
-                , 'Chop Block'
-                , 'Delay of Game'
-                , 'Defensive Too Many Men on Field'
-                , 'Defensive Offside'
-                , 'Illegal Block Above the Waist'
-                , 'Illegal Shift'
-                , 'Illegal Formation'
-                , 'Delay of Kickoff'
-                , 'Illegal Double-Team Block'
-                , 'Offensive Too Many Men on Field'
-                , 'Illegal Bat'
-                , 'Horse Collar Tackle'
-                , 'Defensive Holding'
-                , 'Ineligible Downfield Pass'
-                , 'Illegal Kick/Kicking Loose Ball'
-                , 'Illegal Touch Kick'
-                , 'Unnecessary Roughness'
-                , 'Illegal Blindside Block'
-                , 'Disqualification'
-                , 'Running Into the Kicker'
-                , 'Leverage'
-                , 'Offside on Free Kick'
-                , 'Neutral Zone Infraction'
-                , 'Roughing the Kicker'
-                , 'Invalid Fair Catch Signal'
-                , 'Encroachment'
-                , 'Ineligible Downfield Kick'
-                , 'Illegal Contact'
-                , 'Offensive Offside'
-                , 'Fair Catch Interference'
-                , 'Low Block'
-                , 'False Start'
-                , 'Illegal Substitution'
-                , 'Taunting'
-                , 'Roughing the Passer'
-                , 'Illegal Use of Hands'
-              ]
               config:
                 severity: warn
+              arguments:
+                values: ['Illegal Motion', 'Offensive Holding', 'Illegal Touch Pass', 'Player Out of Bounds on Kick', 'Defensive Pass Interference', 'Illegal Crackback', 'Intentional Grounding', 'Offensive Pass Interference', 'Face Mask', 'Unsportsmanlike Conduct', 'Illegal Forward Pass', 'Defensive Delay of Game', 'Tripping', 'Chop Block', 'Delay of Game', 'Defensive Too Many Men on Field', 'Defensive Offside', 'Illegal Block Above the Waist', 'Illegal Shift', 'Illegal Formation', 'Delay of Kickoff', 'Illegal Double-Team Block', 'Offensive Too Many Men on Field', 'Illegal Bat', 'Horse Collar Tackle', 'Defensive Holding', 'Ineligible Downfield Pass', 'Illegal Kick/Kicking Loose Ball', 'Illegal Touch Kick', 'Unnecessary Roughness', 'Illegal Blindside Block', 'Disqualification', 'Running Into the Kicker', 'Leverage', 'Offside on Free Kick', 'Neutral Zone Infraction', 'Roughing the Kicker', 'Invalid Fair Catch Signal', 'Encroachment', 'Ineligible Downfield Kick', 'Illegal Contact', 'Offensive Offside', 'Fair Catch Interference', 'Low Block', 'False Start', 'Illegal Substitution', 'Taunting', 'Roughing the Passer', 'Illegal Use of Hands']
       - name: defensive_two_point_attempt
         description: Flag indicating the defense attempted a two point conversion. Not sure how this is possible
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_two_point_conv
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_extra_point_attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_extra_point_conv
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: safety_player_name
         description: display name
       - name: safety_player_id
@@ -958,12 +993,14 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: series_result
         description: The end result of the series
         tests:
           - accepted_values:
-              values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
+              arguments:
+                values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
       - name: order_sequence
         description: The order of the play within the game_id
         tests:
@@ -993,33 +1030,17 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'SACK'
-                , 'KICK_OFF'
-                , 'FUMBLE_RECOVERED_BY_OPPONENT'
-                , 'END_QUARTER'
-                , 'PASS'
-                , 'FIELD_GOAL'
-                , 'INTERCEPTION'
-                , 'PENALTY'
-                , 'END_GAME'
-                , 'PAT2'
-                , 'UNSPECIFIED'
-                , 'TIMEOUT'
-                , 'GAME_START'
-                , 'FREE_KICK'
-                , 'XP_KICK'
-                , 'RUSH'
-                ]
               config:
                 severity: warn
+              arguments:
+                values: ['PUNT', 'SACK', 'KICK_OFF', 'FUMBLE_RECOVERED_BY_OPPONENT', 'END_QUARTER', 'PASS', 'FIELD_GOAL', 'INTERCEPTION', 'PENALTY', 'END_GAME', 'PAT2', 'UNSPECIFIED', 'TIMEOUT', 'GAME_START', 'FREE_KICK', 'XP_KICK', 'RUSH']
       - name: special_teams_play
         description: Flag indicating if the play was a special teams play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: st_play_type
         description: Apparently always null
       - name: end_clock_time
@@ -1035,17 +1056,8 @@ models:
         # docblock explaining values
         tests:
           - accepted_values:
-              values: [
-                'End of half'
-                , 'Field goal'
-                , 'Safety'
-                , 'Missed field goal'
-                , 'Turnover'
-                , 'Turnover on downs'
-                , 'Touchdown'
-                , 'Opp touchdown'
-                , 'Punt'
-              ]
+              arguments:
+                values: ['End of half', 'Field goal', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'Opp touchdown', 'Punt']
       - name: drive_real_start_time
         description: The actual time the drive started. Formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
       - name: drive_play_count
@@ -1058,12 +1070,14 @@ models:
         description: Flag indicating the drive reached the "RedZone" (within the opponents 20 yard line)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive_ended_with_score
         description: Flag indicating the drive resulted in a score by the offense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive_quarter_start
         description: The quarter in which the drive began. Drives starting in the first or third quarter can extend into the second or fourth quarter respectively, but not across halfs
       - name: drive_quarter_end
@@ -1074,54 +1088,16 @@ models:
         description: Describes how the offense previously came into possession of the ball to begin the drive
         tests:
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'BLOCKED_FG,_DOWNS'
-                , 'SAFETY'
-                , 'FIELD_GOAL'
-                , 'END_GAME'
-                , 'TOUCHDOWN'
-                , 'END_HALF'
-                , 'FUMBLE,_SAFETY'
-                , 'ONSIDE_KICK'
-                , 'FUMBLE'
-                , 'INTERCEPTION'
-                , 'DOWNS'
-                , 'BLOCKED_PUNT,_DOWNS'
-                , 'BLOCKED_PUNT'
-                , 'MISSED_FG'
-                , 'MUFFED_PUNT'
-                , 'MUFFED_KICKOFF'
-                , 'BLOCKED_FG'
-                , 'KICKOFF'
-              ]
               config:
                 severity: warn
+              arguments:
+                values: ['PUNT', 'BLOCKED_FG,_DOWNS', 'SAFETY', 'FIELD_GOAL', 'END_GAME', 'TOUCHDOWN', 'END_HALF', 'FUMBLE,_SAFETY', 'ONSIDE_KICK', 'FUMBLE', 'INTERCEPTION', 'DOWNS', 'BLOCKED_PUNT,_DOWNS', 'BLOCKED_PUNT', 'MISSED_FG', 'MUFFED_PUNT', 'MUFFED_KICKOFF', 'BLOCKED_FG', 'KICKOFF']
       - name: drive_end_transition
         description: Describes how the offense finished the drive before turning over possesion of the ball
         tests:
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'BLOCKED_FG,_DOWNS'
-                , 'SAFETY'
-                , 'FIELD_GOAL'
-                , 'END_GAME'
-                , 'TOUCHDOWN'
-                , 'END_HALF'
-                , 'FUMBLE,_SAFETY'
-                , 'ONSIDE_KICK'
-                , 'FUMBLE'
-                , 'INTERCEPTION'
-                , 'DOWNS'
-                , 'BLOCKED_PUNT,_DOWNS'
-                , 'BLOCKED_PUNT'
-                , 'MISSED_FG'
-                , 'MUFFED_PUNT'
-                , 'MUFFED_KICKOFF'
-                , 'BLOCKED_FG'
-                , 'KICKOFF'
-              ]
+              arguments:
+                values: ['PUNT', 'BLOCKED_FG,_DOWNS', 'SAFETY', 'FIELD_GOAL', 'END_GAME', 'TOUCHDOWN', 'END_HALF', 'FUMBLE,_SAFETY', 'ONSIDE_KICK', 'FUMBLE', 'INTERCEPTION', 'DOWNS', 'BLOCKED_PUNT,_DOWNS', 'BLOCKED_PUNT', 'MISSED_FG', 'MUFFED_PUNT', 'MUFFED_KICKOFF', 'BLOCKED_FG', 'KICKOFF']
       - name: drive_game_clock_start
         description: The amount of time remaining on the game clock at the start of the drive
       - name: drive_game_clock_end
@@ -1165,7 +1141,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: roof
         description: Description of the venue type
       - name: surface
@@ -1195,7 +1172,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: success
         description: Flag indicating the play was successful for the offense
       - name: passer
@@ -1215,24 +1193,28 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush
         description: Flag indicating if the play was a rushing play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down
         description: Flag indicating if the play resulted in the offense passing the line of gain resulting in a new set of downs, or a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: special
         description: Flag indicating the play was a special teams play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: passer_id
         description: The gsis_id of the passing player
       - name: rusher_id
@@ -1258,7 +1240,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: home_opening_kickoff
         description: Flag indicating the home team opened with a kickoff on the play?
       - name: qb_epa
@@ -1274,16 +1257,18 @@ models:
     description: One record per play for the 2021 season
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - game_id
-            - play_id
+          arguments:
+            combination_of_columns:
+              - game_id
+              - play_id
     columns:
       - name: season
         description: The NFL season in which the game was played
         tests:
           - not_null
           - accepted_values:
-              values: ['2021']
+              arguments:
+                values: ['2021']
       - name: week
         description: The game week in which the game was played. A new game week typically begins with Thursday Night Football and ends with Monday Night Football. Closely related are season weeks, which typically begin on Tuesdays
         tests:
@@ -1314,14 +1299,16 @@ models:
         description: The type of game being played. "REG" indicates a regular season game while "POST" indicates a post-season playoff game
         tests:
           - accepted_values:
-              values: ['REG','POST']
+              arguments:
+                values: ['REG', 'POST']
       - name: posteam
         description: The team that began the play with possesion of the ball using the three letter team abbreviation
       - name: posteam_type
         description: Indicates if the home team or away team has possesion of the football at the beginning of the play
         tests:
           - accepted_values:
-              values: ['away', 'home']
+              arguments:
+                values: ['away', 'home']
       - name: defteam
         description: The team that began the play without possesion of the ball, indicated by the three letter team abbreviation
     # missing defteam type? or implied as opposite of posteam_type?
@@ -1339,12 +1326,14 @@ models:
         description: The half of the game. Typically games have a 1st and 2nd half, but may go to overtime if the score is tied after two halves
         tests:
           - accepted_values:
-              values: ['Half1', 'Half2', 'Overtime']
+              arguments:
+                values: ['Half1', 'Half2', 'Overtime']
       - name: quarter_end
         description: Indicates the quarter ended
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive
         description: The nth time the team has possesed the ball
       - name: sp
@@ -1356,13 +1345,15 @@ models:
         description: The down for which the play started. The offense has four downs to gain 10 yards and reset back to first down and 10/goal to go.
         tests:
           - accepted_values:
-              values: ['1', '2', '3', '4']
+              arguments:
+                values: ['1', '2', '3', '4']
       - name: goal_to_go
         description: Flag indicating the offensive team is in a "goal-to-go" situation, meaning they must score a touchdown by the end of the four down series barring any penalties commited by the defense resulting in an automatic first down with a ball then spotted beyond the 10 yard line.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: time
         description: The time remaining on the play clock formatted as "MM:SS"
       - name: yrdln
@@ -1380,7 +1371,8 @@ models:
         # consider adding a doc to describe play types
         tests:
           - accepted_values:
-              values: ['run', 'no_play', 'qb_kneel', 'kickoff', 'pass', 'punt', 'field_goal', 'qb_spike', 'extra_point']
+              arguments:
+                values: ['run', 'no_play', 'qb_kneel', 'kickoff', 'pass', 'punt', 'field_goal', 'qb_spike', 'extra_point']
       - name: yards_gained
         description: The amount of yards gained (or lossed if negative) by the offense as a result of the play
       - name: shotgun
@@ -1388,46 +1380,54 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: no_huddle
         description: Flag indicating if the offense began the play without taking a moment to huddle
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_dropback
         description: Flag indicating if the Quarterback dropped back after taking the snap
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_kneel
         description: Flag indicating if the Quarterback kneeled after taking the snap. Typically done towards the end of a half or when the offense is wants to drain the play clock.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_spike
         description: Flag indicating that the Quarterback immediately threw the ball into the ground after taking the snap. Typically done when the offense is attempting to stop the play clock from draining towards the end of a half.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_scramble
         description: Flag indicating if the Quarterback scrambled out of the pocket during the play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_length
         description: Indicates if the Quarterback attempted a short or deep pass
         tests:
           - accepted_values:
-              values: ['deep', 'short']
+              arguments:
+                values: ['deep', 'short']
       - name: pass_location
         description: Indicates where on the field the Quarterback attempted to pass relative to the direction the offense is facing
         tests:
           - accepted_values:
-              values: ['left', 'right', 'middle']
+              arguments:
+                values: ['left', 'right', 'middle']
       - name: air_yards
         description: How far the football was thrown past the line of scrimage
       - name: yards_after_catch
@@ -1436,46 +1436,54 @@ models:
         description: Where the rushing attempt was directed, relative to the direction the offense is facing
         tests:
           - accepted_values:
-              values: ['left', 'right', 'middle']
+              arguments:
+                values: ['left', 'right', 'middle']
       - name: run_gap
         description: Where the rushing attempt was directed relative to the Center
         tests:
           - accepted_values:
-              values: ['guard', 'end', 'tackle']
+              arguments:
+                values: ['guard', 'end', 'tackle']
       - name: field_goal_result
         description: The result of a field goal attempted by the offense
         tests:
           - accepted_values:
-              values: ['made', 'missed', 'blocked']
+              arguments:
+                values: ['made', 'missed', 'blocked']
       - name: kick_distance
         description: The distance the ball travelled from the line of scrimmage during a kicking play. If a field goal attempt (`field_goal_result` is not null), this is the distance of the field goal. If a Punt or Kickoff, this is the distance the ball traveled from the line of scrimage, however it does not account for the distance "returned" by the returning team.
       - name: extra_point_result
         description: The result of the extra point attempt after the touchdown
         tests:
           - accepted_values:
-              values: ['failed', 'blocked', 'good']
+              arguments:
+                values: ['failed', 'blocked', 'good']
       - name: two_point_conv_result
         description: The result of the 2-pt conversion attempt following a touchdown
         tests:
           - accepted_values:
-              values: ['failure', 'success']
+              arguments:
+                values: ['failure', 'success']
       - name: home_timeouts_remaining
         description: The number of remaining timeouts the home team has in the game at the start of the play. Teams begin each half with three timeouts.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: away_timeouts_remaining
         description: The number of remaining timeouts the away team has in the game at the start of the play. Teams begin each half with three timeouts.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: timeout
         description: Flag indicating if a timeout was taken by one of the teams
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: timeout_team
         description: The team which took the timeout indicated by the field `timeout`
       - name: td_team
@@ -1486,18 +1494,21 @@ models:
         description: The gsis_player_id of the player who scored the touchdown
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: posteam_timeouts_remaining
         description: The number of timeouts remaing by the team with possesion of the ball
         tests:
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: defteam_timeouts_remaining
         description: The number of timeouts remaing by the team without possesion of the ball
         tests:
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: total_home_score
         description: The total number of points scored by the home team at the beginning of the play
         tests:
@@ -1656,266 +1667,318 @@ models:
         description: Flag indicating if the punt attempt was blocked
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_rush
         description: Flag indicating if the play was a first down rush attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_pass
         description: Flag indicating if the play was a first down pass attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_penalty
         description: Flag indicating if there was a penalty on first down (by either team??)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: third_down_converted
         description: Flag indicating if the play was a third down that was converted and results in a new set of downs or was a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: third_down_failed
         description: Flag indicating if the play was a third down that was not converted and results in fourth down (or change of possesion due to a fumble or interception)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fourth_down_converted
         description: Flag indicating if the play was a fourth down that was converted and results in a new set of downs or was a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fourth_down_failed
         description: Flag indicating if the play was a fourth down that was not converted and results in a turnover on downs
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: incomplete_pass
         description: Flag indicating if the play resulted in an incomplete pass
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: touchback
         description: Flag indicating if the play ended with kick returner kneeling for a touchback instead of attempting to return the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: interception
         description: Flag indicating if the result of the pass play was an interception by the defense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_inside_twenty
         description: Flag indicating if the result of the punting play (?? landed/finished) inside the returning teams 20 yard line
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_in_endzone
         description: Flag indicating if the result of the punting play (?? landed/finished) inside the returning teams end zone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_out_of_bounds
         description: Flag indicating if the punted ball went out of bounds before the returning team was able to field the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_downed
         description: ??? Flag indicating that the punting team covered the punt and downed the ball without a return attempt or contact made by the returning team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_fair_catch
         description: Flag indicating that the returning team signaled for (?? and did not fumble) a fair catch
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_inside_twenty
         description: Flag indicating that the kickoff landed within the receiving teams 20 yardline
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_in_endzone
         description: Flag indicating that the kickoff landed within (or beyond) the reciving teams endzone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_out_of_bounds
         description: Flag indicating that the kickoff travelled out of bounds before the receiving team made an attempt to return the ball and before the ball crossed the goal line of the receiving team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_downed
         description: ?? Flag indicating that the kickoff team downed the ball before the returning team made an attempt to return the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_fair_catch
         description: Flag indicating that the returning team called for (?? and succesfully completed) a fair catch
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_forced
         description: Flag indicating that a fumble was forced by a member of the opposing team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_not_forced
         description: Flag indicating that the player who fumbled the ball did so all on their own. I totally would have held on to that, and probably would have taken it to the house
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_out_of_bounds
         description: Flag indicating that the fumbled ball travelled out of bounds before recovered by either team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: solo_tackle
         description: Flag indicating that the tackle made by the defense was made by one player
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: safety
         description: Flag indicating that the defense tackled/sacked the offense within the offenses own endzone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: penalty
         description: Flag indicating a penalty occured on the play
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: tackled_for_loss
         description: Flag indicating a tackle for loss by the defense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_lost
         description: Flag indicating the team which fumbled the ball were unable to recover it
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: own_kickoff_recovery
         description: Flag indicating the kicking team recovered their own kickoff, typically on an onsides kick
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: own_kickoff_recovery_td
         description: Flag indicating that the kicking team not only recovered their own kickoff, but then also scored a touchdown, likely because the returner muffed that easy catch, that I would have caught, and taken to the house
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_hit
         description: Flag indicating that the Quarterback was hit, although not necessarily sacked
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush_attempt
         description: Flag indicating that the play was a rushing attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_attempt
         description: Flag indicating that the play was a passing attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: sack
         description: Flag indicating that the Quarterback was sacked in the backfield. Likely it was a Chicago Bear before being traded out of town so the team could ruin another prospect. Sorry Mitch, Justin, and probably Caleb.
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: touchdown
         description: Flag indicating the play resulted in a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_touchdown
         description: Flag indicating the play was a passing touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush_touchdown
         description: Flag indicating the play was rushing touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: return_touchdown
         description: Flag indicating the play was touchdown scored on a kick or punt return
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: extra_point_attempt
         description: Flag indicating the play was an extra point attempt after scoring a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: two_point_attempt
         description: Flag indicating the play was a 2-pt conversion attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: field_goal_attempt
         description: Flag indicating the play was a 3-pt field goal attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_attempt
         description: Flag indicating the play was a kickoff
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_attempt
         description: Flag indicating that the play was a punt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble
         description: Flag indicating that the offense (or returning team) fumbled the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: complete_pass
         description: Flag indicating that the offense completed a pass attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: assist_tackle
         description: Flag indicating an assist in the tackle bringing down the offensive player. Good team work
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_reception
         description: Flag indicating a lateral was successfully caught by a member of the offense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_rush
         description: Flag indicating a lateral rushing attempt play. Not sure what that means
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_recovery
         description: Presumably the defense recovered/intercepted a lateral
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: passer_player_id
         description: The gsis_id of the player who passed the ball. Typically (but not always) a Quarterback
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: passer_player_name
         description: The display name of the player who passed the ball. Typically (but not always) a Quarterback
       - name: receiver_player_id
         description: The gsis_id of the player who received or was targeted by the pass attempt
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: receiver_player_name
         description: The display name of the player who received or was targeted by the pass attempt
       - name: receiving_yards
@@ -2142,76 +2205,31 @@ models:
         tests:
           # consider adding a doc block
           - accepted_values:
-              values: [
-                'Illegal Motion'
-                , 'Offensive Holding'
-                , 'Illegal Touch Pass'
-                , 'Player Out of Bounds on Kick'
-                , 'Defensive Pass Interference'
-                , 'Illegal Crackback'
-                , 'Intentional Grounding'
-                , 'Offensive Pass Interference'
-                , 'Face Mask'
-                , 'Unsportsmanlike Conduct'
-                , 'Illegal Forward Pass'
-                , 'Defensive Delay of Game'
-                , 'Tripping'
-                , 'Chop Block'
-                , 'Delay of Game'
-                , 'Defensive Too Many Men on Field'
-                , 'Defensive Offside'
-                , 'Illegal Block Above the Waist'
-                , 'Illegal Shift'
-                , 'Illegal Formation'
-                , 'Delay of Kickoff'
-                , 'Illegal Double-Team Block'
-                , 'Offensive Too Many Men on Field'
-                , 'Illegal Bat'
-                , 'Horse Collar Tackle'
-                , 'Defensive Holding'
-                , 'Ineligible Downfield Pass'
-                , 'Illegal Kick/Kicking Loose Ball'
-                , 'Illegal Touch Kick'
-                , 'Unnecessary Roughness'
-                , 'Illegal Blindside Block'
-                , 'Disqualification'
-                , 'Running Into the Kicker'
-                , 'Leverage'
-                , 'Offside on Free Kick'
-                , 'Neutral Zone Infraction'
-                , 'Roughing the Kicker'
-                , 'Invalid Fair Catch Signal'
-                , 'Encroachment'
-                , 'Ineligible Downfield Kick'
-                , 'Illegal Contact'
-                , 'Offensive Offside'
-                , 'Fair Catch Interference'
-                , 'Low Block'
-                , 'False Start'
-                , 'Illegal Substitution'
-                , 'Taunting'
-                , 'Roughing the Passer'
-                , 'Illegal Use of Hands'
-              ]
               config:
                 severity: warn
+              arguments:
+                values: ['Illegal Motion', 'Offensive Holding', 'Illegal Touch Pass', 'Player Out of Bounds on Kick', 'Defensive Pass Interference', 'Illegal Crackback', 'Intentional Grounding', 'Offensive Pass Interference', 'Face Mask', 'Unsportsmanlike Conduct', 'Illegal Forward Pass', 'Defensive Delay of Game', 'Tripping', 'Chop Block', 'Delay of Game', 'Defensive Too Many Men on Field', 'Defensive Offside', 'Illegal Block Above the Waist', 'Illegal Shift', 'Illegal Formation', 'Delay of Kickoff', 'Illegal Double-Team Block', 'Offensive Too Many Men on Field', 'Illegal Bat', 'Horse Collar Tackle', 'Defensive Holding', 'Ineligible Downfield Pass', 'Illegal Kick/Kicking Loose Ball', 'Illegal Touch Kick', 'Unnecessary Roughness', 'Illegal Blindside Block', 'Disqualification', 'Running Into the Kicker', 'Leverage', 'Offside on Free Kick', 'Neutral Zone Infraction', 'Roughing the Kicker', 'Invalid Fair Catch Signal', 'Encroachment', 'Ineligible Downfield Kick', 'Illegal Contact', 'Offensive Offside', 'Fair Catch Interference', 'Low Block', 'False Start', 'Illegal Substitution', 'Taunting', 'Roughing the Passer', 'Illegal Use of Hands']
       - name: defensive_two_point_attempt
         description: Flag indicating the defense attempted a two point conversion. Not sure how this is possible
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_two_point_conv
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_extra_point_attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_extra_point_conv
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: safety_player_name
         description: display name
       - name: safety_player_id
@@ -2227,12 +2245,14 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: series_result
         description: The end result of the series
         tests:
           - accepted_values:
-              values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
+              arguments:
+                values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
       - name: order_sequence
         description: The order of the play within the game_id
         tests:
@@ -2262,33 +2282,17 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'SACK'
-                , 'KICK_OFF'
-                , 'FUMBLE_RECOVERED_BY_OPPONENT'
-                , 'END_QUARTER'
-                , 'PASS'
-                , 'FIELD_GOAL'
-                , 'INTERCEPTION'
-                , 'PENALTY'
-                , 'END_GAME'
-                , 'PAT2'
-                , 'UNSPECIFIED'
-                , 'TIMEOUT'
-                , 'GAME_START'
-                , 'FREE_KICK'
-                , 'XP_KICK'
-                , 'RUSH'
-                ]
               config:
                 severity: warn
+              arguments:
+                values: ['PUNT', 'SACK', 'KICK_OFF', 'FUMBLE_RECOVERED_BY_OPPONENT', 'END_QUARTER', 'PASS', 'FIELD_GOAL', 'INTERCEPTION', 'PENALTY', 'END_GAME', 'PAT2', 'UNSPECIFIED', 'TIMEOUT', 'GAME_START', 'FREE_KICK', 'XP_KICK', 'RUSH']
       - name: special_teams_play
         description: Flag indicating if the play was a special teams play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: st_play_type
         description: Apparently always null
       - name: end_clock_time
@@ -2304,17 +2308,8 @@ models:
         # docblock explaining values
         tests:
           - accepted_values:
-              values: [
-                'End of half'
-                , 'Field goal'
-                , 'Safety'
-                , 'Missed field goal'
-                , 'Turnover'
-                , 'Turnover on downs'
-                , 'Touchdown'
-                , 'Opp touchdown'
-                , 'Punt'
-              ]
+              arguments:
+                values: ['End of half', 'Field goal', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'Opp touchdown', 'Punt']
       - name: drive_real_start_time
         description: The actual time the drive started. Formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
       - name: drive_play_count
@@ -2327,12 +2322,14 @@ models:
         description: Flag indicating the drive reached the "RedZone" (within the opponents 20 yard line)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive_ended_with_score
         description: Flag indicating the drive resulted in a score by the offense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive_quarter_start
         description: The quarter in which the drive began. Drives starting in the first or third quarter can extend into the second or fourth quarter respectively, but not across halfs
       - name: drive_quarter_end
@@ -2343,54 +2340,16 @@ models:
         description: Describes how the offense previously came into possession of the ball to begin the drive
         tests:
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'BLOCKED_FG,_DOWNS'
-                , 'SAFETY'
-                , 'FIELD_GOAL'
-                , 'END_GAME'
-                , 'TOUCHDOWN'
-                , 'END_HALF'
-                , 'FUMBLE,_SAFETY'
-                , 'ONSIDE_KICK'
-                , 'FUMBLE'
-                , 'INTERCEPTION'
-                , 'DOWNS'
-                , 'BLOCKED_PUNT,_DOWNS'
-                , 'BLOCKED_PUNT'
-                , 'MISSED_FG'
-                , 'MUFFED_PUNT'
-                , 'MUFFED_KICKOFF'
-                , 'BLOCKED_FG'
-                , 'KICKOFF'
-              ]
               config:
                 severity: warn
+              arguments:
+                values: ['PUNT', 'BLOCKED_FG,_DOWNS', 'SAFETY', 'FIELD_GOAL', 'END_GAME', 'TOUCHDOWN', 'END_HALF', 'FUMBLE,_SAFETY', 'ONSIDE_KICK', 'FUMBLE', 'INTERCEPTION', 'DOWNS', 'BLOCKED_PUNT,_DOWNS', 'BLOCKED_PUNT', 'MISSED_FG', 'MUFFED_PUNT', 'MUFFED_KICKOFF', 'BLOCKED_FG', 'KICKOFF']
       - name: drive_end_transition
         description: Describes how the offense finished the drive before turning over possesion of the ball
         tests:
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'BLOCKED_FG,_DOWNS'
-                , 'SAFETY'
-                , 'FIELD_GOAL'
-                , 'END_GAME'
-                , 'TOUCHDOWN'
-                , 'END_HALF'
-                , 'FUMBLE,_SAFETY'
-                , 'ONSIDE_KICK'
-                , 'FUMBLE'
-                , 'INTERCEPTION'
-                , 'DOWNS'
-                , 'BLOCKED_PUNT,_DOWNS'
-                , 'BLOCKED_PUNT'
-                , 'MISSED_FG'
-                , 'MUFFED_PUNT'
-                , 'MUFFED_KICKOFF'
-                , 'BLOCKED_FG'
-                , 'KICKOFF'
-              ]
+              arguments:
+                values: ['PUNT', 'BLOCKED_FG,_DOWNS', 'SAFETY', 'FIELD_GOAL', 'END_GAME', 'TOUCHDOWN', 'END_HALF', 'FUMBLE,_SAFETY', 'ONSIDE_KICK', 'FUMBLE', 'INTERCEPTION', 'DOWNS', 'BLOCKED_PUNT,_DOWNS', 'BLOCKED_PUNT', 'MISSED_FG', 'MUFFED_PUNT', 'MUFFED_KICKOFF', 'BLOCKED_FG', 'KICKOFF']
       - name: drive_game_clock_start
         description: The amount of time remaining on the game clock at the start of the drive
       - name: drive_game_clock_end
@@ -2434,7 +2393,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: roof
         description: Description of the venue type
       - name: surface
@@ -2464,7 +2424,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: success
         description: Flag indicating the play was successful for the offense
       - name: passer
@@ -2484,24 +2445,28 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush
         description: Flag indicating if the play was a rushing play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down
         description: Flag indicating if the play resulted in the offense passing the line of gain resulting in a new set of downs, or a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: special
         description: Flag indicating the play was a special teams play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: passer_id
         description: The gsis_id of the passing player
       - name: rusher_id
@@ -2527,7 +2492,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: home_opening_kickoff
         description: Flag indicating the home team opened with a kickoff on the play?
       - name: qb_epa
@@ -2543,16 +2509,18 @@ models:
     description: One record per play for the 2022 season
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - game_id
-            - play_id
+          arguments:
+            combination_of_columns:
+              - game_id
+              - play_id
     columns:
       - name: season
         description: The NFL season in which the game was played
         tests:
           - not_null
           - accepted_values:
-              values: ['2022']
+              arguments:
+                values: ['2022']
       - name: week
         description: The game week in which the game was played. A new game week typically begins with Thursday Night Football and ends with Monday Night Football. Closely related are season weeks, which typically begin on Tuesdays
         tests:
@@ -2583,14 +2551,16 @@ models:
         description: The type of game being played. "REG" indicates a regular season game while "POST" indicates a post-season playoff game
         tests:
           - accepted_values:
-              values: ['REG','POST']
+              arguments:
+                values: ['REG', 'POST']
       - name: posteam
         description: The team that began the play with possesion of the ball using the three letter team abbreviation
       - name: posteam_type
         description: Indicates if the home team or away team has possesion of the football at the beginning of the play
         tests:
           - accepted_values:
-              values: ['away', 'home']
+              arguments:
+                values: ['away', 'home']
       - name: defteam
         description: The team that began the play without possesion of the ball, indicated by the three letter team abbreviation
       # missing defteam type? or implied as opposite of posteam_type?
@@ -2608,12 +2578,14 @@ models:
         description: The half of the game. Typically games have a 1st and 2nd half, but may go to overtime if the score is tied after two halves
         tests:
           - accepted_values:
-              values: ['Half1', 'Half2', 'Overtime']
+              arguments:
+                values: ['Half1', 'Half2', 'Overtime']
       - name: quarter_end
         description: Indicates the quarter ended
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive
         description: The nth time the team has possesed the ball
       - name: sp
@@ -2625,13 +2597,15 @@ models:
         description: The down for which the play started. The offense has four downs to gain 10 yards and reset back to first down and 10/goal to go.
         tests:
           - accepted_values:
-              values: ['1', '2', '3', '4']
+              arguments:
+                values: ['1', '2', '3', '4']
       - name: goal_to_go
         description: Flag indicating the offensive team is in a "goal-to-go" situation, meaning they must score a touchdown by the end of the four down series barring any penalties commited by the defense resulting in an automatic first down with a ball then spotted beyond the 10 yard line.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: time
         description: The time remaining on the play clock formatted as "MM:SS"
       - name: yrdln
@@ -2649,7 +2623,8 @@ models:
         # consider adding a doc to describe play types
         tests:
           - accepted_values:
-              values: ['run', 'no_play', 'qb_kneel', 'kickoff', 'pass', 'punt', 'field_goal', 'qb_spike', 'extra_point']
+              arguments:
+                values: ['run', 'no_play', 'qb_kneel', 'kickoff', 'pass', 'punt', 'field_goal', 'qb_spike', 'extra_point']
       - name: yards_gained
         description: The amount of yards gained (or lossed if negative) by the offense as a result of the play
       - name: shotgun
@@ -2657,46 +2632,54 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: no_huddle
         description: Flag indicating if the offense began the play without taking a moment to huddle
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_dropback
         description: Flag indicating if the Quarterback dropped back after taking the snap
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_kneel
         description: Flag indicating if the Quarterback kneeled after taking the snap. Typically done towards the end of a half or when the offense is wants to drain the play clock.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_spike
         description: Flag indicating that the Quarterback immediately threw the ball into the ground after taking the snap. Typically done when the offense is attempting to stop the play clock from draining towards the end of a half.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_scramble
         description: Flag indicating if the Quarterback scrambled out of the pocket during the play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_length
         description: Indicates if the Quarterback attempted a short or deep pass
         tests:
           - accepted_values:
-              values: ['deep', 'short']
+              arguments:
+                values: ['deep', 'short']
       - name: pass_location
         description: Indicates where on the field the Quarterback attempted to pass relative to the direction the offense is facing
         tests:
           - accepted_values:
-              values: ['left', 'right', 'middle']
+              arguments:
+                values: ['left', 'right', 'middle']
       - name: air_yards
         description: How far the football was thrown past the line of scrimage
       - name: yards_after_catch
@@ -2705,46 +2688,54 @@ models:
         description: Where the rushing attempt was directed, relative to the direction the offense is facing
         tests:
           - accepted_values:
-              values: ['left', 'right', 'middle']
+              arguments:
+                values: ['left', 'right', 'middle']
       - name: run_gap
         description: Where the rushing attempt was directed relative to the Center
         tests:
           - accepted_values:
-              values: ['guard', 'end', 'tackle']
+              arguments:
+                values: ['guard', 'end', 'tackle']
       - name: field_goal_result
         description: The result of a field goal attempted by the offense
         tests:
           - accepted_values:
-              values: ['made', 'missed', 'blocked']
+              arguments:
+                values: ['made', 'missed', 'blocked']
       - name: kick_distance
         description: The distance the ball travelled from the line of scrimmage during a kicking play. If a field goal attempt (`field_goal_result` is not null), this is the distance of the field goal. If a Punt or Kickoff, this is the distance the ball traveled from the line of scrimage, however it does not account for the distance "returned" by the returning team.
       - name: extra_point_result
         description: The result of the extra point attempt after the touchdown
         tests:
           - accepted_values:
-              values: ['failed', 'blocked', 'good']
+              arguments:
+                values: ['failed', 'blocked', 'good']
       - name: two_point_conv_result
         description: The result of the 2-pt conversion attempt following a touchdown
         tests:
           - accepted_values:
-              values: ['failure', 'success']
+              arguments:
+                values: ['failure', 'success']
       - name: home_timeouts_remaining
         description: The number of remaining timeouts the home team has in the game at the start of the play. Teams begin each half with three timeouts.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: away_timeouts_remaining
         description: The number of remaining timeouts the away team has in the game at the start of the play. Teams begin each half with three timeouts.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: timeout
         description: Flag indicating if a timeout was taken by one of the teams
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: timeout_team
         description: The team which took the timeout indicated by the field `timeout`
       - name: td_team
@@ -2755,18 +2746,21 @@ models:
         description: The gsis_player_id of the player who scored the touchdown
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: posteam_timeouts_remaining
         description: The number of timeouts remaing by the team with possesion of the ball
         tests:
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: defteam_timeouts_remaining
         description: The number of timeouts remaing by the team without possesion of the ball
         tests:
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: total_home_score
         description: The total number of points scored by the home team at the beginning of the play
         tests:
@@ -2925,266 +2919,318 @@ models:
         description: Flag indicating if the punt attempt was blocked
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_rush
         description: Flag indicating if the play was a first down rush attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_pass
         description: Flag indicating if the play was a first down pass attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_penalty
         description: Flag indicating if there was a penalty on first down (by either team??)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: third_down_converted
         description: Flag indicating if the play was a third down that was converted and results in a new set of downs or was a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: third_down_failed
         description: Flag indicating if the play was a third down that was not converted and results in fourth down (or change of possesion due to a fumble or interception)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fourth_down_converted
         description: Flag indicating if the play was a fourth down that was converted and results in a new set of downs or was a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fourth_down_failed
         description: Flag indicating if the play was a fourth down that was not converted and results in a turnover on downs
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: incomplete_pass
         description: Flag indicating if the play resulted in an incomplete pass
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: touchback
         description: Flag indicating if the play ended with kick returner kneeling for a touchback instead of attempting to return the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: interception
         description: Flag indicating if the result of the pass play was an interception by the defense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_inside_twenty
         description: Flag indicating if the result of the punting play (?? landed/finished) inside the returning teams 20 yard line
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_in_endzone
         description: Flag indicating if the result of the punting play (?? landed/finished) inside the returning teams end zone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_out_of_bounds
         description: Flag indicating if the punted ball went out of bounds before the returning team was able to field the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_downed
         description: ??? Flag indicating that the punting team covered the punt and downed the ball without a return attempt or contact made by the returning team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_fair_catch
         description: Flag indicating that the returning team signaled for (?? and did not fumble) a fair catch
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_inside_twenty
         description: Flag indicating that the kickoff landed within the receiving teams 20 yardline
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_in_endzone
         description: Flag indicating that the kickoff landed within (or beyond) the reciving teams endzone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_out_of_bounds
         description: Flag indicating that the kickoff travelled out of bounds before the receiving team made an attempt to return the ball and before the ball crossed the goal line of the receiving team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_downed
         description: ?? Flag indicating that the kickoff team downed the ball before the returning team made an attempt to return the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_fair_catch
         description: Flag indicating that the returning team called for (?? and succesfully completed) a fair catch
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_forced
         description: Flag indicating that a fumble was forced by a member of the opposing team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_not_forced
         description: Flag indicating that the player who fumbled the ball did so all on their own. I totally would have held on to that, and probably would have taken it to the house
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_out_of_bounds
         description: Flag indicating that the fumbled ball travelled out of bounds before recovered by either team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: solo_tackle
         description: Flag indicating that the tackle made by the defense was made by one player
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: safety
         description: Flag indicating that the defense tackled/sacked the offense within the offenses own endzone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: penalty
         description: Flag indicating a penalty occured on the play
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: tackled_for_loss
         description: Flag indicating a tackle for loss by the defense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_lost
         description: Flag indicating the team which fumbled the ball were unable to recover it
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: own_kickoff_recovery
         description: Flag indicating the kicking team recovered their own kickoff, typically on an onsides kick
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: own_kickoff_recovery_td
         description: Flag indicating that the kicking team not only recovered their own kickoff, but then also scored a touchdown, likely because the returner muffed that easy catch, that I would have caught, and taken to the house
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_hit
         description: Flag indicating that the Quarterback was hit, although not necessarily sacked
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush_attempt
         description: Flag indicating that the play was a rushing attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_attempt
         description: Flag indicating that the play was a passing attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: sack
         description: Flag indicating that the Quarterback was sacked in the backfield. Likely it was a Chicago Bear before being traded out of town so the team could ruin another prospect. Sorry Mitch, Justin, and probably Caleb.
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: touchdown
         description: Flag indicating the play resulted in a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_touchdown
         description: Flag indicating the play was a passing touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush_touchdown
         description: Flag indicating the play was rushing touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: return_touchdown
         description: Flag indicating the play was touchdown scored on a kick or punt return
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: extra_point_attempt
         description: Flag indicating the play was an extra point attempt after scoring a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: two_point_attempt
         description: Flag indicating the play was a 2-pt conversion attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: field_goal_attempt
         description: Flag indicating the play was a 3-pt field goal attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_attempt
         description: Flag indicating the play was a kickoff
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_attempt
         description: Flag indicating that the play was a punt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble
         description: Flag indicating that the offense (or returning team) fumbled the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: complete_pass
         description: Flag indicating that the offense completed a pass attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: assist_tackle
         description: Flag indicating an assist in the tackle bringing down the offensive player. Good team work
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_reception
         description: Flag indicating a lateral was successfully caught by a member of the offense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_rush
         description: Flag indicating a lateral rushing attempt play. Not sure what that means
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_recovery
         description: Presumably the defense recovered/intercepted a lateral
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: passer_player_id
         description: The gsis_id of the player who passed the ball. Typically (but not always) a Quarterback
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: passer_player_name
         description: The display name of the player who passed the ball. Typically (but not always) a Quarterback
       - name: receiver_player_id
         description: The gsis_id of the player who received or was targeted by the pass attempt
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: receiver_player_name
         description: The display name of the player who received or was targeted by the pass attempt
       - name: receiving_yards
@@ -3411,76 +3457,31 @@ models:
         tests:
           # consider adding a doc block
           - accepted_values:
-              values: [
-                'Illegal Motion'
-                , 'Offensive Holding'
-                , 'Illegal Touch Pass'
-                , 'Player Out of Bounds on Kick'
-                , 'Defensive Pass Interference'
-                , 'Illegal Crackback'
-                , 'Intentional Grounding'
-                , 'Offensive Pass Interference'
-                , 'Face Mask'
-                , 'Unsportsmanlike Conduct'
-                , 'Illegal Forward Pass'
-                , 'Defensive Delay of Game'
-                , 'Tripping'
-                , 'Chop Block'
-                , 'Delay of Game'
-                , 'Defensive Too Many Men on Field'
-                , 'Defensive Offside'
-                , 'Illegal Block Above the Waist'
-                , 'Illegal Shift'
-                , 'Illegal Formation'
-                , 'Delay of Kickoff'
-                , 'Illegal Double-Team Block'
-                , 'Offensive Too Many Men on Field'
-                , 'Illegal Bat'
-                , 'Horse Collar Tackle'
-                , 'Defensive Holding'
-                , 'Ineligible Downfield Pass'
-                , 'Illegal Kick/Kicking Loose Ball'
-                , 'Illegal Touch Kick'
-                , 'Unnecessary Roughness'
-                , 'Illegal Blindside Block'
-                , 'Disqualification'
-                , 'Running Into the Kicker'
-                , 'Leverage'
-                , 'Offside on Free Kick'
-                , 'Neutral Zone Infraction'
-                , 'Roughing the Kicker'
-                , 'Invalid Fair Catch Signal'
-                , 'Encroachment'
-                , 'Ineligible Downfield Kick'
-                , 'Illegal Contact'
-                , 'Offensive Offside'
-                , 'Fair Catch Interference'
-                , 'Low Block'
-                , 'False Start'
-                , 'Illegal Substitution'
-                , 'Taunting'
-                , 'Roughing the Passer'
-                , 'Illegal Use of Hands'
-              ]
               config:
                 severity: warn
+              arguments:
+                values: ['Illegal Motion', 'Offensive Holding', 'Illegal Touch Pass', 'Player Out of Bounds on Kick', 'Defensive Pass Interference', 'Illegal Crackback', 'Intentional Grounding', 'Offensive Pass Interference', 'Face Mask', 'Unsportsmanlike Conduct', 'Illegal Forward Pass', 'Defensive Delay of Game', 'Tripping', 'Chop Block', 'Delay of Game', 'Defensive Too Many Men on Field', 'Defensive Offside', 'Illegal Block Above the Waist', 'Illegal Shift', 'Illegal Formation', 'Delay of Kickoff', 'Illegal Double-Team Block', 'Offensive Too Many Men on Field', 'Illegal Bat', 'Horse Collar Tackle', 'Defensive Holding', 'Ineligible Downfield Pass', 'Illegal Kick/Kicking Loose Ball', 'Illegal Touch Kick', 'Unnecessary Roughness', 'Illegal Blindside Block', 'Disqualification', 'Running Into the Kicker', 'Leverage', 'Offside on Free Kick', 'Neutral Zone Infraction', 'Roughing the Kicker', 'Invalid Fair Catch Signal', 'Encroachment', 'Ineligible Downfield Kick', 'Illegal Contact', 'Offensive Offside', 'Fair Catch Interference', 'Low Block', 'False Start', 'Illegal Substitution', 'Taunting', 'Roughing the Passer', 'Illegal Use of Hands']
       - name: defensive_two_point_attempt
         description: Flag indicating the defense attempted a two point conversion. Not sure how this is possible
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_two_point_conv
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_extra_point_attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_extra_point_conv
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: safety_player_name
         description: display name
       - name: safety_player_id
@@ -3496,12 +3497,14 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: series_result
         description: The end result of the series
         tests:
           - accepted_values:
-              values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
+              arguments:
+                values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
       - name: order_sequence
         description: The order of the play within the game_id
         tests:
@@ -3531,33 +3534,17 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'SACK'
-                , 'KICK_OFF'
-                , 'FUMBLE_RECOVERED_BY_OPPONENT'
-                , 'END_QUARTER'
-                , 'PASS'
-                , 'FIELD_GOAL'
-                , 'INTERCEPTION'
-                , 'PENALTY'
-                , 'END_GAME'
-                , 'PAT2'
-                , 'UNSPECIFIED'
-                , 'TIMEOUT'
-                , 'GAME_START'
-                , 'FREE_KICK'
-                , 'XP_KICK'
-                , 'RUSH'
-                ]
               config:
                 severity: warn
+              arguments:
+                values: ['PUNT', 'SACK', 'KICK_OFF', 'FUMBLE_RECOVERED_BY_OPPONENT', 'END_QUARTER', 'PASS', 'FIELD_GOAL', 'INTERCEPTION', 'PENALTY', 'END_GAME', 'PAT2', 'UNSPECIFIED', 'TIMEOUT', 'GAME_START', 'FREE_KICK', 'XP_KICK', 'RUSH']
       - name: special_teams_play
         description: Flag indicating if the play was a special teams play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: st_play_type
         description: Apparently always null
       - name: end_clock_time
@@ -3573,17 +3560,8 @@ models:
         # docblock explaining values
         tests:
           - accepted_values:
-              values: [
-                'End of half'
-                , 'Field goal'
-                , 'Safety'
-                , 'Missed field goal'
-                , 'Turnover'
-                , 'Turnover on downs'
-                , 'Touchdown'
-                , 'Opp touchdown'
-                , 'Punt'
-              ]
+              arguments:
+                values: ['End of half', 'Field goal', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'Opp touchdown', 'Punt']
       - name: drive_real_start_time
         description: The actual time the drive started. Formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
       - name: drive_play_count
@@ -3596,12 +3574,14 @@ models:
         description: Flag indicating the drive reached the "RedZone" (within the opponents 20 yard line)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive_ended_with_score
         description: Flag indicating the drive resulted in a score by the offense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive_quarter_start
         description: The quarter in which the drive began. Drives starting in the first or third quarter can extend into the second or fourth quarter respectively, but not across halfs
       - name: drive_quarter_end
@@ -3612,52 +3592,14 @@ models:
         description: Describes how the offense previously came into possession of the ball to begin the drive
         tests:
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'BLOCKED_FG,_DOWNS'
-                , 'SAFETY'
-                , 'FIELD_GOAL'
-                , 'END_GAME'
-                , 'TOUCHDOWN'
-                , 'END_HALF'
-                , 'FUMBLE,_SAFETY'
-                , 'ONSIDE_KICK'
-                , 'FUMBLE'
-                , 'INTERCEPTION'
-                , 'DOWNS'
-                , 'BLOCKED_PUNT,_DOWNS'
-                , 'BLOCKED_PUNT'
-                , 'MISSED_FG'
-                , 'MUFFED_PUNT'
-                , 'MUFFED_KICKOFF'
-                , 'BLOCKED_FG'
-                , 'KICKOFF'
-              ]
+              arguments:
+                values: ['PUNT', 'BLOCKED_FG,_DOWNS', 'SAFETY', 'FIELD_GOAL', 'END_GAME', 'TOUCHDOWN', 'END_HALF', 'FUMBLE,_SAFETY', 'ONSIDE_KICK', 'FUMBLE', 'INTERCEPTION', 'DOWNS', 'BLOCKED_PUNT,_DOWNS', 'BLOCKED_PUNT', 'MISSED_FG', 'MUFFED_PUNT', 'MUFFED_KICKOFF', 'BLOCKED_FG', 'KICKOFF']
       - name: drive_end_transition
         description: Describes how the offense finished the drive before turning over possesion of the ball
         tests:
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'BLOCKED_FG,_DOWNS'
-                , 'SAFETY'
-                , 'FIELD_GOAL'
-                , 'END_GAME'
-                , 'TOUCHDOWN'
-                , 'END_HALF'
-                , 'FUMBLE,_SAFETY'
-                , 'ONSIDE_KICK'
-                , 'FUMBLE'
-                , 'INTERCEPTION'
-                , 'DOWNS'
-                , 'BLOCKED_PUNT,_DOWNS'
-                , 'BLOCKED_PUNT'
-                , 'MISSED_FG'
-                , 'MUFFED_PUNT'
-                , 'MUFFED_KICKOFF'
-                , 'BLOCKED_FG'
-                , 'KICKOFF'
-              ]
+              arguments:
+                values: ['PUNT', 'BLOCKED_FG,_DOWNS', 'SAFETY', 'FIELD_GOAL', 'END_GAME', 'TOUCHDOWN', 'END_HALF', 'FUMBLE,_SAFETY', 'ONSIDE_KICK', 'FUMBLE', 'INTERCEPTION', 'DOWNS', 'BLOCKED_PUNT,_DOWNS', 'BLOCKED_PUNT', 'MISSED_FG', 'MUFFED_PUNT', 'MUFFED_KICKOFF', 'BLOCKED_FG', 'KICKOFF']
       - name: drive_game_clock_start
         description: The amount of time remaining on the game clock at the start of the drive
       - name: drive_game_clock_end
@@ -3701,7 +3643,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: roof
         description: Description of the venue type
       - name: surface
@@ -3731,7 +3674,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: success
         description: Flag indicating the play was successful for the offense
       - name: passer
@@ -3751,24 +3695,28 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush
         description: Flag indicating if the play was a rushing play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down
         description: Flag indicating if the play resulted in the offense passing the line of gain resulting in a new set of downs, or a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: special
         description: Flag indicating the play was a special teams play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: passer_id
         description: The gsis_id of the passing player
       - name: rusher_id
@@ -3794,7 +3742,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: home_opening_kickoff
         description: Flag indicating the home team opened with a kickoff on the play?
       - name: qb_epa
@@ -3810,16 +3759,18 @@ models:
     description: One record per play for the 2023 season
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - game_id
-            - play_id
+          arguments:
+            combination_of_columns:
+              - game_id
+              - play_id
     columns:
       - name: season
         description: The NFL season in which the game was played
         tests:
           - not_null
           - accepted_values:
-              values: ['2023']
+              arguments:
+                values: ['2023']
       - name: week
         description: The game week in which the game was played. A new game week typically begins with Thursday Night Football and ends with Monday Night Football. Closely related are season weeks, which typically begin on Tuesdays
         tests:
@@ -3850,14 +3801,16 @@ models:
         description: The type of game being played. "REG" indicates a regular season game while "POST" indicates a post-season playoff game
         tests:
           - accepted_values:
-              values: ['REG','POST']
+              arguments:
+                values: ['REG', 'POST']
       - name: posteam
         description: The team that began the play with possesion of the ball using the three letter team abbreviation
       - name: posteam_type
         description: Indicates if the home team or away team has possesion of the football at the beginning of the play
         tests:
           - accepted_values:
-              values: ['away', 'home']
+              arguments:
+                values: ['away', 'home']
       - name: defteam
         description: The team that began the play without possesion of the ball, indicated by the three letter team abbreviation
     # missing defteam type? or implied as opposite of posteam_type?
@@ -3875,12 +3828,14 @@ models:
         description: The half of the game. Typically games have a 1st and 2nd half, but may go to overtime if the score is tied after two halves
         tests:
           - accepted_values:
-              values: ['Half1', 'Half2', 'Overtime']
+              arguments:
+                values: ['Half1', 'Half2', 'Overtime']
       - name: quarter_end
         description: Indicates the quarter ended
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive
         description: The nth time the team has possesed the ball
       - name: sp
@@ -3892,13 +3847,15 @@ models:
         description: The down for which the play started. The offense has four downs to gain 10 yards and reset back to first down and 10/goal to go.
         tests:
           - accepted_values:
-              values: ['1', '2', '3', '4']
+              arguments:
+                values: ['1', '2', '3', '4']
       - name: goal_to_go
         description: Flag indicating the offensive team is in a "goal-to-go" situation, meaning they must score a touchdown by the end of the four down series barring any penalties commited by the defense resulting in an automatic first down with a ball then spotted beyond the 10 yard line.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: time
         description: The time remaining on the play clock formatted as "MM:SS"
       - name: yrdln
@@ -3916,7 +3873,8 @@ models:
         # consider adding a doc to describe play types
         tests:
           - accepted_values:
-              values: ['run', 'no_play', 'qb_kneel', 'kickoff', 'pass', 'punt', 'field_goal', 'qb_spike', 'extra_point']
+              arguments:
+                values: ['run', 'no_play', 'qb_kneel', 'kickoff', 'pass', 'punt', 'field_goal', 'qb_spike', 'extra_point']
       - name: yards_gained
         description: The amount of yards gained (or lossed if negative) by the offense as a result of the play
       - name: shotgun
@@ -3924,46 +3882,54 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: no_huddle
         description: Flag indicating if the offense began the play without taking a moment to huddle
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_dropback
         description: Flag indicating if the Quarterback dropped back after taking the snap
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_kneel
         description: Flag indicating if the Quarterback kneeled after taking the snap. Typically done towards the end of a half or when the offense is wants to drain the play clock.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_spike
         description: Flag indicating that the Quarterback immediately threw the ball into the ground after taking the snap. Typically done when the offense is attempting to stop the play clock from draining towards the end of a half.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_scramble
         description: Flag indicating if the Quarterback scrambled out of the pocket during the play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_length
         description: Indicates if the Quarterback attempted a short or deep pass
         tests:
           - accepted_values:
-              values: ['deep', 'short']
+              arguments:
+                values: ['deep', 'short']
       - name: pass_location
         description: Indicates where on the field the Quarterback attempted to pass relative to the direction the offense is facing
         tests:
           - accepted_values:
-              values: ['left', 'right', 'middle']
+              arguments:
+                values: ['left', 'right', 'middle']
       - name: air_yards
         description: How far the football was thrown past the line of scrimage
       - name: yards_after_catch
@@ -3972,46 +3938,54 @@ models:
         description: Where the rushing attempt was directed, relative to the direction the offense is facing
         tests:
           - accepted_values:
-              values: ['left', 'right', 'middle']
+              arguments:
+                values: ['left', 'right', 'middle']
       - name: run_gap
         description: Where the rushing attempt was directed relative to the Center
         tests:
           - accepted_values:
-              values: ['guard', 'end', 'tackle']
+              arguments:
+                values: ['guard', 'end', 'tackle']
       - name: field_goal_result
         description: The result of a field goal attempted by the offense
         tests:
           - accepted_values:
-              values: ['made', 'missed', 'blocked']
+              arguments:
+                values: ['made', 'missed', 'blocked']
       - name: kick_distance
         description: The distance the ball travelled from the line of scrimmage during a kicking play. If a field goal attempt (`field_goal_result` is not null), this is the distance of the field goal. If a Punt or Kickoff, this is the distance the ball traveled from the line of scrimage, however it does not account for the distance "returned" by the returning team.
       - name: extra_point_result
         description: The result of the extra point attempt after the touchdown
         tests:
           - accepted_values:
-              values: ['failed', 'blocked', 'good']
+              arguments:
+                values: ['failed', 'blocked', 'good']
       - name: two_point_conv_result
         description: The result of the 2-pt conversion attempt following a touchdown
         tests:
           - accepted_values:
-              values: ['failure', 'success']
+              arguments:
+                values: ['failure', 'success']
       - name: home_timeouts_remaining
         description: The number of remaining timeouts the home team has in the game at the start of the play. Teams begin each half with three timeouts.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: away_timeouts_remaining
         description: The number of remaining timeouts the away team has in the game at the start of the play. Teams begin each half with three timeouts.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: timeout
         description: Flag indicating if a timeout was taken by one of the teams
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: timeout_team
         description: The team which took the timeout indicated by the field `timeout`
       - name: td_team
@@ -4022,18 +3996,21 @@ models:
         description: The gsis_player_id of the player who scored the touchdown
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: posteam_timeouts_remaining
         description: The number of timeouts remaing by the team with possesion of the ball
         tests:
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: defteam_timeouts_remaining
         description: The number of timeouts remaing by the team without possesion of the ball
         tests:
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: total_home_score
         description: The total number of points scored by the home team at the beginning of the play
         tests:
@@ -4192,266 +4169,318 @@ models:
         description: Flag indicating if the punt attempt was blocked
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_rush
         description: Flag indicating if the play was a first down rush attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_pass
         description: Flag indicating if the play was a first down pass attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_penalty
         description: Flag indicating if there was a penalty on first down (by either team??)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: third_down_converted
         description: Flag indicating if the play was a third down that was converted and results in a new set of downs or was a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: third_down_failed
         description: Flag indicating if the play was a third down that was not converted and results in fourth down (or change of possesion due to a fumble or interception)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fourth_down_converted
         description: Flag indicating if the play was a fourth down that was converted and results in a new set of downs or was a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fourth_down_failed
         description: Flag indicating if the play was a fourth down that was not converted and results in a turnover on downs
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: incomplete_pass
         description: Flag indicating if the play resulted in an incomplete pass
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: touchback
         description: Flag indicating if the play ended with kick returner kneeling for a touchback instead of attempting to return the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: interception
         description: Flag indicating if the result of the pass play was an interception by the defense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_inside_twenty
         description: Flag indicating if the result of the punting play (?? landed/finished) inside the returning teams 20 yard line
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_in_endzone
         description: Flag indicating if the result of the punting play (?? landed/finished) inside the returning teams end zone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_out_of_bounds
         description: Flag indicating if the punted ball went out of bounds before the returning team was able to field the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_downed
         description: ??? Flag indicating that the punting team covered the punt and downed the ball without a return attempt or contact made by the returning team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_fair_catch
         description: Flag indicating that the returning team signaled for (?? and did not fumble) a fair catch
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_inside_twenty
         description: Flag indicating that the kickoff landed within the receiving teams 20 yardline
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_in_endzone
         description: Flag indicating that the kickoff landed within (or beyond) the reciving teams endzone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_out_of_bounds
         description: Flag indicating that the kickoff travelled out of bounds before the receiving team made an attempt to return the ball and before the ball crossed the goal line of the receiving team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_downed
         description: ?? Flag indicating that the kickoff team downed the ball before the returning team made an attempt to return the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_fair_catch
         description: Flag indicating that the returning team called for (?? and succesfully completed) a fair catch
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_forced
         description: Flag indicating that a fumble was forced by a member of the opposing team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_not_forced
         description: Flag indicating that the player who fumbled the ball did so all on their own. I totally would have held on to that, and probably would have taken it to the house
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_out_of_bounds
         description: Flag indicating that the fumbled ball travelled out of bounds before recovered by either team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: solo_tackle
         description: Flag indicating that the tackle made by the defense was made by one player
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: safety
         description: Flag indicating that the defense tackled/sacked the offense within the offenses own endzone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: penalty
         description: Flag indicating a penalty occured on the play
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: tackled_for_loss
         description: Flag indicating a tackle for loss by the defense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_lost
         description: Flag indicating the team which fumbled the ball were unable to recover it
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: own_kickoff_recovery
         description: Flag indicating the kicking team recovered their own kickoff, typically on an onsides kick
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: own_kickoff_recovery_td
         description: Flag indicating that the kicking team not only recovered their own kickoff, but then also scored a touchdown, likely because the returner muffed that easy catch, that I would have caught, and taken to the house
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_hit
         description: Flag indicating that the Quarterback was hit, although not necessarily sacked
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush_attempt
         description: Flag indicating that the play was a rushing attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_attempt
         description: Flag indicating that the play was a passing attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: sack
         description: Flag indicating that the Quarterback was sacked in the backfield. Likely it was a Chicago Bear before being traded out of town so the team could ruin another prospect. Sorry Mitch, Justin, and probably Caleb.
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: touchdown
         description: Flag indicating the play resulted in a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_touchdown
         description: Flag indicating the play was a passing touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush_touchdown
         description: Flag indicating the play was rushing touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: return_touchdown
         description: Flag indicating the play was touchdown scored on a kick or punt return
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: extra_point_attempt
         description: Flag indicating the play was an extra point attempt after scoring a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: two_point_attempt
         description: Flag indicating the play was a 2-pt conversion attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: field_goal_attempt
         description: Flag indicating the play was a 3-pt field goal attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_attempt
         description: Flag indicating the play was a kickoff
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_attempt
         description: Flag indicating that the play was a punt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble
         description: Flag indicating that the offense (or returning team) fumbled the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: complete_pass
         description: Flag indicating that the offense completed a pass attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: assist_tackle
         description: Flag indicating an assist in the tackle bringing down the offensive player. Good team work
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_reception
         description: Flag indicating a lateral was successfully caught by a member of the offense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_rush
         description: Flag indicating a lateral rushing attempt play. Not sure what that means
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_recovery
         description: Presumably the defense recovered/intercepted a lateral
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: passer_player_id
         description: The gsis_id of the player who passed the ball. Typically (but not always) a Quarterback
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: passer_player_name
         description: The display name of the player who passed the ball. Typically (but not always) a Quarterback
       - name: receiver_player_id
         description: The gsis_id of the player who received or was targeted by the pass attempt
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: receiver_player_name
         description: The display name of the player who received or was targeted by the pass attempt
       - name: receiving_yards
@@ -4678,76 +4707,31 @@ models:
         tests:
           # consider adding a doc block
           - accepted_values:
-              values: [
-                'Illegal Motion'
-                , 'Offensive Holding'
-                , 'Illegal Touch Pass'
-                , 'Player Out of Bounds on Kick'
-                , 'Defensive Pass Interference'
-                , 'Illegal Crackback'
-                , 'Intentional Grounding'
-                , 'Offensive Pass Interference'
-                , 'Face Mask'
-                , 'Unsportsmanlike Conduct'
-                , 'Illegal Forward Pass'
-                , 'Defensive Delay of Game'
-                , 'Tripping'
-                , 'Chop Block'
-                , 'Delay of Game'
-                , 'Defensive Too Many Men on Field'
-                , 'Defensive Offside'
-                , 'Illegal Block Above the Waist'
-                , 'Illegal Shift'
-                , 'Illegal Formation'
-                , 'Delay of Kickoff'
-                , 'Illegal Double-Team Block'
-                , 'Offensive Too Many Men on Field'
-                , 'Illegal Bat'
-                , 'Horse Collar Tackle'
-                , 'Defensive Holding'
-                , 'Ineligible Downfield Pass'
-                , 'Illegal Kick/Kicking Loose Ball'
-                , 'Illegal Touch Kick'
-                , 'Unnecessary Roughness'
-                , 'Illegal Blindside Block'
-                , 'Disqualification'
-                , 'Running Into the Kicker'
-                , 'Leverage'
-                , 'Offside on Free Kick'
-                , 'Neutral Zone Infraction'
-                , 'Roughing the Kicker'
-                , 'Invalid Fair Catch Signal'
-                , 'Encroachment'
-                , 'Ineligible Downfield Kick'
-                , 'Illegal Contact'
-                , 'Offensive Offside'
-                , 'Fair Catch Interference'
-                , 'Low Block'
-                , 'False Start'
-                , 'Illegal Substitution'
-                , 'Taunting'
-                , 'Roughing the Passer'
-                , 'Illegal Use of Hands'
-              ]
               config:
                 severity: warn
+              arguments:
+                values: ['Illegal Motion', 'Offensive Holding', 'Illegal Touch Pass', 'Player Out of Bounds on Kick', 'Defensive Pass Interference', 'Illegal Crackback', 'Intentional Grounding', 'Offensive Pass Interference', 'Face Mask', 'Unsportsmanlike Conduct', 'Illegal Forward Pass', 'Defensive Delay of Game', 'Tripping', 'Chop Block', 'Delay of Game', 'Defensive Too Many Men on Field', 'Defensive Offside', 'Illegal Block Above the Waist', 'Illegal Shift', 'Illegal Formation', 'Delay of Kickoff', 'Illegal Double-Team Block', 'Offensive Too Many Men on Field', 'Illegal Bat', 'Horse Collar Tackle', 'Defensive Holding', 'Ineligible Downfield Pass', 'Illegal Kick/Kicking Loose Ball', 'Illegal Touch Kick', 'Unnecessary Roughness', 'Illegal Blindside Block', 'Disqualification', 'Running Into the Kicker', 'Leverage', 'Offside on Free Kick', 'Neutral Zone Infraction', 'Roughing the Kicker', 'Invalid Fair Catch Signal', 'Encroachment', 'Ineligible Downfield Kick', 'Illegal Contact', 'Offensive Offside', 'Fair Catch Interference', 'Low Block', 'False Start', 'Illegal Substitution', 'Taunting', 'Roughing the Passer', 'Illegal Use of Hands']
       - name: defensive_two_point_attempt
         description: Flag indicating the defense attempted a two point conversion. Not sure how this is possible
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_two_point_conv
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_extra_point_attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_extra_point_conv
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: safety_player_name
         description: display name
       - name: safety_player_id
@@ -4763,12 +4747,14 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: series_result
         description: The end result of the series
         tests:
           - accepted_values:
-              values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
+              arguments:
+                values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
       - name: order_sequence
         description: The order of the play within the game_id
         tests:
@@ -4798,33 +4784,17 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'SACK'
-                , 'KICK_OFF'
-                , 'FUMBLE_RECOVERED_BY_OPPONENT'
-                , 'END_QUARTER'
-                , 'PASS'
-                , 'FIELD_GOAL'
-                , 'INTERCEPTION'
-                , 'PENALTY'
-                , 'END_GAME'
-                , 'PAT2'
-                , 'UNSPECIFIED'
-                , 'TIMEOUT'
-                , 'GAME_START'
-                , 'FREE_KICK'
-                , 'XP_KICK'
-                , 'RUSH'
-                ]
               config:
                 severity: warn
+              arguments:
+                values: ['PUNT', 'SACK', 'KICK_OFF', 'FUMBLE_RECOVERED_BY_OPPONENT', 'END_QUARTER', 'PASS', 'FIELD_GOAL', 'INTERCEPTION', 'PENALTY', 'END_GAME', 'PAT2', 'UNSPECIFIED', 'TIMEOUT', 'GAME_START', 'FREE_KICK', 'XP_KICK', 'RUSH']
       - name: special_teams_play
         description: Flag indicating if the play was a special teams play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: st_play_type
         description: Apparently always null
       - name: end_clock_time
@@ -4840,17 +4810,8 @@ models:
         # docblock explaining values
         tests:
           - accepted_values:
-              values: [
-                'End of half'
-                , 'Field goal'
-                , 'Safety'
-                , 'Missed field goal'
-                , 'Turnover'
-                , 'Turnover on downs'
-                , 'Touchdown'
-                , 'Opp touchdown'
-                , 'Punt'
-              ]
+              arguments:
+                values: ['End of half', 'Field goal', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'Opp touchdown', 'Punt']
       - name: drive_real_start_time
         description: The actual time the drive started. Formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
       - name: drive_play_count
@@ -4863,12 +4824,14 @@ models:
         description: Flag indicating the drive reached the "RedZone" (within the opponents 20 yard line)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive_ended_with_score
         description: Flag indicating the drive resulted in a score by the offense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive_quarter_start
         description: The quarter in which the drive began. Drives starting in the first or third quarter can extend into the second or fourth quarter respectively, but not across halfs
       - name: drive_quarter_end
@@ -4879,52 +4842,14 @@ models:
         description: Describes how the offense previously came into possession of the ball to begin the drive
         tests:
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'BLOCKED_FG,_DOWNS'
-                , 'SAFETY'
-                , 'FIELD_GOAL'
-                , 'END_GAME'
-                , 'TOUCHDOWN'
-                , 'END_HALF'
-                , 'FUMBLE,_SAFETY'
-                , 'ONSIDE_KICK'
-                , 'FUMBLE'
-                , 'INTERCEPTION'
-                , 'DOWNS'
-                , 'BLOCKED_PUNT,_DOWNS'
-                , 'BLOCKED_PUNT'
-                , 'MISSED_FG'
-                , 'MUFFED_PUNT'
-                , 'MUFFED_KICKOFF'
-                , 'BLOCKED_FG'
-                , 'KICKOFF'
-              ]
+              arguments:
+                values: ['PUNT', 'BLOCKED_FG,_DOWNS', 'SAFETY', 'FIELD_GOAL', 'END_GAME', 'TOUCHDOWN', 'END_HALF', 'FUMBLE,_SAFETY', 'ONSIDE_KICK', 'FUMBLE', 'INTERCEPTION', 'DOWNS', 'BLOCKED_PUNT,_DOWNS', 'BLOCKED_PUNT', 'MISSED_FG', 'MUFFED_PUNT', 'MUFFED_KICKOFF', 'BLOCKED_FG', 'KICKOFF']
       - name: drive_end_transition
         description: Describes how the offense finished the drive before turning over possesion of the ball
         tests:
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'BLOCKED_FG,_DOWNS'
-                , 'SAFETY'
-                , 'FIELD_GOAL'
-                , 'END_GAME'
-                , 'TOUCHDOWN'
-                , 'END_HALF'
-                , 'FUMBLE,_SAFETY'
-                , 'ONSIDE_KICK'
-                , 'FUMBLE'
-                , 'INTERCEPTION'
-                , 'DOWNS'
-                , 'BLOCKED_PUNT,_DOWNS'
-                , 'BLOCKED_PUNT'
-                , 'MISSED_FG'
-                , 'MUFFED_PUNT'
-                , 'MUFFED_KICKOFF'
-                , 'BLOCKED_FG'
-                , 'KICKOFF'
-              ]
+              arguments:
+                values: ['PUNT', 'BLOCKED_FG,_DOWNS', 'SAFETY', 'FIELD_GOAL', 'END_GAME', 'TOUCHDOWN', 'END_HALF', 'FUMBLE,_SAFETY', 'ONSIDE_KICK', 'FUMBLE', 'INTERCEPTION', 'DOWNS', 'BLOCKED_PUNT,_DOWNS', 'BLOCKED_PUNT', 'MISSED_FG', 'MUFFED_PUNT', 'MUFFED_KICKOFF', 'BLOCKED_FG', 'KICKOFF']
       - name: drive_game_clock_start
         description: The amount of time remaining on the game clock at the start of the drive
       - name: drive_game_clock_end
@@ -4968,7 +4893,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: roof
         description: Description of the venue type
       - name: surface
@@ -4998,7 +4924,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: success
         description: Flag indicating the play was successful for the offense
       - name: passer
@@ -5018,24 +4945,28 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush
         description: Flag indicating if the play was a rushing play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down
         description: Flag indicating if the play resulted in the offense passing the line of gain resulting in a new set of downs, or a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: special
         description: Flag indicating the play was a special teams play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: passer_id
         description: The gsis_id of the passing player
       - name: rusher_id
@@ -5061,7 +4992,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: home_opening_kickoff
         description: Flag indicating the home team opened with a kickoff on the play?
       - name: qb_epa
@@ -5077,16 +5009,18 @@ models:
     description: One record per play for the 2024 season
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - game_id
-            - play_id
+          arguments:
+            combination_of_columns:
+              - game_id
+              - play_id
     columns:
       - name: season
         description: The NFL season in which the game was played
         tests:
           - not_null
           - accepted_values:
-              values: ['2024']
+              arguments:
+                values: ['2024']
       - name: week
         description: The game week in which the game was played. A new game week typically begins with Thursday Night Football and ends with Monday Night Football. Closely related are season weeks, which typically begin on Tuesdays
         tests:
@@ -5117,14 +5051,16 @@ models:
         description: The type of game being played. "REG" indicates a regular season game while "POST" indicates a post-season playoff game
         tests:
           - accepted_values:
-              values: ['REG','POST']
+              arguments:
+                values: ['REG', 'POST']
       - name: posteam
         description: The team that began the play with possesion of the ball using the three letter team abbreviation
       - name: posteam_type
         description: Indicates if the home team or away team has possesion of the football at the beginning of the play
         tests:
           - accepted_values:
-              values: ['away', 'home']
+              arguments:
+                values: ['away', 'home']
       - name: defteam
         description: The team that began the play without possesion of the ball, indicated by the three letter team abbreviation
     # missing defteam type? or implied as opposite of posteam_type?
@@ -5142,12 +5078,14 @@ models:
         description: The half of the game. Typically games have a 1st and 2nd half, but may go to overtime if the score is tied after two halves
         tests:
           - accepted_values:
-              values: ['Half1', 'Half2', 'Overtime']
+              arguments:
+                values: ['Half1', 'Half2', 'Overtime']
       - name: quarter_end
         description: Indicates the quarter ended
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive
         description: The nth time the team has possesed the ball
       - name: sp
@@ -5159,13 +5097,15 @@ models:
         description: The down for which the play started. The offense has four downs to gain 10 yards and reset back to first down and 10/goal to go.
         tests:
           - accepted_values:
-              values: ['1', '2', '3', '4']
+              arguments:
+                values: ['1', '2', '3', '4']
       - name: goal_to_go
         description: Flag indicating the offensive team is in a "goal-to-go" situation, meaning they must score a touchdown by the end of the four down series barring any penalties commited by the defense resulting in an automatic first down with a ball then spotted beyond the 10 yard line.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: time
         description: The time remaining on the play clock formatted as "MM:SS"
       - name: yrdln
@@ -5183,7 +5123,8 @@ models:
         # consider adding a doc to describe play types
         tests:
           - accepted_values:
-              values: ['run', 'no_play', 'qb_kneel', 'kickoff', 'pass', 'punt', 'field_goal', 'qb_spike', 'extra_point']
+              arguments:
+                values: ['run', 'no_play', 'qb_kneel', 'kickoff', 'pass', 'punt', 'field_goal', 'qb_spike', 'extra_point']
       - name: yards_gained
         description: The amount of yards gained (or lossed if negative) by the offense as a result of the play
       - name: shotgun
@@ -5191,46 +5132,54 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: no_huddle
         description: Flag indicating if the offense began the play without taking a moment to huddle
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_dropback
         description: Flag indicating if the Quarterback dropped back after taking the snap
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_kneel
         description: Flag indicating if the Quarterback kneeled after taking the snap. Typically done towards the end of a half or when the offense is wants to drain the play clock.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_spike
         description: Flag indicating that the Quarterback immediately threw the ball into the ground after taking the snap. Typically done when the offense is attempting to stop the play clock from draining towards the end of a half.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_scramble
         description: Flag indicating if the Quarterback scrambled out of the pocket during the play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_length
         description: Indicates if the Quarterback attempted a short or deep pass
         tests:
           - accepted_values:
-              values: ['deep', 'short']
+              arguments:
+                values: ['deep', 'short']
       - name: pass_location
         description: Indicates where on the field the Quarterback attempted to pass relative to the direction the offense is facing
         tests:
           - accepted_values:
-              values: ['left', 'right', 'middle']
+              arguments:
+                values: ['left', 'right', 'middle']
       - name: air_yards
         description: How far the football was thrown past the line of scrimage
       - name: yards_after_catch
@@ -5239,46 +5188,54 @@ models:
         description: Where the rushing attempt was directed, relative to the direction the offense is facing
         tests:
           - accepted_values:
-              values: ['left', 'right', 'middle']
+              arguments:
+                values: ['left', 'right', 'middle']
       - name: run_gap
         description: Where the rushing attempt was directed relative to the Center
         tests:
           - accepted_values:
-              values: ['guard', 'end', 'tackle']
+              arguments:
+                values: ['guard', 'end', 'tackle']
       - name: field_goal_result
         description: The result of a field goal attempted by the offense
         tests:
           - accepted_values:
-              values: ['made', 'missed', 'blocked']
+              arguments:
+                values: ['made', 'missed', 'blocked']
       - name: kick_distance
         description: The distance the ball travelled from the line of scrimmage during a kicking play. If a field goal attempt (`field_goal_result` is not null), this is the distance of the field goal. If a Punt or Kickoff, this is the distance the ball traveled from the line of scrimage, however it does not account for the distance "returned" by the returning team.
       - name: extra_point_result
         description: The result of the extra point attempt after the touchdown
         tests:
           - accepted_values:
-              values: ['failed', 'blocked', 'good']
+              arguments:
+                values: ['failed', 'blocked', 'good']
       - name: two_point_conv_result
         description: The result of the 2-pt conversion attempt following a touchdown
         tests:
           - accepted_values:
-              values: ['failure', 'success']
+              arguments:
+                values: ['failure', 'success']
       - name: home_timeouts_remaining
         description: The number of remaining timeouts the home team has in the game at the start of the play. Teams begin each half with three timeouts.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: away_timeouts_remaining
         description: The number of remaining timeouts the away team has in the game at the start of the play. Teams begin each half with three timeouts.
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: timeout
         description: Flag indicating if a timeout was taken by one of the teams
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: timeout_team
         description: The team which took the timeout indicated by the field `timeout`
       - name: td_team
@@ -5289,18 +5246,21 @@ models:
         description: The gsis_player_id of the player who scored the touchdown
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: posteam_timeouts_remaining
         description: The number of timeouts remaing by the team with possesion of the ball
         tests:
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: defteam_timeouts_remaining
         description: The number of timeouts remaing by the team without possesion of the ball
         tests:
           - accepted_values:
-              values: ['0', '1', '2', '3']
+              arguments:
+                values: ['0', '1', '2', '3']
       - name: total_home_score
         description: The total number of points scored by the home team at the beginning of the play
         tests:
@@ -5459,266 +5419,318 @@ models:
         description: Flag indicating if the punt attempt was blocked
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_rush
         description: Flag indicating if the play was a first down rush attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_pass
         description: Flag indicating if the play was a first down pass attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down_penalty
         description: Flag indicating if there was a penalty on first down (by either team??)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: third_down_converted
         description: Flag indicating if the play was a third down that was converted and results in a new set of downs or was a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: third_down_failed
         description: Flag indicating if the play was a third down that was not converted and results in fourth down (or change of possesion due to a fumble or interception)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fourth_down_converted
         description: Flag indicating if the play was a fourth down that was converted and results in a new set of downs or was a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fourth_down_failed
         description: Flag indicating if the play was a fourth down that was not converted and results in a turnover on downs
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: incomplete_pass
         description: Flag indicating if the play resulted in an incomplete pass
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: touchback
         description: Flag indicating if the play ended with kick returner kneeling for a touchback instead of attempting to return the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: interception
         description: Flag indicating if the result of the pass play was an interception by the defense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_inside_twenty
         description: Flag indicating if the result of the punting play (?? landed/finished) inside the returning teams 20 yard line
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_in_endzone
         description: Flag indicating if the result of the punting play (?? landed/finished) inside the returning teams end zone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_out_of_bounds
         description: Flag indicating if the punted ball went out of bounds before the returning team was able to field the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_downed
         description: ??? Flag indicating that the punting team covered the punt and downed the ball without a return attempt or contact made by the returning team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_fair_catch
         description: Flag indicating that the returning team signaled for (?? and did not fumble) a fair catch
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_inside_twenty
         description: Flag indicating that the kickoff landed within the receiving teams 20 yardline
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_in_endzone
         description: Flag indicating that the kickoff landed within (or beyond) the reciving teams endzone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_out_of_bounds
         description: Flag indicating that the kickoff travelled out of bounds before the receiving team made an attempt to return the ball and before the ball crossed the goal line of the receiving team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_downed
         description: ?? Flag indicating that the kickoff team downed the ball before the returning team made an attempt to return the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_fair_catch
         description: Flag indicating that the returning team called for (?? and succesfully completed) a fair catch
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_forced
         description: Flag indicating that a fumble was forced by a member of the opposing team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_not_forced
         description: Flag indicating that the player who fumbled the ball did so all on their own. I totally would have held on to that, and probably would have taken it to the house
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_out_of_bounds
         description: Flag indicating that the fumbled ball travelled out of bounds before recovered by either team
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: solo_tackle
         description: Flag indicating that the tackle made by the defense was made by one player
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: safety
         description: Flag indicating that the defense tackled/sacked the offense within the offenses own endzone
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: penalty
         description: Flag indicating a penalty occured on the play
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: tackled_for_loss
         description: Flag indicating a tackle for loss by the defense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble_lost
         description: Flag indicating the team which fumbled the ball were unable to recover it
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: own_kickoff_recovery
         description: Flag indicating the kicking team recovered their own kickoff, typically on an onsides kick
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: own_kickoff_recovery_td
         description: Flag indicating that the kicking team not only recovered their own kickoff, but then also scored a touchdown, likely because the returner muffed that easy catch, that I would have caught, and taken to the house
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: qb_hit
         description: Flag indicating that the Quarterback was hit, although not necessarily sacked
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush_attempt
         description: Flag indicating that the play was a rushing attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_attempt
         description: Flag indicating that the play was a passing attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: sack
         description: Flag indicating that the Quarterback was sacked in the backfield. Likely it was a Chicago Bear before being traded out of town so the team could ruin another prospect. Sorry Mitch, Justin, and probably Caleb.
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: touchdown
         description: Flag indicating the play resulted in a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: pass_touchdown
         description: Flag indicating the play was a passing touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush_touchdown
         description: Flag indicating the play was rushing touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: return_touchdown
         description: Flag indicating the play was touchdown scored on a kick or punt return
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: extra_point_attempt
         description: Flag indicating the play was an extra point attempt after scoring a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: two_point_attempt
         description: Flag indicating the play was a 2-pt conversion attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: field_goal_attempt
         description: Flag indicating the play was a 3-pt field goal attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: kickoff_attempt
         description: Flag indicating the play was a kickoff
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: punt_attempt
         description: Flag indicating that the play was a punt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: fumble
         description: Flag indicating that the offense (or returning team) fumbled the ball
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: complete_pass
         description: Flag indicating that the offense completed a pass attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: assist_tackle
         description: Flag indicating an assist in the tackle bringing down the offensive player. Good team work
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_reception
         description: Flag indicating a lateral was successfully caught by a member of the offense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_rush
         description: Flag indicating a lateral rushing attempt play. Not sure what that means
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: lateral_recovery
         description: Presumably the defense recovered/intercepted a lateral
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: passer_player_id
         description: The gsis_id of the player who passed the ball. Typically (but not always) a Quarterback
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: passer_player_name
         description: The display name of the player who passed the ball. Typically (but not always) a Quarterback
       - name: receiver_player_id
         description: The gsis_id of the player who received or was targeted by the pass attempt
         tests:
           - relationships:
-              to: ref('stg_players')
-              field: gsis_id
+              arguments:
+                to: ref('stg_players')
+                field: gsis_id
       - name: receiver_player_name
         description: The display name of the player who received or was targeted by the pass attempt
       - name: receiving_yards
@@ -5945,76 +5957,31 @@ models:
         tests:
           # consider adding a doc block
           - accepted_values:
-              values: [
-                'Illegal Motion'
-                , 'Offensive Holding'
-                , 'Illegal Touch Pass'
-                , 'Player Out of Bounds on Kick'
-                , 'Defensive Pass Interference'
-                , 'Illegal Crackback'
-                , 'Intentional Grounding'
-                , 'Offensive Pass Interference'
-                , 'Face Mask'
-                , 'Unsportsmanlike Conduct'
-                , 'Illegal Forward Pass'
-                , 'Defensive Delay of Game'
-                , 'Tripping'
-                , 'Chop Block'
-                , 'Delay of Game'
-                , 'Defensive Too Many Men on Field'
-                , 'Defensive Offside'
-                , 'Illegal Block Above the Waist'
-                , 'Illegal Shift'
-                , 'Illegal Formation'
-                , 'Delay of Kickoff'
-                , 'Illegal Double-Team Block'
-                , 'Offensive Too Many Men on Field'
-                , 'Illegal Bat'
-                , 'Horse Collar Tackle'
-                , 'Defensive Holding'
-                , 'Ineligible Downfield Pass'
-                , 'Illegal Kick/Kicking Loose Ball'
-                , 'Illegal Touch Kick'
-                , 'Unnecessary Roughness'
-                , 'Illegal Blindside Block'
-                , 'Disqualification'
-                , 'Running Into the Kicker'
-                , 'Leverage'
-                , 'Offside on Free Kick'
-                , 'Neutral Zone Infraction'
-                , 'Roughing the Kicker'
-                , 'Invalid Fair Catch Signal'
-                , 'Encroachment'
-                , 'Ineligible Downfield Kick'
-                , 'Illegal Contact'
-                , 'Offensive Offside'
-                , 'Fair Catch Interference'
-                , 'Low Block'
-                , 'False Start'
-                , 'Illegal Substitution'
-                , 'Taunting'
-                , 'Roughing the Passer'
-                , 'Illegal Use of Hands'
-              ]
               config:
                 severity: warn
+              arguments:
+                values: ['Illegal Motion', 'Offensive Holding', 'Illegal Touch Pass', 'Player Out of Bounds on Kick', 'Defensive Pass Interference', 'Illegal Crackback', 'Intentional Grounding', 'Offensive Pass Interference', 'Face Mask', 'Unsportsmanlike Conduct', 'Illegal Forward Pass', 'Defensive Delay of Game', 'Tripping', 'Chop Block', 'Delay of Game', 'Defensive Too Many Men on Field', 'Defensive Offside', 'Illegal Block Above the Waist', 'Illegal Shift', 'Illegal Formation', 'Delay of Kickoff', 'Illegal Double-Team Block', 'Offensive Too Many Men on Field', 'Illegal Bat', 'Horse Collar Tackle', 'Defensive Holding', 'Ineligible Downfield Pass', 'Illegal Kick/Kicking Loose Ball', 'Illegal Touch Kick', 'Unnecessary Roughness', 'Illegal Blindside Block', 'Disqualification', 'Running Into the Kicker', 'Leverage', 'Offside on Free Kick', 'Neutral Zone Infraction', 'Roughing the Kicker', 'Invalid Fair Catch Signal', 'Encroachment', 'Ineligible Downfield Kick', 'Illegal Contact', 'Offensive Offside', 'Fair Catch Interference', 'Low Block', 'False Start', 'Illegal Substitution', 'Taunting', 'Roughing the Passer', 'Illegal Use of Hands']
       - name: defensive_two_point_attempt
         description: Flag indicating the defense attempted a two point conversion. Not sure how this is possible
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_two_point_conv
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_extra_point_attempt
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: defensive_extra_point_conv
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: safety_player_name
         description: display name
       - name: safety_player_id
@@ -6030,12 +5997,14 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: series_result
         description: The end result of the series
         tests:
           - accepted_values:
-              values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
+              arguments:
+                values: ['Punt', 'End of half', 'Field goal', 'QB kneel', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'First down', 'Opp touchdown']
       - name: order_sequence
         description: The order of the play within the game_id
         tests:
@@ -6065,33 +6034,17 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'SACK'
-                , 'KICK_OFF'
-                , 'FUMBLE_RECOVERED_BY_OPPONENT'
-                , 'END_QUARTER'
-                , 'PASS'
-                , 'FIELD_GOAL'
-                , 'INTERCEPTION'
-                , 'PENALTY'
-                , 'END_GAME'
-                , 'PAT2'
-                , 'UNSPECIFIED'
-                , 'TIMEOUT'
-                , 'GAME_START'
-                , 'FREE_KICK'
-                , 'XP_KICK'
-                , 'RUSH'
-                ]
               config:
                 severity: warn
+              arguments:
+                values: ['PUNT', 'SACK', 'KICK_OFF', 'FUMBLE_RECOVERED_BY_OPPONENT', 'END_QUARTER', 'PASS', 'FIELD_GOAL', 'INTERCEPTION', 'PENALTY', 'END_GAME', 'PAT2', 'UNSPECIFIED', 'TIMEOUT', 'GAME_START', 'FREE_KICK', 'XP_KICK', 'RUSH']
       - name: special_teams_play
         description: Flag indicating if the play was a special teams play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: st_play_type
         description: Apparently always null
       - name: end_clock_time
@@ -6107,17 +6060,8 @@ models:
         # docblock explaining values
         tests:
           - accepted_values:
-              values: [
-                'End of half'
-                , 'Field goal'
-                , 'Safety'
-                , 'Missed field goal'
-                , 'Turnover'
-                , 'Turnover on downs'
-                , 'Touchdown'
-                , 'Opp touchdown'
-                , 'Punt'
-              ]
+              arguments:
+                values: ['End of half', 'Field goal', 'Safety', 'Missed field goal', 'Turnover', 'Turnover on downs', 'Touchdown', 'Opp touchdown', 'Punt']
       - name: drive_real_start_time
         description: The actual time the drive started. Formatted as "YYYY-MM-DDT24HH:MM:SS.msZ"
       - name: drive_play_count
@@ -6130,12 +6074,14 @@ models:
         description: Flag indicating the drive reached the "RedZone" (within the opponents 20 yard line)
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive_ended_with_score
         description: Flag indicating the drive resulted in a score by the offense
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: drive_quarter_start
         description: The quarter in which the drive began. Drives starting in the first or third quarter can extend into the second or fourth quarter respectively, but not across halfs
       - name: drive_quarter_end
@@ -6146,52 +6092,14 @@ models:
         description: Describes how the offense previously came into possession of the ball to begin the drive
         tests:
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'BLOCKED_FG,_DOWNS'
-                , 'SAFETY'
-                , 'FIELD_GOAL'
-                , 'END_GAME'
-                , 'TOUCHDOWN'
-                , 'END_HALF'
-                , 'FUMBLE,_SAFETY'
-                , 'ONSIDE_KICK'
-                , 'FUMBLE'
-                , 'INTERCEPTION'
-                , 'DOWNS'
-                , 'BLOCKED_PUNT,_DOWNS'
-                , 'BLOCKED_PUNT'
-                , 'MISSED_FG'
-                , 'MUFFED_PUNT'
-                , 'MUFFED_KICKOFF'
-                , 'BLOCKED_FG'
-                , 'KICKOFF'
-              ]
+              arguments:
+                values: ['PUNT', 'BLOCKED_FG,_DOWNS', 'SAFETY', 'FIELD_GOAL', 'END_GAME', 'TOUCHDOWN', 'END_HALF', 'FUMBLE,_SAFETY', 'ONSIDE_KICK', 'FUMBLE', 'INTERCEPTION', 'DOWNS', 'BLOCKED_PUNT,_DOWNS', 'BLOCKED_PUNT', 'MISSED_FG', 'MUFFED_PUNT', 'MUFFED_KICKOFF', 'BLOCKED_FG', 'KICKOFF']
       - name: drive_end_transition
         description: Describes how the offense finished the drive before turning over possesion of the ball
         tests:
           - accepted_values:
-              values: [
-                'PUNT'
-                , 'BLOCKED_FG,_DOWNS'
-                , 'SAFETY'
-                , 'FIELD_GOAL'
-                , 'END_GAME'
-                , 'TOUCHDOWN'
-                , 'END_HALF'
-                , 'FUMBLE,_SAFETY'
-                , 'ONSIDE_KICK'
-                , 'FUMBLE'
-                , 'INTERCEPTION'
-                , 'DOWNS'
-                , 'BLOCKED_PUNT,_DOWNS'
-                , 'BLOCKED_PUNT'
-                , 'MISSED_FG'
-                , 'MUFFED_PUNT'
-                , 'MUFFED_KICKOFF'
-                , 'BLOCKED_FG'
-                , 'KICKOFF'
-              ]
+              arguments:
+                values: ['PUNT', 'BLOCKED_FG,_DOWNS', 'SAFETY', 'FIELD_GOAL', 'END_GAME', 'TOUCHDOWN', 'END_HALF', 'FUMBLE,_SAFETY', 'ONSIDE_KICK', 'FUMBLE', 'INTERCEPTION', 'DOWNS', 'BLOCKED_PUNT,_DOWNS', 'BLOCKED_PUNT', 'MISSED_FG', 'MUFFED_PUNT', 'MUFFED_KICKOFF', 'BLOCKED_FG', 'KICKOFF']
       - name: drive_game_clock_start
         description: The amount of time remaining on the game clock at the start of the drive
       - name: drive_game_clock_end
@@ -6235,7 +6143,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: roof
         description: Description of the venue type
       - name: surface
@@ -6265,7 +6174,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: success
         description: Flag indicating the play was successful for the offense
       - name: passer
@@ -6285,24 +6195,28 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: rush
         description: Flag indicating if the play was a rushing play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: first_down
         description: Flag indicating if the play resulted in the offense passing the line of gain resulting in a new set of downs, or a touchdown
         tests:
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: special
         description: Flag indicating the play was a special teams play
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: passer_id
         description: The gsis_id of the passing player
       - name: rusher_id
@@ -6328,7 +6242,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['0', '1']
+              arguments:
+                values: ['0', '1']
       - name: home_opening_kickoff
         description: Flag indicating the home team opened with a kickoff on the play?
       - name: qb_epa

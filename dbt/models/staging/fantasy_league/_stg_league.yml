@@ -9,9 +9,10 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['Yahoo', 'ESPN']
               config:
                 severity: warn
+              arguments:
+                values: ['Yahoo', 'ESPN']
       - name: league
         description: The name of the fantasy football league
         tests:
@@ -21,7 +22,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [TRUE, FALSE]
+              arguments:
+                values: [true, false]
       - name: passing_touchdown
         description: Points awarded to the passer for a passing touchdown
       - name: passing_interception
@@ -181,9 +183,10 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['Yahoo', 'Yahoo!', 'ESPN']
               config:
                 severity: warn
+              arguments:
+                values: ['Yahoo', 'Yahoo!', 'ESPN']
       - name: league_name
         description: The name of the league
         tests:
@@ -218,7 +221,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+              arguments:
+                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
       - name: player_id
         description: the gsis_id of the player
         tests:
