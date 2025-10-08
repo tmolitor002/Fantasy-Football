@@ -11,7 +11,7 @@ WITH src AS (
             , 'week'
             , 'game_date'
             , 'season'
-            , 'defteam_timouts_remaining'
+            , 'defteam_timeouts_remaining'
             , 'drive_end_transition'
             , 'home_timeouts_remaining'
             , 'posteam_timeouts_remaining'
