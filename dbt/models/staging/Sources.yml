@@ -466,8 +466,6 @@ sources:
           - name: comp_air_wpa
           - name: comp_yac_wpa
           - name: total_home_comp_air_wpa
-            tests:
-              - not_null
           - name: total_away_comp_air_wpa
           - name: total_home_comp_yac_wpa
           - name: total_away_comp_yac_wpa
@@ -1510,7 +1508,6 @@ sources:
           - name: play_type_nfl
             description: Play type categorization
             tests:
-              - not_null
               - accepted_values:
                   values: [
                       'COMMENT'

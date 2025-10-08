@@ -19,9 +19,9 @@ WITH src AS (
             , 'play_type_nfl'
         ] )}}
         , CASE
-            WHEN defteam_timouts_remaining NOT IN ('0', '1', '2', '3') THEN NULL
-            ELSE defteam_timouts_remaining
-            END AS defteam_timouts_remaining
+            WHEN defteam_timeouts_remaining NOT IN ('0', '1', '2', '3') THEN NULL
+            ELSE defteam_timeouts_remaining
+            END AS defteam_timeouts_remaining
         , CASE
             WHEN drive_end_transition IN ('Blocked FG', 'BLOCKED_FG') THEN 'BLOCKED_FG'
             WHEN drive_end_transition IN ('Blocked FG, Downs', 'BLOCKED_FG,_DOWNS', 'BLOCKED_FG_DOWNS') THEN 'BLOCKED_FG_DOWNS'
