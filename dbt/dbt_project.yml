@@ -51,6 +51,9 @@ models:
     outbound:
       +materialized: table
 
+    reporting:
+      +materialized: table
+
     # Applies to all files under models/example/
     # example:
     #   +materialized: table
