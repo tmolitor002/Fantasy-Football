@@ -83,3 +83,5 @@ con <- dbConnect(RPostgres::Postgres(),
                  password=dw$pwd)
 
 dbCreateTable(con, SQL('"raw"."play_by_play_full"'), nfl_full_pbp)
+
+dbWriteTable(con, name = Id(catalog = "raw", table = "play_by_play_full"), nfl_full_pbp)
