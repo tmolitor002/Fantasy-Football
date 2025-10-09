@@ -84,9 +84,67 @@ WITH rushing AS (
         ON a.rusher_player_id = b.player_id
 )
 
+-- Rush share
+, rush_share AS (
+    SELECT
+        game_id
+        , posteam
+        , rusher_player_id
+        , total_rush_attempts
+        , total_rushing_yards
+    FROM join_rusher_name
+)
+
+, rush_share_denom AS (
+    SELECT
+        game_id
+        , posteam
+        , SUM(total_rush_attempts)  AS total_rush_attempts_denom
+        , SUM(total_rushing_yards)  AS total_rushing_yards_denom
+    FROM rush_share
+    GROUP BY
+        game_id
+        , posteam
+)
+
+, rush_share_percentage AS (
+    SELECT
+        a.game_id
+        , a.posteam
+        , a.rusher_player_id
+        , CASE
+            WHEN b.total_rush_attempts_denom <= 0 THEN NULL
+            ELSE a.total_rush_attempts / b.total_rush_attempts_denom
+            END                                                 AS rush_attempt_share
+        , CASE
+            WHEN b.total_rushing_yards_denom <= 0 THEN NULL
+            ELSE a.total_rushing_yards / b.total_rushing_yards_denom
+            END                                                 AS rush_yards_share
+        , b.total_rush_attempts_denom                           AS total_team_rush_attempts
+        , b.total_rushing_yards_denom                           AS total_team_rushing_yards
+    FROM rush_share a
+    JOIN rush_share_denom b
+        ON a.game_id = b.game_id
+        AND a.posteam = b.posteam
+)
+
+, join_rush_share AS (
+    SELECT
+        a.*
+        , b.rush_attempt_share
+        , b.rush_yards_share
+        , b.total_team_rush_attempts
+        , b.total_team_rushing_yards
+    FROM join_rusher_name a
+    JOIN rush_share_percentage b
+        ON a.game_id = b.game_id
+        AND a.posteam = b.posteam
+        AND a.rusher_player_id = b.rusher_player_id
+)
+
 , final AS (
     SELECT *
-    FROM join_rusher_name
+    FROM join_rush_share
 )
 
 SELECT *
