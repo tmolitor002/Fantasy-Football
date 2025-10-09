@@ -1,19 +1,12 @@
-WITH unioned AS (
-    {{ dbt_utils.union_relations(
-        relations=[
-            ref('stg_play_by_play_2020')
-            , ref('stg_play_by_play_2021')
-            , ref('stg_play_by_play_2022')
-            , ref('stg_play_by_play_2023')
-            , ref('stg_play_by_play_2024')
-        ]
-    ) }}
+WITH play_by_play_full AS (
+    SELECT
+        {{ dbt_utils.star(from=ref('stg_play_by_play_full')) }}
+    FROM {{ ref('stg_play_by_play_full') }}
 )
 
 , cast_types AS (
     SELECT
-        _dbt_source_relation
-        , CAST(season                           AS INT) AS season
+        CAST(season                             AS INT) AS season
         , CAST(week                             AS INT) AS week
         , game_date
         , game_id
@@ -385,8 +378,8 @@ WITH unioned AS (
         , CAST(xyac_fd                          AS DECIMAL) AS xyac_fd
         , CAST(xpass                            AS DECIMAL) AS xpass
         , CAST(pass_oe                          AS DECIMAL) AS pass_oe
-        , _etl_loaded_at
-    FROM unioned
+        , etl_loaded_at                         AS _etl_loaded_at
+    FROM play_by_play_full
 )
 
 
